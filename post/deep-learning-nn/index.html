@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>深度学习之神经网络</title>
+
+  
+  
+  <link href="//cdn.jsdelivr.net" rel="dns-prefetch">
+  <link href="//cdnjs.cloudflare.com" rel="dns-prefetch">
+  <link href="//at.alicdn.com" rel="dns-prefetch">
+  <link href="//fonts.googleapis.com" rel="dns-prefetch">
+  <link href="//fonts.gstatic.com" rel="dns-prefetch">
+  
+  
+  
+  <link href="//www.google-analytics.com" rel="dns-prefetch">
+  <link href="//hm.baidu.com" rel="dns-prefetch">
+
+  
+
+  
+  
+  <meta name="description" content="因为此部分在之前的博文中提及，所以不再详细赘述其中原理，代码只展示核心部分。
+激活函数在神经网络中具有重要的地位，常见的激活函数有sigmoid、tanh、ReLU（修正线性单元）和Leaky ReLU等。前两种是饱和激活函数、后两种则是非饱和激活函数，它可以解决“梯度消失”的问题并加快收敛速度。
+">
+
+  
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@gohugoio">
+    <meta name="twitter:title" content="深度学习之神经网络">
+    <meta name="twitter:description" content="因为此部分在之前的博文中提及，所以不再详细赘述其中原理，代码只展示核心部分。
+激活函数在神经网络中具有重要的地位，常见的激活函数有sigmoid、tanh、ReLU（修正线性单元）和Leaky ReLU等。前两种是饱和激活函数、后两种则是非饱和激活函数，它可以解决“梯度消失”的问题并加快收敛速度。
+">
+    <meta name="twitter:image" content="/images/avatar-vozhuo.png">
+  
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="深度学习之神经网络">
+  <meta property="og:description" content="因为此部分在之前的博文中提及，所以不再详细赘述其中原理，代码只展示核心部分。
+激活函数在神经网络中具有重要的地位，常见的激活函数有sigmoid、tanh、ReLU（修正线性单元）和Leaky ReLU等。前两种是饱和激活函数、后两种则是非饱和激活函数，它可以解决“梯度消失”的问题并加快收敛速度。
+">
+  <meta property="og:url" content="https://vozhuo.tk/post/deep-learning-nn/">
+  <meta property="og:image" content="/images/avatar-vozhuo.png">
+
+
+
+
+<meta name="generator" content="Hugo 0.54.0">
+
+
+<link rel="canonical" href="https://vozhuo.tk/post/deep-learning-nn/">
+
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="format-detection" content="telephone=no,email=no,adress=no">
+<meta http-equiv="Cache-Control" content="no-transform">
+
+
+<meta name="robots" content="index,follow">
+<meta name="referrer" content="origin-when-cross-origin">
+
+
+
+
+
+
+
+<meta name="theme-color" content="#02b875">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Vozhuo&#39;s Blog">
+<meta name="msapplication-tooltip" content="Vozhuo&#39;s Blog">
+<meta name='msapplication-navbutton-color' content="#02b875">
+<meta name="msapplication-TileColor" content="#02b875">
+<meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+<link rel="icon" href="https://vozhuo.tk/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://vozhuo.tk/icons/icon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://vozhuo.tk/icons/icon-32x32.png">
+<link rel="icon" sizes="192x192" href="https://vozhuo.tk/icons/icon-192x192.png">
+<link rel="apple-touch-icon" href="https://vozhuo.tk/icons/icon-152x152.png">
+<link rel="manifest" href="https://vozhuo.tk/manifest.json">
+
+
+<link rel="preload" href="https://vozhuo.tk/styles/main.min.css" as="style">
+<link rel="preload" href="https://vozhuo.tk/styles/custom.min.css" as="style">
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Lobster" as="style">
+<link rel="preload" href="https://vozhuo.tk/images/avatar-vozhuo.png" as="image">
+<link rel="preload" href="https://vozhuo.tk/images/grey-prism.svg" as="image">
+
+
+<style>
+  body {
+    background: rgb(244, 243, 241) url('/images/grey-prism.svg') repeat fixed;
+  }
+</style>
+<link rel="stylesheet" href="https://vozhuo.tk/styles/main.min.css">
+<link rel="stylesheet" href="https://vozhuo.tk/styles/custom.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.2/dist/medium-zoom.min.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video-js.min.css">
+
+
+
+  
+  
+<!--[if lte IE 8]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ie8@1.1.2/dist/videojs-ie8.min.js"></script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20180112/classList.min.js"></script>
+<![endif]-->
+
+
+</head>
+  <body>
+    
+    <div class="suspension">
+      <a role="button" aria-label="Go to top" title="Go to top" class="to-top is-hide"><span class="icon icon-up" aria-hidden="true"></span></a>
+      
+        
+        <a role="button" aria-label="Go to comments" title="Go to comments" class="to-comment" href="#SOHUCS"><span class="icon icon-comment" aria-hidden="true"></span></a>
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <img class="avatar" src="https://vozhuo.tk/images/avatar-vozhuo.png" alt="Avatar">
+  
+  <h2 class="title">Vozhuo&#39;s Blog</h2>
+  
+  <p class="subtitle">~ A ~</p>
+  <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
+    <span class="icon icon-menu" aria-hidden="true"></span>
+  </button>
+
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+        <li class="menu-item
+          
+          
+           is-active">
+          <a href="https://vozhuo.tk/">主页</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="https://vozhuo.tk/tags/">标签</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="https://vozhuo.tk/about/">关于</a>
+        </li>
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list"><li class="social-item">
+          <a href="mailto:qsx753698@outlook.com" title="Email" aria-label="Email">
+            <span class="icon icon-email" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//github.com/vozhuo" title="GitHub" aria-label="GitHub">
+            <span class="icon icon-github" aria-hidden="true"></span>
+          </a>
+        </li></ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">深度学习之神经网络</h1>
+      <p class="post-meta">@Vozhuo · Dec 6, 2018 · 2 min read</p>
+    </header>
+    <article class="post-content"><p>因为此部分在之前的博文中提及，所以不再详细赘述其中原理，代码只展示核心部分。</p>
+
+<p>激活函数在神经网络中具有重要的地位，常见的激活函数有sigmoid、tanh、ReLU（修正线性单元）和Leaky ReLU等。前两种是饱和激活函数、后两种则是非饱和激活函数，它可以解决“梯度消失”的问题并加快收敛速度。</p>
+
+<p>以一个隐藏层为例，神经网络的梯度下降法公式及其代码向量化如下：</p>
+
+<p><img src="https://vozhuo.tk/img/math.jpg" alt="" /></p>
+
+<p>使用逻辑回归构建分类器，可以看出其表现不佳，未对两种数据很好地分类。</p>
+
+<p><img src="https://vozhuo.tk/img/snn_lr.png" width="50%" height="50%"></p>
+
+<h2 id="浅层神经网络">浅层神经网络</h2>
+
+<p>建立只有一个隐藏层的神经网络模型。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">nn_model</span>(X, Y, n_h, num_iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">10000</span>, print_cost<span style="color:#f92672">=</span>False):
+    np<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>seed(<span style="color:#ae81ff">3</span>)
+    <span style="color:#75715e"># 给出输入层大小，隐藏层大小，输出层大小</span>
+    n_x, n_h, n_y <span style="color:#f92672">=</span> layer_sizes(X, Y)
+    <span style="color:#75715e"># 随机初始化参数</span>
+    parameters <span style="color:#f92672">=</span> initialize_parameters(n_x, n_h, n_y)
+    <span style="color:#75715e"># 分离各个W和b参数</span>
+    W1 <span style="color:#f92672">=</span> parameters[<span style="color:#e6db74">&#39;W1&#39;</span>]
+    b1 <span style="color:#f92672">=</span> parameters[<span style="color:#e6db74">&#39;b1&#39;</span>]
+    W2 <span style="color:#f92672">=</span> parameters[<span style="color:#e6db74">&#39;W2&#39;</span>]
+    b2 <span style="color:#f92672">=</span> parameters[<span style="color:#e6db74">&#39;b2&#39;</span>]
+    <span style="color:#75715e"># 迭代进行梯度下降</span>
+    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">0</span>, num_iterations):
+        <span style="color:#75715e"># 前向传播，输出最终结果和中间计算数据</span>
+        A2, cache <span style="color:#f92672">=</span> forward_propagation(X, parameters)
+        <span style="color:#75715e"># 计算成本</span>
+        cost <span style="color:#f92672">=</span> compute_cost(A2, Y, parameters)
+        <span style="color:#75715e"># 反向传播，输出梯度</span>
+        grads <span style="color:#f92672">=</span> backward_propagation(parameters, cache, X, Y)
+        <span style="color:#75715e"># 更新梯度，输出各层的W和b参数，待下一次循环使用</span>
+        parameters <span style="color:#f92672">=</span> update_parameters(parameters, grads)
+        <span style="color:#75715e"># 打印成本</span>
+        <span style="color:#66d9ef">if</span> print_cost <span style="color:#f92672">and</span> i <span style="color:#f92672">%</span> <span style="color:#ae81ff">1000</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>:
+            <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;Cost after iteration </span><span style="color:#e6db74">%i</span><span style="color:#e6db74">: </span><span style="color:#e6db74">%f</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span> (i, cost))
+    <span style="color:#66d9ef">return</span> parameters</code></pre></div>
+<p>从下图的输出可以看出，神经网络的准确度要远高于逻辑回归，它能够学习高度非线性的决策边界。</p>
+
+<p><img src="https://vozhuo.tk/img/snn.png" width="50%" height="50%"></p>
+
+<h2 id="深层神经网络">深层神经网络</h2>
+
+<p>深层神经网络用来拟合复杂的函数模型，多层神经网络模型代码如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">L_layer_model</span>(X, Y, layers_dims, learning_rate<span style="color:#f92672">=</span><span style="color:#ae81ff">0.0075</span>, num_iterations<span style="color:#f92672">=</span><span style="color:#ae81ff">3000</span>, print_cost<span style="color:#f92672">=</span>False):
+    np<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>seed(<span style="color:#ae81ff">1</span>)
+    costs <span style="color:#f92672">=</span> []
+    <span style="color:#75715e"># 参数初始化，初始化各层的W和b</span>
+    parameters <span style="color:#f92672">=</span> initialize_parameters_deep(layers_dims)
+    <span style="color:#75715e"># 梯度下降法迭代</span>
+    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">0</span>, num_iterations):
+        <span style="color:#75715e"># 前向传播: [LINEAR -&gt; RELU]*(L-1) -&gt; LINEAR -&gt; SIGMOID.</span>
+        AL, caches <span style="color:#f92672">=</span> L_model_forward(X, parameters)
+        <span style="color:#75715e"># 计算成本</span>
+        cost <span style="color:#f92672">=</span> compute_cost(AL, Y)
+        <span style="color:#75715e"># 反向传播</span>
+        grads <span style="color:#f92672">=</span> L_model_backward(AL, Y, caches)
+        <span style="color:#75715e"># 更新参数（各层的W和b）</span>
+        parameters <span style="color:#f92672">=</span> update_parameters(parameters, grads, learning_rate)
+        <span style="color:#75715e"># 打印成本</span>
+        <span style="color:#66d9ef">if</span> print_cost <span style="color:#f92672">and</span> i <span style="color:#f92672">%</span> <span style="color:#ae81ff">100</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>:
+            <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;Cost after iteration </span><span style="color:#e6db74">%i</span><span style="color:#e6db74">: </span><span style="color:#e6db74">%f</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">%</span> (i, cost))
+        <span style="color:#66d9ef">if</span> print_cost <span style="color:#f92672">and</span> i <span style="color:#f92672">%</span> <span style="color:#ae81ff">100</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>:
+            costs<span style="color:#f92672">.</span>append(cost)
+    <span style="color:#75715e"># 绘制成本变化图</span>
+    plt<span style="color:#f92672">.</span>plot(np<span style="color:#f92672">.</span>squeeze(costs))
+    plt<span style="color:#f92672">.</span>ylabel(<span style="color:#e6db74">&#39;cost&#39;</span>)
+    plt<span style="color:#f92672">.</span>xlabel(<span style="color:#e6db74">&#39;iterations (per tens)&#39;</span>)
+    plt<span style="color:#f92672">.</span>title(<span style="color:#e6db74">&#34;Learning rate =&#34;</span> <span style="color:#f92672">+</span> str(learning_rate))
+    plt<span style="color:#f92672">.</span>show()
+
+    <span style="color:#66d9ef">return</span> parameters</code></pre></div>
+<p><img src="https://vozhuo.tk/img/dnn-2.png" width="50%" height="50%"></p>
+
+<p>首次输出的结果图像如上图所示，可以看出遇到了梯度消失的问题。查资料后得知，深层神经网络的模型初始化不能像浅层网络那样，需要对权重W的选取进行一定修改，一个解决方法是从区间均匀随机取值。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">initialize_parameters_deep</span>(layer_dims):
+    np<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>seed(<span style="color:#ae81ff">3</span>)
+    parameters <span style="color:#f92672">=</span> {}
+    L <span style="color:#f92672">=</span> len(layer_dims)
+    <span style="color:#66d9ef">for</span> l <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">1</span>, L):
+        parameters[<span style="color:#e6db74">&#39;W&#39;</span> <span style="color:#f92672">+</span> str(l)] <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>randn(layer_dims[l], layer_dims[l<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]) <span style="color:#f92672">/</span> np<span style="color:#f92672">.</span>sqrt(layer_dims[l<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]) <span style="color:#75715e"># 原语句：np.random.randn(layer_dims[l], layer_dims[l-1]) * 0.01</span>
+        parameters[<span style="color:#e6db74">&#39;b&#39;</span> <span style="color:#f92672">+</span> str(l)] <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>zeros((layer_dims[l], <span style="color:#ae81ff">1</span>))
+    <span style="color:#66d9ef">return</span> parameters</code></pre></div>
+<p>经过修改后可以看出，成本函数下降明显稳定了许多。</p>
+
+<p><img src="https://vozhuo.tk/img/dnn-3.png" width="50%" height="50%"></p>
+
+<p>参考资料：
+<a href="https://blog.csdn.net/pestzhang/article/details/79961366">深度学习权重参数初始化要点</a></p></article>
+    <footer class="post-footer">
+      
+      <ul class="post-tags">
+        
+          <li><a href="https://vozhuo.tk/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0"><span class="tag">深度学习</span></a></li>
+        
+          <li><a href="https://vozhuo.tk/tags/python"><span class="tag">Python</span></a></li>
+        
+      </ul>
+      
+      <p class="post-copyright">
+        © 2019 Vozhuo
+      </p>
+    </footer>
+    
+      
+      <div id="cyReward" role="cylabs" data-use="reward"></div>
+      <script src="//changyan.itc.cn/js/lib/jquery.js"></script>
+      <script src="//changyan.sohu.com/js/changyan.labs.https.js?appid=cyu1JCtWI"></script>
+      <div id="SOHUCS" sid="/post/deep-learning-nn/" ></div>
+      <script>
+      (function(){
+      var appid = 'cyu1JCtWI';
+      var conf = 'prod_87a280f2532c26d97430235e5cb8bd2f';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
+      
+    
+  </section>
+  
+<footer class="site-footer">
+  <p>© 2017-2019 Vozhuo&#39;s Blog</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank" rel="noopener">Nuo</a>.</p>
+  
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@15.0.0/dist/smooth-scroll.min.js"></script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video.min.js"></script>
+
+
+
+
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    },
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+
+
+<script src="https://vozhuo.tk/scripts/index.min.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('\/service-worker.js').then(function() {
+      console.log('[ServiceWorker] Registered');
+    });
+  }
+</script>
+
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-74583706-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?4cfb60f6b668e48d81b6f4b916461bd7";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+  </body>
+</html>

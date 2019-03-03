@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Mxnet on Vozhuo&#39;s Blog</title>
+    <link>https://vozhuo.tk/tags/mxnet/</link>
+    <description>Recent content in Mxnet on Vozhuo&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-Hans</language>
+    <copyright>© 2019 Vozhuo</copyright>
+    <lastBuildDate>Fri, 01 Mar 2019 09:41:01 +0000</lastBuildDate>
+    
+	<atom:link href="https://vozhuo.tk/tags/mxnet/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>MXNet深度学习笔记（二）</title>
+      <link>https://vozhuo.tk/post/mxnet-study-2/</link>
+      <pubDate>Fri, 01 Mar 2019 09:41:01 +0000</pubDate>
+      
+      <guid>https://vozhuo.tk/post/mxnet-study-2/</guid>
+      <description>&lt;h2 id=&#34;模型构造&#34;&gt;模型构造&lt;/h2&gt;
+
+&lt;p&gt;上一篇中，模型构造是首先需构造Sequential实例，然后添加各层。MXNet还可以通过继承Block类来构造模型。&lt;/p&gt;
+
+&lt;p&gt;下面一个例子中，init函数声明带有模型参数的层，函数使用get_constant方法创建训练中不被迭代的参数，即常数参数。forward函数定义模型的前向计算，通过输入x最终返回输出内容。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>MXNet深度学习笔记</title>
+      <link>https://vozhuo.tk/post/mxnet-study/</link>
+      <pubDate>Fri, 22 Feb 2019 19:01:08 +0000</pubDate>
+      
+      <guid>https://vozhuo.tk/post/mxnet-study/</guid>
+      <description>&lt;p&gt;本文以线性回归为例，展示MXNet以及Gluon的实现。&lt;/p&gt;
+
+&lt;p&gt;首先构造一个简单的数据集，其中features是训练数据特征，labels是标签。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

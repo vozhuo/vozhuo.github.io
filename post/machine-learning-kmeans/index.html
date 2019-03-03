@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>机器学习之K-平均算法</title>
+
+  
+  
+  <link href="//cdn.jsdelivr.net" rel="dns-prefetch">
+  <link href="//cdnjs.cloudflare.com" rel="dns-prefetch">
+  <link href="//at.alicdn.com" rel="dns-prefetch">
+  <link href="//fonts.googleapis.com" rel="dns-prefetch">
+  <link href="//fonts.gstatic.com" rel="dns-prefetch">
+  
+  
+  
+  <link href="//www.google-analytics.com" rel="dns-prefetch">
+  <link href="//hm.baidu.com" rel="dns-prefetch">
+
+  
+
+  
+  
+  <meta name="description" content="概念 K-平均算法是一种无监督的聚类算法。无监督学习是一种自由的方式，其训练集不会标明类别，需要算法进行自我归纳。K-平均算法的思想是，对于给定的训练集，按照样本之间距离的大小划分为k个簇。让簇内的点尽量靠在一起，簇与簇之间的距离尽量大。
+">
+
+  
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@gohugoio">
+    <meta name="twitter:title" content="机器学习之K-平均算法">
+    <meta name="twitter:description" content="概念 K-平均算法是一种无监督的聚类算法。无监督学习是一种自由的方式，其训练集不会标明类别，需要算法进行自我归纳。K-平均算法的思想是，对于给定的训练集，按照样本之间距离的大小划分为k个簇。让簇内的点尽量靠在一起，簇与簇之间的距离尽量大。
+">
+    <meta name="twitter:image" content="/images/avatar-vozhuo.png">
+  
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="机器学习之K-平均算法">
+  <meta property="og:description" content="概念 K-平均算法是一种无监督的聚类算法。无监督学习是一种自由的方式，其训练集不会标明类别，需要算法进行自我归纳。K-平均算法的思想是，对于给定的训练集，按照样本之间距离的大小划分为k个簇。让簇内的点尽量靠在一起，簇与簇之间的距离尽量大。
+">
+  <meta property="og:url" content="https://vozhuo.tk/post/machine-learning-kmeans/">
+  <meta property="og:image" content="/images/avatar-vozhuo.png">
+
+
+
+
+<meta name="generator" content="Hugo 0.54.0">
+
+
+<link rel="canonical" href="https://vozhuo.tk/post/machine-learning-kmeans/">
+
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="format-detection" content="telephone=no,email=no,adress=no">
+<meta http-equiv="Cache-Control" content="no-transform">
+
+
+<meta name="robots" content="index,follow">
+<meta name="referrer" content="origin-when-cross-origin">
+
+
+
+
+
+
+
+<meta name="theme-color" content="#02b875">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Vozhuo&#39;s Blog">
+<meta name="msapplication-tooltip" content="Vozhuo&#39;s Blog">
+<meta name='msapplication-navbutton-color' content="#02b875">
+<meta name="msapplication-TileColor" content="#02b875">
+<meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+<link rel="icon" href="https://vozhuo.tk/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://vozhuo.tk/icons/icon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://vozhuo.tk/icons/icon-32x32.png">
+<link rel="icon" sizes="192x192" href="https://vozhuo.tk/icons/icon-192x192.png">
+<link rel="apple-touch-icon" href="https://vozhuo.tk/icons/icon-152x152.png">
+<link rel="manifest" href="https://vozhuo.tk/manifest.json">
+
+
+<link rel="preload" href="https://vozhuo.tk/styles/main.min.css" as="style">
+<link rel="preload" href="https://vozhuo.tk/styles/custom.min.css" as="style">
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Lobster" as="style">
+<link rel="preload" href="https://vozhuo.tk/images/avatar-vozhuo.png" as="image">
+<link rel="preload" href="https://vozhuo.tk/images/grey-prism.svg" as="image">
+
+
+<style>
+  body {
+    background: rgb(244, 243, 241) url('/images/grey-prism.svg') repeat fixed;
+  }
+</style>
+<link rel="stylesheet" href="https://vozhuo.tk/styles/main.min.css">
+<link rel="stylesheet" href="https://vozhuo.tk/styles/custom.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.2/dist/medium-zoom.min.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video-js.min.css">
+
+
+
+  
+  
+<!--[if lte IE 8]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ie8@1.1.2/dist/videojs-ie8.min.js"></script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20180112/classList.min.js"></script>
+<![endif]-->
+
+
+</head>
+  <body>
+    
+    <div class="suspension">
+      <a role="button" aria-label="Go to top" title="Go to top" class="to-top is-hide"><span class="icon icon-up" aria-hidden="true"></span></a>
+      
+        
+        <a role="button" aria-label="Go to comments" title="Go to comments" class="to-comment" href="#SOHUCS"><span class="icon icon-comment" aria-hidden="true"></span></a>
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <img class="avatar" src="https://vozhuo.tk/images/avatar-vozhuo.png" alt="Avatar">
+  
+  <h2 class="title">Vozhuo&#39;s Blog</h2>
+  
+  <p class="subtitle">~ A ~</p>
+  <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
+    <span class="icon icon-menu" aria-hidden="true"></span>
+  </button>
+
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+        <li class="menu-item
+          
+          
+           is-active">
+          <a href="https://vozhuo.tk/">主页</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="https://vozhuo.tk/tags/">标签</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="https://vozhuo.tk/about/">关于</a>
+        </li>
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list"><li class="social-item">
+          <a href="mailto:qsx753698@outlook.com" title="Email" aria-label="Email">
+            <span class="icon icon-email" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//github.com/vozhuo" title="GitHub" aria-label="GitHub">
+            <span class="icon icon-github" aria-hidden="true"></span>
+          </a>
+        </li></ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">机器学习之K-平均算法</h1>
+      <p class="post-meta">@Vozhuo · Nov 18, 2018 · 1 min read</p>
+    </header>
+    <article class="post-content"><h2 id="概念">概念</h2>
+
+<p>K-平均算法是一种无监督的聚类算法。无监督学习是一种自由的方式，其训练集不会标明类别，需要算法进行自我归纳。K-平均算法的思想是，对于给定的训练集，按照样本之间距离的大小划分为k个簇。让簇内的点尽量靠在一起，簇与簇之间的距离尽量大。</p>
+
+<p>算法的基本步骤如下：</p>
+
+<ol>
+<li>确定聚类数K，随机选择k个聚类中心。</li>
+<li>计算训练集中的单个样本到每个聚类中心的距离，认定距离最近的聚类中心为样本的聚类归属。</li>
+<li>计算簇中样本的平均位置，或者说质心，调整聚类中心的位置。</li>
+<li>重复以上步骤直至各个聚类中心的位置不再发生改变。</li>
+</ol>
+
+<h2 id="tensorflow实现">TensorFlow实现</h2>
+
+<p>首先初始化训练数据和聚类中心，训练数据从文件中读取。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">data <span style="color:#f92672">=</span> scio<span style="color:#f92672">.</span>loadmat(<span style="color:#e6db74">&#39;ex7data2.mat&#39;</span>)
+train_data <span style="color:#f92672">=</span> data[<span style="color:#e6db74">&#39;X&#39;</span>] <span style="color:#75715e"># 读取名为X的矩阵</span>
+
+samples <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>constant(train_data) <span style="color:#75715e"># 初始化训练集</span>
+initial_centroids <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>constant(np<span style="color:#f92672">.</span>array([[<span style="color:#ae81ff">3.</span>, <span style="color:#ae81ff">3.</span>], [<span style="color:#ae81ff">6.</span>, <span style="color:#ae81ff">2.</span>], [<span style="color:#ae81ff">8.</span>, <span style="color:#ae81ff">5.</span>]])) <span style="color:#75715e"># 初始化聚类中心</span></code></pre></div>
+<p>这里的距离计算使用欧式距离。将训练集向量和聚类中心向量做减法。这里用到的一个点是当矩阵和列向量相减时，减法方法subtract会自动扩展两个参数的规模。当前两个参数因规模不匹配无法相减，要做到这一点，需要分别给两个参数添加一个维度。在本例中，训练集向量从（N * 2）变为（1 * N * 2），聚类向量从（3 * 2）变为（3 * 1 * 2）。其中N为训练集的个数。结果的规模为（3 * N * 2）。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">assign_to_nearest</span>(samples, centroids):
+    expanded_samples <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>expand_dims(samples, <span style="color:#ae81ff">0</span>)
+    expanded_centroids <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>expand_dims(centroids, <span style="color:#ae81ff">1</span>) <span style="color:#75715e"># 添加维度</span>
+    distances <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>reduce_sum( tf<span style="color:#f92672">.</span>square(
+               tf<span style="color:#f92672">.</span>subtract(expanded_samples, expanded_centroids)), <span style="color:#ae81ff">2</span>) <span style="color:#75715e"># 计算距离</span>
+    <span style="color:#66d9ef">return</span> tf<span style="color:#f92672">.</span>argmin(distances, <span style="color:#ae81ff">0</span>) <span style="color:#75715e"># 返回distances最小的索引，从矩阵意义上来说为每行最小的数的索引</span></code></pre></div>
+<p>下一步更新聚类中心的位置。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">update_centroids</span>(samples, nearest_indices, k):
+    nearest_indices <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>to_int32(nearest_indices)
+    partitions <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>dynamic_partition(samples, nearest_indices, k) <span style="color:#75715e"># 将矩阵依据nearest_indices的不同分为k个部分</span>
+    <span style="color:#66d9ef">return</span> tf<span style="color:#f92672">.</span>concat([tf<span style="color:#f92672">.</span>expand_dims(tf<span style="color:#f92672">.</span>reduce_mean(partition, <span style="color:#ae81ff">0</span>), <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">for</span> partition <span style="color:#f92672">in</span> partitions], <span style="color:#ae81ff">0</span>) <span style="color:#75715e"># 求各个聚类（partition）每一列的平均值，拼接为新的聚类中心</span></code></pre></div>
+<p>最后进行迭代计算。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">iter_num <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span> <span style="color:#75715e"># 迭代10次</span>
+features <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span> <span style="color:#75715e"># 2个特征值</span>
+k <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span> <span style="color:#75715e"># 聚类为3</span>
+<span style="color:#66d9ef">with</span> tf<span style="color:#f92672">.</span>Session() <span style="color:#66d9ef">as</span> sess:
+    sess<span style="color:#f92672">.</span>run(tf<span style="color:#f92672">.</span>global_variables_initializer())
+    sample_values <span style="color:#f92672">=</span> sess<span style="color:#f92672">.</span>run(samples)
+    centroids <span style="color:#f92672">=</span> initial_centroids <span style="color:#75715e"># 一开始使用初始的聚类中心</span>
+    <span style="color:#66d9ef">for</span> _ <span style="color:#f92672">in</span> range(iter_num):
+        nearest_indices <span style="color:#f92672">=</span> assign_to_nearest(samples, centroids)
+        updated_centroids <span style="color:#f92672">=</span> update_centroids(samples, nearest_indices, k)
+        centroids <span style="color:#f92672">=</span> sess<span style="color:#f92672">.</span>run(updated_centroids) <span style="color:#75715e"># 更新聚类中心</span></code></pre></div>
+<p>初始及最后生成的图像见下，可见聚类中心已经对数据进行了很好的区分。当然，并不是每次都有这样好的运气。初始聚类中心的选择不同，最终得到的结果也会大不相同。</p>
+
+<p><img src="https://vozhuo.tk/img/kmeans_init.png" width="50%" height="50%">
+<img src="https://vozhuo.tk/img/kmeans_final.png" width="50%" height="50%"></p>
+
+<p>参考资料：
+<a href="https://www.learningtensorflow.com/lesson6/">Clustering and k-means</a>
+<a href="https://cloud.tencent.com/developer/article/1049697">Python机器学习的练习七：K-Means聚类和主成分分析</a></p></article>
+    <footer class="post-footer">
+      
+      <ul class="post-tags">
+        
+          <li><a href="https://vozhuo.tk/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0"><span class="tag">机器学习</span></a></li>
+        
+          <li><a href="https://vozhuo.tk/tags/tensorflow"><span class="tag">TensorFlow</span></a></li>
+        
+          <li><a href="https://vozhuo.tk/tags/python"><span class="tag">Python</span></a></li>
+        
+      </ul>
+      
+      <p class="post-copyright">
+        © 2019 VozhuoThis post was published <strong>104</strong> days ago, content in the post may be inaccurate, even wrong now, please take risk yourself.
+      </p>
+    </footer>
+    
+      
+      <div id="cyReward" role="cylabs" data-use="reward"></div>
+      <script src="//changyan.itc.cn/js/lib/jquery.js"></script>
+      <script src="//changyan.sohu.com/js/changyan.labs.https.js?appid=cyu1JCtWI"></script>
+      <div id="SOHUCS" sid="/post/machine-learning-kmeans/" ></div>
+      <script>
+      (function(){
+      var appid = 'cyu1JCtWI';
+      var conf = 'prod_87a280f2532c26d97430235e5cb8bd2f';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
+      
+    
+  </section>
+  
+<footer class="site-footer">
+  <p>© 2017-2019 Vozhuo&#39;s Blog</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank" rel="noopener">Nuo</a>.</p>
+  
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@15.0.0/dist/smooth-scroll.min.js"></script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video.min.js"></script>
+
+
+
+
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    },
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+
+
+<script src="https://vozhuo.tk/scripts/index.min.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('\/service-worker.js').then(function() {
+      console.log('[ServiceWorker] Registered');
+    });
+  }
+</script>
+
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-74583706-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?4cfb60f6b668e48d81b6f4b916461bd7";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+  </body>
+</html>

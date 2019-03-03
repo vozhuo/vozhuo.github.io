@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>一周LeetCode习题精选——动态规划(2)</title>
+
+  
+  
+  <link href="//cdn.jsdelivr.net" rel="dns-prefetch">
+  <link href="//cdnjs.cloudflare.com" rel="dns-prefetch">
+  <link href="//at.alicdn.com" rel="dns-prefetch">
+  <link href="//fonts.googleapis.com" rel="dns-prefetch">
+  <link href="//fonts.gstatic.com" rel="dns-prefetch">
+  
+  
+  
+  <link href="//www.google-analytics.com" rel="dns-prefetch">
+  <link href="//hm.baidu.com" rel="dns-prefetch">
+
+  
+
+  
+  
+  <meta name="description" content="LeetCode 55 链接：Jump Game
+本题可以使用动态规划解决。动态规划主要有四个步骤：
+ 使用递归回溯方法 使用备忘录方法优化（自顶向下的动态规划） 消除递归方法（自底向上的动态规划） 使用其他方法优化时间/空间复杂度 ">
+
+  
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@gohugoio">
+    <meta name="twitter:title" content="一周LeetCode习题精选——动态规划(2)">
+    <meta name="twitter:description" content="LeetCode 55 链接：Jump Game
+本题可以使用动态规划解决。动态规划主要有四个步骤：
+ 使用递归回溯方法 使用备忘录方法优化（自顶向下的动态规划） 消除递归方法（自底向上的动态规划） 使用其他方法优化时间/空间复杂度 ">
+    <meta name="twitter:image" content="/images/avatar-vozhuo.png">
+  
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="一周LeetCode习题精选——动态规划(2)">
+  <meta property="og:description" content="LeetCode 55 链接：Jump Game
+本题可以使用动态规划解决。动态规划主要有四个步骤：
+ 使用递归回溯方法 使用备忘录方法优化（自顶向下的动态规划） 消除递归方法（自底向上的动态规划） 使用其他方法优化时间/空间复杂度 ">
+  <meta property="og:url" content="https://vozhuo.tk/post/leetcode-weekend-featured-dp2/">
+  <meta property="og:image" content="/images/avatar-vozhuo.png">
+
+
+
+
+<meta name="generator" content="Hugo 0.54.0">
+
+
+<link rel="canonical" href="https://vozhuo.tk/post/leetcode-weekend-featured-dp2/">
+
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="format-detection" content="telephone=no,email=no,adress=no">
+<meta http-equiv="Cache-Control" content="no-transform">
+
+
+<meta name="robots" content="index,follow">
+<meta name="referrer" content="origin-when-cross-origin">
+
+
+
+
+
+
+
+<meta name="theme-color" content="#02b875">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Vozhuo&#39;s Blog">
+<meta name="msapplication-tooltip" content="Vozhuo&#39;s Blog">
+<meta name='msapplication-navbutton-color' content="#02b875">
+<meta name="msapplication-TileColor" content="#02b875">
+<meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+<link rel="icon" href="https://vozhuo.tk/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://vozhuo.tk/icons/icon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://vozhuo.tk/icons/icon-32x32.png">
+<link rel="icon" sizes="192x192" href="https://vozhuo.tk/icons/icon-192x192.png">
+<link rel="apple-touch-icon" href="https://vozhuo.tk/icons/icon-152x152.png">
+<link rel="manifest" href="https://vozhuo.tk/manifest.json">
+
+
+<link rel="preload" href="https://vozhuo.tk/styles/main.min.css" as="style">
+<link rel="preload" href="https://vozhuo.tk/styles/custom.min.css" as="style">
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Lobster" as="style">
+<link rel="preload" href="https://vozhuo.tk/images/avatar-vozhuo.png" as="image">
+<link rel="preload" href="https://vozhuo.tk/images/grey-prism.svg" as="image">
+
+
+<style>
+  body {
+    background: rgb(244, 243, 241) url('/images/grey-prism.svg') repeat fixed;
+  }
+</style>
+<link rel="stylesheet" href="https://vozhuo.tk/styles/main.min.css">
+<link rel="stylesheet" href="https://vozhuo.tk/styles/custom.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.2/dist/medium-zoom.min.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video-js.min.css">
+
+
+
+  
+  
+<!--[if lte IE 8]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ie8@1.1.2/dist/videojs-ie8.min.js"></script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20180112/classList.min.js"></script>
+<![endif]-->
+
+
+</head>
+  <body>
+    
+    <div class="suspension">
+      <a role="button" aria-label="Go to top" title="Go to top" class="to-top is-hide"><span class="icon icon-up" aria-hidden="true"></span></a>
+      
+        
+        <a role="button" aria-label="Go to comments" title="Go to comments" class="to-comment" href="#SOHUCS"><span class="icon icon-comment" aria-hidden="true"></span></a>
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <img class="avatar" src="https://vozhuo.tk/images/avatar-vozhuo.png" alt="Avatar">
+  
+  <h2 class="title">Vozhuo&#39;s Blog</h2>
+  
+  <p class="subtitle">~ A ~</p>
+  <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
+    <span class="icon icon-menu" aria-hidden="true"></span>
+  </button>
+
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+        <li class="menu-item
+          
+          
+           is-active">
+          <a href="https://vozhuo.tk/">主页</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="https://vozhuo.tk/tags/">标签</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="https://vozhuo.tk/about/">关于</a>
+        </li>
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list"><li class="social-item">
+          <a href="mailto:qsx753698@outlook.com" title="Email" aria-label="Email">
+            <span class="icon icon-email" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//github.com/vozhuo" title="GitHub" aria-label="GitHub">
+            <span class="icon icon-github" aria-hidden="true"></span>
+          </a>
+        </li></ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">一周LeetCode习题精选——动态规划(2)</h1>
+      <p class="post-meta">@Vozhuo · Oct 7, 2018 · 2 min read</p>
+    </header>
+    <article class="post-content"><h2 id="leetcode-55">LeetCode 55</h2>
+
+<p>链接：<a href="https://leetcode.com/problems/jump-game/description/">Jump Game</a></p>
+
+<p>本题可以使用动态规划解决。动态规划主要有四个步骤：</p>
+
+<ol>
+<li>使用递归回溯方法</li>
+<li>使用备忘录方法优化（自顶向下的动态规划）</li>
+<li>消除递归方法（自底向上的动态规划）</li>
+<li>使用其他方法优化时间/空间复杂度</li>
+</ol>
+
+<p>首先使用递归回溯方法。以数组[2,3,1,1,4]为例，第一个数为2，意味者可能走的步数为1和2，此时做一个循环，针对每一个index，使用回溯法，计算所有情况，到达最后一个index时，返回True。此方法时间复杂度很高，代码在本题不会通过。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">    <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span>:
+        <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">canJump</span>(self, nums):
+            <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>canJumpFromPosition(<span style="color:#ae81ff">0</span>, nums)
+
+        <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">canJumpFromPosition</span>(self, pos, nums):
+            <span style="color:#66d9ef">if</span> pos <span style="color:#f92672">==</span> len(nums) <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>:
+                <span style="color:#66d9ef">return</span> True
+            furthest <span style="color:#f92672">=</span>  min(pos <span style="color:#f92672">+</span> nums[pos], len(nums) <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>)
+            <span style="color:#66d9ef">for</span> next_pos <span style="color:#f92672">in</span> range(pos <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, furthest <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>):
+                <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>canJumpFromPosition(next_pos, nums):
+                    <span style="color:#66d9ef">return</span> True
+            <span style="color:#66d9ef">return</span> False</code></pre></div>
+<p>第二步，使用备忘录法优化。上一种方法遍历所有的index，事实上有些index根本无法到达最后一个index。以数组[2, 4, 2, 1, 0, 2, 0]为例，其中index 2、3和4最终无法到达终点，那么我们可以使用备忘录排除这些index的再次遍历。备忘录初始化时，最后一个index定义为True，因为自身当然能到达自身，其他index定义为None。再修改回溯算法，判断当前index是否已知，直接返回Ture和False。其他方法相同。不过这种方法仍然会超时。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">    <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span>:
+        <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">canJump</span>(self, nums):
+            memo <span style="color:#f92672">=</span> [None] <span style="color:#f92672">*</span> len(nums)
+            memo[<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> True
+            <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>canJumpFromPosition(<span style="color:#ae81ff">0</span>, nums, memo)
+
+        <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">canJumpFromPosition</span>(self, pos, nums, memo):
+            <span style="color:#66d9ef">if</span> memo[pos]:
+                <span style="color:#66d9ef">return</span> memo[pos]
+
+            furthest <span style="color:#f92672">=</span>  min(pos <span style="color:#f92672">+</span> nums[pos], len(nums) <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>)
+            <span style="color:#66d9ef">for</span> next_pos <span style="color:#f92672">in</span> range(pos <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, furthest <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>):
+                <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>canJumpFromPosition(next_pos, nums, memo):
+                    memo[pos] <span style="color:#f92672">=</span> True
+                    <span style="color:#66d9ef">return</span> True
+
+            memo[pos] <span style="color:#f92672">=</span> False
+            <span style="color:#66d9ef">return</span> False</code></pre></div>
+<p>第三步我们要消除递归，使用自底向上的动态规划算法，从数组右侧开始遍历。很可惜，这种方法还是会超时。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">    <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span>:
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">canJump</span>(self, nums):
+        memo <span style="color:#f92672">=</span> [None] <span style="color:#f92672">*</span> len(nums)
+        memo[<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> True
+        <span style="color:#66d9ef">for</span> pos <span style="color:#f92672">in</span> range(len(nums) <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>):
+            furthest <span style="color:#f92672">=</span>  min(pos <span style="color:#f92672">+</span> nums[pos], len(nums) <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>)
+            <span style="color:#66d9ef">for</span> j <span style="color:#f92672">in</span> range(pos <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, furthest <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>):
+                <span style="color:#66d9ef">if</span> memo[j] <span style="color:#f92672">==</span> True:
+                    memo[pos] <span style="color:#f92672">=</span> True
+                    <span style="color:#66d9ef">break</span>
+        <span style="color:#66d9ef">return</span> memo[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">==</span> True</code></pre></div>
+<p>在前三步仍无法解决超时的情况下，需要进行第四步做最后的优化。观察上一步代码，对于给定的pos，实际上我们需要寻找的是后面最左侧可行的位置。如果我们持续追踪这个最左侧位置的话，我们就可以避免二次搜索。一开始设置数组最后一个值为最左侧可到达的index，从右至左遍历，对于每个位置我们检查它能否到这个index。如果可到达，那么当前位置也是可行的，最左侧可到达index会变成当前位置。依次类推，如果遍历完成后最左侧可到达index是数组第一个数时，意味者它可从第一个位置到达最后一个位置。这个思想也是贪心算法的一个体现，代码中的left_index即为局部最优解，循环完毕后产生全局最优解。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">    <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span>:
+        <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">canJump</span>(self, nums):
+            left_index <span style="color:#f92672">=</span> len(nums) <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>
+            <span style="color:#66d9ef">for</span> pos <span style="color:#f92672">in</span> range(len(nums) <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>):
+                <span style="color:#66d9ef">if</span> pos <span style="color:#f92672">+</span> nums[pos] <span style="color:#f92672">&gt;=</span> left_index:
+                    left_index <span style="color:#f92672">=</span> pos
+            <span style="color:#66d9ef">return</span> left_index <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span></code></pre></div>
+<h2 id="leetcode-300">LeetCode 300</h2>
+
+<p>链接：<a href="https://leetcode.com/problems/longest-increasing-subsequence/description/">Longest Increasing Subsequence</a></p>
+
+<p>本题求的是最长递增子序列（LIS），是一道经典问题。一种最简单的求解方式是使用暴力法遍历所有的子序列，并判断它们是否是LIS。我们需要降低时间复杂度，使用动态规划思想分析。观察后发现前i项的求得的LIS不受后面数据的影响。所以，如果我们知道截至第i项的所有LIS，再求前i+1项的LIS时，就可以使用前面数据的LIS，根据第i+1项数据的情况计算LIS。以数组[10,9,2,5,3,7,101]为例，定义dp[i]为前i项LIS，可得：</p>
+
+<ul>
+<li>[10]，dp[1]=1</li>
+<li>[10,9]，9&lt;10，dp[2]=1</li>
+<li>[10,9,2]，dp[3]=1</li>
+<li>[10,9,2,5]，2&lt;5，dp[4]=2</li>
+<li>[10,9,2,5,3]，2&lt;3，dp[5]=2</li>
+<li>[10,9,2,5,3,7]，2&lt;3&lt;7，dp[6]=3</li>
+<li>[10,9,2,5,3,7,101]，2&lt;3&lt;7&lt;101，dp[6]=4</li>
+</ul>
+
+<p>dp数组的最大值即为给定数组的最长递增子序列。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">    <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span>:
+        <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">lengthOfLIS</span>(self, nums):
+            <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> nums:
+                <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>
+            dp <span style="color:#f92672">=</span> [<span style="color:#ae81ff">1</span>] <span style="color:#f92672">*</span> len(nums)
+            <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">1</span>, len(nums)):
+                <span style="color:#66d9ef">for</span> j <span style="color:#f92672">in</span> range(i):
+                    <span style="color:#66d9ef">if</span> nums[j] <span style="color:#f92672">&lt;</span> nums[i]:
+                        dp[i] <span style="color:#f92672">=</span> max(dp[i], dp[j] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>)
+            <span style="color:#66d9ef">return</span> max(dp)</code></pre></div>
+<p>因为使用了两层循环，所以算法的时间复杂度为O(n^2)。一种降低时间复杂度的方法是使用二分搜索算法。在这种方法中，dp数组用来存储当前的LIS。遍历时，用二分搜索算法查找当前值在数组中的位置，如果当前值小于数组的某个数组，则替换之。否则，将当前值添加进数组中。还是以上文的数组[10,9,2,5,3,7,101]为例，遍历可得：</p>
+
+<ul>
+<li>[10]，添加10</li>
+<li>[9]，9替换10</li>
+<li>[2]，2替换9</li>
+<li>[2,5]，添加5</li>
+<li>[2,3]，3替换5</li>
+<li>[2,3,7]，添加7</li>
+<li>[2,3,7,101]，添加101</li>
+</ul>
+
+<p>dp数组的最终长度即为最长递增子序列的长度。有时最终的dp数组未必是最长递增子序列，但长度是相同的。在Java中，Arrays类的binarySearch()方法提供了二分搜索法，Python也有这种方法，在bisect模块。具体用法见参考资料。bisect_left方法搜索数据n在数组dp中的位置，如果n已存在，则返回n的index。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span>:
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">lengthOfLIS</span>(self, nums):
+        <span style="color:#f92672">import</span> bisect
+        dp <span style="color:#f92672">=</span> []
+        <span style="color:#66d9ef">for</span> n <span style="color:#f92672">in</span> nums:
+            <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> dp <span style="color:#f92672">or</span> n <span style="color:#f92672">&gt;</span> dp[<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]:
+                dp<span style="color:#f92672">.</span>append(n)
+            <span style="color:#66d9ef">else</span>:
+                pos <span style="color:#f92672">=</span> bisect<span style="color:#f92672">.</span>bisect_left(dp, n)
+                <span style="color:#66d9ef">if</span> pos <span style="color:#f92672">==</span> len(dp):
+                    dp<span style="color:#f92672">.</span>append(n)
+                <span style="color:#66d9ef">else</span>:
+                    dp[pos] <span style="color:#f92672">=</span> n
+        <span style="color:#66d9ef">return</span> len(dp)</code></pre></div>
+<p>参考资料：
+<a href="https://leetcode.com/problems/jump-game/solution/">LeetCode 55题解</a>
+<a href="https://leetcode.com/problems/longest-increasing-subsequence/solution/">LeetCode 300题解</a>
+<a href="https://zxi.mytechroad.com/blog/dynamic-programming/leetcode-300-longest-increasing-subsequence/">花花酱 LeetCode 300</a>
+<a href="http://www.cnblogs.com/lightwindy/p/8532391.html">最长递增子序列</a>
+<a href="https://blog.csdn.net/pipisorry/article/details/72307432">Python模块：bisect二分算法模块</a></p></article>
+    <footer class="post-footer">
+      
+      <ul class="post-tags">
+        
+          <li><a href="https://vozhuo.tk/tags/leetcode"><span class="tag">LeetCode</span></a></li>
+        
+          <li><a href="https://vozhuo.tk/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92"><span class="tag">动态规划</span></a></li>
+        
+          <li><a href="https://vozhuo.tk/tags/python"><span class="tag">Python</span></a></li>
+        
+          <li><a href="https://vozhuo.tk/tags/%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%95"><span class="tag">贪心算法</span></a></li>
+        
+      </ul>
+      
+      <p class="post-copyright">
+        © 2019 VozhuoThis post was published <strong>146</strong> days ago, content in the post may be inaccurate, even wrong now, please take risk yourself.
+      </p>
+    </footer>
+    
+      
+      <div id="cyReward" role="cylabs" data-use="reward"></div>
+      <script src="//changyan.itc.cn/js/lib/jquery.js"></script>
+      <script src="//changyan.sohu.com/js/changyan.labs.https.js?appid=cyu1JCtWI"></script>
+      <div id="SOHUCS" sid="/post/leetcode-weekend-featured-dp2/" ></div>
+      <script>
+      (function(){
+      var appid = 'cyu1JCtWI';
+      var conf = 'prod_87a280f2532c26d97430235e5cb8bd2f';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
+      
+    
+  </section>
+  
+<footer class="site-footer">
+  <p>© 2017-2019 Vozhuo&#39;s Blog</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank" rel="noopener">Nuo</a>.</p>
+  
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@15.0.0/dist/smooth-scroll.min.js"></script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video.min.js"></script>
+
+
+
+
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    },
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+
+
+<script src="https://vozhuo.tk/scripts/index.min.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('\/service-worker.js').then(function() {
+      console.log('[ServiceWorker] Registered');
+    });
+  }
+</script>
+
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-74583706-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?4cfb60f6b668e48d81b6f4b916461bd7";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+  </body>
+</html>

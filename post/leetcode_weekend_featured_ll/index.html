@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>一周LeetCode习题精选——链表</title>
+
+  
+  
+  <link href="//cdn.jsdelivr.net" rel="dns-prefetch">
+  <link href="//cdnjs.cloudflare.com" rel="dns-prefetch">
+  <link href="//at.alicdn.com" rel="dns-prefetch">
+  <link href="//fonts.googleapis.com" rel="dns-prefetch">
+  <link href="//fonts.gstatic.com" rel="dns-prefetch">
+  
+  
+  
+  <link href="//www.google-analytics.com" rel="dns-prefetch">
+  <link href="//hm.baidu.com" rel="dns-prefetch">
+
+  
+
+  
+  
+  <meta name="description" content="LeetCode 206 链接：Reverse Linked List
+本题是一道非常基础的反转单链表。首先想到的方法是把链表转换成数组直接逆序，这里不再细说。另外两种方法是递归和迭代。递归方法是指先反转最后两个节点，依次往前至全部反转。迭代法是从左至右反转。
+">
+
+  
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@gohugoio">
+    <meta name="twitter:title" content="一周LeetCode习题精选——链表">
+    <meta name="twitter:description" content="LeetCode 206 链接：Reverse Linked List
+本题是一道非常基础的反转单链表。首先想到的方法是把链表转换成数组直接逆序，这里不再细说。另外两种方法是递归和迭代。递归方法是指先反转最后两个节点，依次往前至全部反转。迭代法是从左至右反转。
+">
+    <meta name="twitter:image" content="/images/avatar-vozhuo.png">
+  
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="一周LeetCode习题精选——链表">
+  <meta property="og:description" content="LeetCode 206 链接：Reverse Linked List
+本题是一道非常基础的反转单链表。首先想到的方法是把链表转换成数组直接逆序，这里不再细说。另外两种方法是递归和迭代。递归方法是指先反转最后两个节点，依次往前至全部反转。迭代法是从左至右反转。
+">
+  <meta property="og:url" content="https://vozhuo.tk/post/leetcode_weekend_featured_ll/">
+  <meta property="og:image" content="/images/avatar-vozhuo.png">
+
+
+
+
+<meta name="generator" content="Hugo 0.54.0">
+
+
+<link rel="canonical" href="https://vozhuo.tk/post/leetcode_weekend_featured_ll/">
+
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="format-detection" content="telephone=no,email=no,adress=no">
+<meta http-equiv="Cache-Control" content="no-transform">
+
+
+<meta name="robots" content="index,follow">
+<meta name="referrer" content="origin-when-cross-origin">
+
+
+
+
+
+
+
+<meta name="theme-color" content="#02b875">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Vozhuo&#39;s Blog">
+<meta name="msapplication-tooltip" content="Vozhuo&#39;s Blog">
+<meta name='msapplication-navbutton-color' content="#02b875">
+<meta name="msapplication-TileColor" content="#02b875">
+<meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+<link rel="icon" href="https://vozhuo.tk/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://vozhuo.tk/icons/icon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://vozhuo.tk/icons/icon-32x32.png">
+<link rel="icon" sizes="192x192" href="https://vozhuo.tk/icons/icon-192x192.png">
+<link rel="apple-touch-icon" href="https://vozhuo.tk/icons/icon-152x152.png">
+<link rel="manifest" href="https://vozhuo.tk/manifest.json">
+
+
+<link rel="preload" href="https://vozhuo.tk/styles/main.min.css" as="style">
+<link rel="preload" href="https://vozhuo.tk/styles/custom.min.css" as="style">
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Lobster" as="style">
+<link rel="preload" href="https://vozhuo.tk/images/avatar-vozhuo.png" as="image">
+<link rel="preload" href="https://vozhuo.tk/images/grey-prism.svg" as="image">
+
+
+<style>
+  body {
+    background: rgb(244, 243, 241) url('/images/grey-prism.svg') repeat fixed;
+  }
+</style>
+<link rel="stylesheet" href="https://vozhuo.tk/styles/main.min.css">
+<link rel="stylesheet" href="https://vozhuo.tk/styles/custom.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.2/dist/medium-zoom.min.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video-js.min.css">
+
+
+
+  
+  
+<!--[if lte IE 8]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ie8@1.1.2/dist/videojs-ie8.min.js"></script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20180112/classList.min.js"></script>
+<![endif]-->
+
+
+</head>
+  <body>
+    
+    <div class="suspension">
+      <a role="button" aria-label="Go to top" title="Go to top" class="to-top is-hide"><span class="icon icon-up" aria-hidden="true"></span></a>
+      
+        
+        <a role="button" aria-label="Go to comments" title="Go to comments" class="to-comment" href="#SOHUCS"><span class="icon icon-comment" aria-hidden="true"></span></a>
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <img class="avatar" src="https://vozhuo.tk/images/avatar-vozhuo.png" alt="Avatar">
+  
+  <h2 class="title">Vozhuo&#39;s Blog</h2>
+  
+  <p class="subtitle">~ A ~</p>
+  <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
+    <span class="icon icon-menu" aria-hidden="true"></span>
+  </button>
+
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+        <li class="menu-item
+          
+          
+           is-active">
+          <a href="https://vozhuo.tk/">主页</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="https://vozhuo.tk/tags/">标签</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="https://vozhuo.tk/about/">关于</a>
+        </li>
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list"><li class="social-item">
+          <a href="mailto:qsx753698@outlook.com" title="Email" aria-label="Email">
+            <span class="icon icon-email" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//github.com/vozhuo" title="GitHub" aria-label="GitHub">
+            <span class="icon icon-github" aria-hidden="true"></span>
+          </a>
+        </li></ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">一周LeetCode习题精选——链表</h1>
+      <p class="post-meta">@Vozhuo · Oct 14, 2018 · 2 min read</p>
+    </header>
+    <article class="post-content"><h2 id="leetcode-206">LeetCode 206</h2>
+
+<p>链接：<a href="https://leetcode.com/problems/reverse-linked-list/">Reverse Linked List</a></p>
+
+<p>本题是一道非常基础的反转单链表。首先想到的方法是把链表转换成数组直接逆序，这里不再细说。另外两种方法是递归和迭代。递归方法是指先反转最后两个节点，依次往前至全部反转。迭代法是从左至右反转。</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span>:
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">reverseList</span>(self, head): <span style="color:#75715e"># 递归法</span>
+        <span style="color:#66d9ef">if</span> head <span style="color:#f92672">is</span> None <span style="color:#f92672">or</span> head<span style="color:#f92672">.</span>next <span style="color:#f92672">is</span> None:
+            <span style="color:#66d9ef">return</span> head
+        <span style="color:#66d9ef">else</span>:
+            dummy <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>reverseList(head<span style="color:#f92672">.</span>next)
+            head<span style="color:#f92672">.</span>next<span style="color:#f92672">.</span>next <span style="color:#f92672">=</span> head
+            head<span style="color:#f92672">.</span>next <span style="color:#f92672">=</span> None
+        <span style="color:#66d9ef">return</span> dummy
+
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">reverseList2</span>(self, head): <span style="color:#75715e"># 迭代法</span>
+        prev <span style="color:#f92672">=</span> None
+        <span style="color:#66d9ef">while</span> head:
+            <span style="color:#75715e"># head.next, prev, head = prev, head, head.next 由于Python的特性，下面四行代码可写为一行</span>
+            curr <span style="color:#f92672">=</span> head
+            head <span style="color:#f92672">=</span> head<span style="color:#f92672">.</span>next
+            curr<span style="color:#f92672">.</span>next <span style="color:#f92672">=</span> prev
+            prev <span style="color:#f92672">=</span> curr
+        <span style="color:#66d9ef">return</span> prev</code></pre></div>
+<h2 id="leetcode-142">LeetCode 142</h2>
+
+<p>链接：<a href="https://leetcode.com/problems/linked-list-cycle-ii/">Linked List Cycle II</a></p>
+
+<p>本题判断一个链表是否有环，有环的话返回环的起始节点。本题使用快慢指针寻找环，也就是以前博文提到过的Floyd判圈算法。找到后怎样寻找起始节点呢？我们做一段证明。设链表头到环入口的距离为l1，入口到两指针相遇的距离为l2，c是环的长度，n为快指针在环中的遍历次数。当慢指针和快指针相遇时，慢指针走了l1 + l2的距离，快指针走了l1 + l2 + n * c的距离。而快指针走的步数是慢指针的两倍，所以可得2* (l1 + l2) = l1 + l2 + n * c ，整理后得l1 = (n - 1) * c + (c - l2)。令n等于1，可得l1 = c - l2。也就是说，链表头到环入口的距离和相遇距离到环入口的距离相等。在找到相遇节点后，头节点和慢/快指针同步走下去，相遇时即为环入口。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span>(object):
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">detectCycle</span>(self, head):
+        slow <span style="color:#f92672">=</span> fast <span style="color:#f92672">=</span> head
+        <span style="color:#66d9ef">while</span> fast <span style="color:#f92672">and</span> fast<span style="color:#f92672">.</span>next:
+            slow, fast <span style="color:#f92672">=</span> slow<span style="color:#f92672">.</span>next, fast<span style="color:#f92672">.</span>next<span style="color:#f92672">.</span>next
+            <span style="color:#66d9ef">if</span> slow <span style="color:#f92672">==</span> fast:
+                <span style="color:#66d9ef">break</span>
+        <span style="color:#66d9ef">else</span>:
+            <span style="color:#66d9ef">return</span> None
+
+        <span style="color:#66d9ef">while</span> head <span style="color:#f92672">!=</span> slow:
+            head, slow <span style="color:#f92672">=</span> head<span style="color:#f92672">.</span>next, slow<span style="color:#f92672">.</span>next
+        <span style="color:#66d9ef">return</span> head</code></pre></div>
+<h2 id="leetcode-148">LeetCode 148</h2>
+
+<p>链接：<a href="https://leetcode.com/problems/sort-list/">Sort List</a></p>
+
+<p>本题为链表排序，使用归并排序解决，基本思路是：找到链表的中间节点，然后递归对前半部分和后半部分分别进行归并排序，最后合并两个有序链表。找中间节点需要使用快慢指针。快指针走的步数是慢指针的两倍，当快指针走到链表结尾时，慢指针正好走到中央。合并链表部分记录了迭代法和递归法两种链表合并方法。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span>(object):
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">sortList</span>(self, head):
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> head <span style="color:#f92672">or</span> <span style="color:#f92672">not</span> head<span style="color:#f92672">.</span>next:
+            <span style="color:#66d9ef">return</span> head
+
+        pre <span style="color:#f92672">=</span> None
+        slow <span style="color:#f92672">=</span> fast <span style="color:#f92672">=</span> head
+        <span style="color:#66d9ef">while</span> fast <span style="color:#f92672">and</span> fast<span style="color:#f92672">.</span>next:
+            pre, slow, fast <span style="color:#f92672">=</span> slow, slow<span style="color:#f92672">.</span>next, fast<span style="color:#f92672">.</span>next<span style="color:#f92672">.</span>next
+        pre<span style="color:#f92672">.</span>next <span style="color:#f92672">=</span> None <span style="color:#75715e"># 截断链表左半部分</span>
+
+        <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>merge(self<span style="color:#f92672">.</span>sortList(head), self<span style="color:#f92672">.</span>sortList(slow))
+
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">merge</span>(self, h1, h2): <span style="color:#75715e"># 迭代法</span>
+        dummy <span style="color:#f92672">=</span> tail <span style="color:#f92672">=</span> ListNode(None)
+        <span style="color:#66d9ef">while</span> h1 <span style="color:#f92672">and</span> h2:
+            <span style="color:#66d9ef">if</span> h1<span style="color:#f92672">.</span>val <span style="color:#f92672">&lt;</span> h2<span style="color:#f92672">.</span>val:
+                tail<span style="color:#f92672">.</span>next, h1 <span style="color:#f92672">=</span> h1, h1<span style="color:#f92672">.</span>next
+            <span style="color:#66d9ef">else</span>:
+                tail<span style="color:#f92672">.</span>next, h2 <span style="color:#f92672">=</span> h2, h2<span style="color:#f92672">.</span>next
+            tail <span style="color:#f92672">=</span> tail<span style="color:#f92672">.</span>next
+
+        tail<span style="color:#f92672">.</span>next <span style="color:#f92672">=</span> h1 <span style="color:#f92672">or</span> h2
+        <span style="color:#66d9ef">return</span> dummy<span style="color:#f92672">.</span>next
+
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">merge2</span>(self, l1, l2): <span style="color:#75715e"># 递归法</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> l1 <span style="color:#f92672">or</span> <span style="color:#f92672">not</span> l2:
+            <span style="color:#66d9ef">return</span> l1 <span style="color:#f92672">or</span> l2
+        <span style="color:#66d9ef">if</span> l1<span style="color:#f92672">.</span>val <span style="color:#f92672">&lt;</span> l2<span style="color:#f92672">.</span>val:
+            l1<span style="color:#f92672">.</span>next <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>merge2(l1<span style="color:#f92672">.</span>next, l2)
+            <span style="color:#66d9ef">return</span> l1
+        <span style="color:#66d9ef">else</span>:
+            l2<span style="color:#f92672">.</span>next <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>merge2(l1, l2<span style="color:#f92672">.</span>next)
+            <span style="color:#66d9ef">return</span> l2</code></pre></div>
+<p>参考资料：
+<a href="https://blog.csdn.net/geekmanong/article/details/51097196">经典算法——单链表反转的递归方法和非递归方法</a>
+<a href="https://www.qiujiawei.com/leetcode-problem-142/">leetcode题解 problem 142 Linked List Cycle II</a></p></article>
+    <footer class="post-footer">
+      
+      <ul class="post-tags">
+        
+          <li><a href="https://vozhuo.tk/tags/leetcode"><span class="tag">LeetCode</span></a></li>
+        
+          <li><a href="https://vozhuo.tk/tags/%E9%93%BE%E8%A1%A8"><span class="tag">链表</span></a></li>
+        
+          <li><a href="https://vozhuo.tk/tags/python"><span class="tag">Python</span></a></li>
+        
+      </ul>
+      
+      <p class="post-copyright">
+        © 2019 VozhuoThis post was published <strong>139</strong> days ago, content in the post may be inaccurate, even wrong now, please take risk yourself.
+      </p>
+    </footer>
+    
+      
+      <div id="cyReward" role="cylabs" data-use="reward"></div>
+      <script src="//changyan.itc.cn/js/lib/jquery.js"></script>
+      <script src="//changyan.sohu.com/js/changyan.labs.https.js?appid=cyu1JCtWI"></script>
+      <div id="SOHUCS" sid="/post/leetcode_weekend_featured_ll/" ></div>
+      <script>
+      (function(){
+      var appid = 'cyu1JCtWI';
+      var conf = 'prod_87a280f2532c26d97430235e5cb8bd2f';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
+      
+    
+  </section>
+  
+<footer class="site-footer">
+  <p>© 2017-2019 Vozhuo&#39;s Blog</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank" rel="noopener">Nuo</a>.</p>
+  
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@15.0.0/dist/smooth-scroll.min.js"></script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video.min.js"></script>
+
+
+
+
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    },
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+
+
+<script src="https://vozhuo.tk/scripts/index.min.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('\/service-worker.js').then(function() {
+      console.log('[ServiceWorker] Registered');
+    });
+  }
+</script>
+
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-74583706-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?4cfb60f6b668e48d81b6f4b916461bd7";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+  </body>
+</html>

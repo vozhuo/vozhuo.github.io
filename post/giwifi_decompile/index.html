@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>GiWiFi手机助手反编译笔记</title>
+
+  
+  
+  <link href="//cdn.jsdelivr.net" rel="dns-prefetch">
+  <link href="//cdnjs.cloudflare.com" rel="dns-prefetch">
+  <link href="//at.alicdn.com" rel="dns-prefetch">
+  <link href="//fonts.googleapis.com" rel="dns-prefetch">
+  <link href="//fonts.gstatic.com" rel="dns-prefetch">
+  
+  
+  
+  <link href="//www.google-analytics.com" rel="dns-prefetch">
+  <link href="//hm.baidu.com" rel="dns-prefetch">
+
+  
+
+  
+  
+  <meta name="description" content="最近学校出了一个GiWiFi无线网络，因为速度比较可观，而且可以免费试用，所以用的人还是比较多的。要在手机上使用这一网络要下一个客户端，而客户端带有许多广告和额外的没有用的功能。我自己用过一些APP的去广告版，之前也写过一个简单的Andriod App，于是决定这次自己进行修改。查阅了一些Android反编译的相关资料后，就着手开始进行。
+我使用了一个集成软件APK改之理，它集成了许多反编译工具，使用起来也很方便。
+先来看一下APP的界面： ">
+
+  
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@gohugoio">
+    <meta name="twitter:title" content="GiWiFi手机助手反编译笔记">
+    <meta name="twitter:description" content="最近学校出了一个GiWiFi无线网络，因为速度比较可观，而且可以免费试用，所以用的人还是比较多的。要在手机上使用这一网络要下一个客户端，而客户端带有许多广告和额外的没有用的功能。我自己用过一些APP的去广告版，之前也写过一个简单的Andriod App，于是决定这次自己进行修改。查阅了一些Android反编译的相关资料后，就着手开始进行。
+我使用了一个集成软件APK改之理，它集成了许多反编译工具，使用起来也很方便。
+先来看一下APP的界面： ">
+    <meta name="twitter:image" content="/images/avatar-vozhuo.png">
+  
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="GiWiFi手机助手反编译笔记">
+  <meta property="og:description" content="最近学校出了一个GiWiFi无线网络，因为速度比较可观，而且可以免费试用，所以用的人还是比较多的。要在手机上使用这一网络要下一个客户端，而客户端带有许多广告和额外的没有用的功能。我自己用过一些APP的去广告版，之前也写过一个简单的Andriod App，于是决定这次自己进行修改。查阅了一些Android反编译的相关资料后，就着手开始进行。
+我使用了一个集成软件APK改之理，它集成了许多反编译工具，使用起来也很方便。
+先来看一下APP的界面： ">
+  <meta property="og:url" content="https://vozhuo.tk/post/giwifi_decompile/">
+  <meta property="og:image" content="/images/avatar-vozhuo.png">
+
+
+
+
+<meta name="generator" content="Hugo 0.54.0">
+
+
+<link rel="canonical" href="https://vozhuo.tk/post/giwifi_decompile/">
+
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="format-detection" content="telephone=no,email=no,adress=no">
+<meta http-equiv="Cache-Control" content="no-transform">
+
+
+<meta name="robots" content="index,follow">
+<meta name="referrer" content="origin-when-cross-origin">
+
+
+
+
+
+
+
+<meta name="theme-color" content="#02b875">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Vozhuo&#39;s Blog">
+<meta name="msapplication-tooltip" content="Vozhuo&#39;s Blog">
+<meta name='msapplication-navbutton-color' content="#02b875">
+<meta name="msapplication-TileColor" content="#02b875">
+<meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+<link rel="icon" href="https://vozhuo.tk/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://vozhuo.tk/icons/icon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://vozhuo.tk/icons/icon-32x32.png">
+<link rel="icon" sizes="192x192" href="https://vozhuo.tk/icons/icon-192x192.png">
+<link rel="apple-touch-icon" href="https://vozhuo.tk/icons/icon-152x152.png">
+<link rel="manifest" href="https://vozhuo.tk/manifest.json">
+
+
+<link rel="preload" href="https://vozhuo.tk/styles/main.min.css" as="style">
+<link rel="preload" href="https://vozhuo.tk/styles/custom.min.css" as="style">
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Lobster" as="style">
+<link rel="preload" href="https://vozhuo.tk/images/avatar-vozhuo.png" as="image">
+<link rel="preload" href="https://vozhuo.tk/images/grey-prism.svg" as="image">
+
+
+<style>
+  body {
+    background: rgb(244, 243, 241) url('/images/grey-prism.svg') repeat fixed;
+  }
+</style>
+<link rel="stylesheet" href="https://vozhuo.tk/styles/main.min.css">
+<link rel="stylesheet" href="https://vozhuo.tk/styles/custom.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.2/dist/medium-zoom.min.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video-js.min.css">
+
+
+
+  
+  
+<!--[if lte IE 8]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ie8@1.1.2/dist/videojs-ie8.min.js"></script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20180112/classList.min.js"></script>
+<![endif]-->
+
+
+</head>
+  <body>
+    
+    <div class="suspension">
+      <a role="button" aria-label="Go to top" title="Go to top" class="to-top is-hide"><span class="icon icon-up" aria-hidden="true"></span></a>
+      
+        
+        <a role="button" aria-label="Go to comments" title="Go to comments" class="to-comment" href="#SOHUCS"><span class="icon icon-comment" aria-hidden="true"></span></a>
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <img class="avatar" src="https://vozhuo.tk/images/avatar-vozhuo.png" alt="Avatar">
+  
+  <h2 class="title">Vozhuo&#39;s Blog</h2>
+  
+  <p class="subtitle">~ A ~</p>
+  <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
+    <span class="icon icon-menu" aria-hidden="true"></span>
+  </button>
+
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+        <li class="menu-item
+          
+          
+           is-active">
+          <a href="https://vozhuo.tk/">主页</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="https://vozhuo.tk/tags/">标签</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="https://vozhuo.tk/about/">关于</a>
+        </li>
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list"><li class="social-item">
+          <a href="mailto:qsx753698@outlook.com" title="Email" aria-label="Email">
+            <span class="icon icon-email" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//github.com/vozhuo" title="GitHub" aria-label="GitHub">
+            <span class="icon icon-github" aria-hidden="true"></span>
+          </a>
+        </li></ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">GiWiFi手机助手反编译笔记</h1>
+      <p class="post-meta">@Vozhuo · Jan 16, 2017 · 1 min read</p>
+    </header>
+    <article class="post-content"><p>最近学校出了一个GiWiFi无线网络，因为速度比较可观，而且可以免费试用，所以用的人还是比较多的。要在手机上使用这一网络要下一个客户端，而客户端带有许多广告和额外的没有用的功能。我自己用过一些APP的去广告版，之前也写过一个简单的Andriod App，于是决定这次自己进行修改。查阅了一些Android反编译的相关资料后，就着手开始进行。</p>
+
+<p>我使用了一个集成软件<a href="http://www.popotu.com/popo/apkide.html">APK改之理</a>，它集成了许多反编译工具，使用起来也很方便。</p>
+
+<p>先来看一下APP的界面：
+<img src="https://vozhuo.tk/img/GiWiFi/GiWiFi_original.png" alt="" /></p>
+
+<p>启动页出现了广告，在界面中按下后退键时也会弹出插屏广告，有时还会出现多个广告自动轮播的现象，娱乐、本地版块对我来说也是没有用的功能。现在将针对以上问题进行修改。</p>
+
+<p>首先是启动页广告，使用APK改之理反编译后，打开AndroidManifest.xml。最先启动的Activity一定有“android.intent.action.MAIN”字段，所以依此进行查找，定位到的类名为“com.gbcom.gwifi.functions.loading.LaunchActivity”，然后再到smail文件夹中找到对应的LaunchActivity.smali文件。有Activity就一定会有相应的xml文件，直接搜索“LaunchActivity”字符串并未搜到想要的结果，于是改用“Launch”字段搜索，发现“launch_activity.xml”，应为对应的xml文件。
+<img src="https://vozhuo.tk/img/GiWiFi/c1.PNG" alt="" /></p>
+
+<p>分析launch_activity.xml，发现id为“launch_img”的ImageView下面紧跟着一个id为“launch_ad_img”的ImageView。下一个RelativeLayout的id为ad_layout,后跟的参数为“android:visibility=&ldquo;invisible&rdquo;”，下面的LinearLayout有两个TextView，一个的android:text字段为“跳过”，另一个无android:text字段，但从id“countdown”可以看出应该是类似倒计时的文字。由此可以判断广告的布局字段应该是这几个。
+<img src="https://vozhuo.tk/img/GiWiFi/c2.PNG" alt="" /></p>
+
+<p>搜索“ad_layout”，在<a href="http://blog.csdn.net/z1074971432/article/details/38912747">public.xml</a>中搜索到id为“0x7f0c003f”。继续搜索“0x7f0c003f”，在LaunchActivity.smali中发现3处调用此id的代码。因为要将广告显示，所以应该会有“setVisibility”字段。接下来分析第一处代码，发现有对RelativeLayout的操作，但并没有看到“setVisibility”字段，这里暂且放下。第二处代码也没有“setVisibility”字段，第三处代码虽有，但并不是对RelativeLayout操作。这时推断setVisibility操作可能不在此文件中。
+<img src="https://vozhuo.tk/img/GiWiFi/c3.PNG" alt="" /> <img src="https://vozhuo.tk/img/GiWiFi/c0.PNG" alt="" /></p>
+
+<p>重新检查第一处代码，发现其中一句“new-instance v3, Lcom/gbcom/gwifi/functions/loading/q;”引用了一个其他类，定位到这一文件，发现有一个onAdPresent方法，里面有对RelativeLayout的setVisibility操作，“invoke-virtual {v0, v2}, Landroid/widget/RelativeLayout;-&gt;setVisibility(I)V”，v2变量的定义为“const/4 v2, 0x0”。setVisibility有&rdquo;Visible&rdquo;,&ldquo;Invisible&rdquo;,&ldquo;Gone&rdquo;三个值可传，对应的常量值为0、4、8，于是把v2的定义改为“const/16 v2, 0x8”，进行回编译，安装到手机中，发现启动页广告已不再显示。
+<img src="https://vozhuo.tk/img/GiWiFi/c4.PNG" alt="" /> <img src="https://vozhuo.tk/img/GiWiFi/c5.PNG" alt="" /></p>
+
+<p>下一步处理其他Activity的广告。其他广告出现时右上角总会有一个关闭按钮，于是在res/drawable-hdpi-v4文件夹下找到此按钮close_ad_1_icon.png，搜索“close_ad_1_icon”字段，在layout文件夹下发现两个xml文件含有此按钮。fragment_tabs.xml文件中有TabHost标签，而TabHost多用于选项卡设计。activity_swipe.xml中出现了ViewPager，而ViewPager是实现图片轮播的一个手段，这也与广告出现的方式相对应。两个xml都出现了之前出现过的ad_layout字样，其下两个ImageView的id分别为ad_iv和close_ad_iv，可以推断这就是广告的布局。
+<img src="https://vozhuo.tk/img/GiWiFi/c6.PNG" alt="" /></p>
+
+<p>之前已经查找过ad_layout，其id“0x7f0c003f”在MainActivity.smali中也出现过，于是定位到代码段。 附近并未出现“setVisibility”字段，而且所有MainActivity.java的子类也没有出现对RelativeLayout的setVisibility方法。后来我又想，既然广告是按后退键后出现的，那么可能是重写的onBackPressed这一方法，于是搜索“onBackPressed”字段，对所有可能加入广告的onBackPressed方法进行修改，但回编译后广告依然显示。
+<img src="https://vozhuo.tk/img/GiWiFi/c7.PNG" alt="" /></p>
+
+<p>这时我决定换一种思路，对广告的加载进行限制。反编译后的smail/com文件夹中，baidu、qq文件夹都是广告的来源。在MainActivity.smali中搜索baidu、qq字符串，对含有“loadAd”、“showAd”类似字段的代码行进行注释
+invoke-virtual {v0}, Lcom/baidu/mobads/InterstitialAd;-&gt;loadAd()V</p>
+
+<p>invoke-virtual {v0, p0}, Lcom/baidu/mobads/InterstitialAd;-&gt;showAd(Landroid/app/Activity;)V</p>
+
+<p>invoke-virtual {v0}, Lcom/qq/e/ads/interstitial/InterstitialAD;-&gt;loadAD()V</p>
+
+<p>注释掉这几句后，经测试APP所有的弹出式广告均已去除。
+<img src="https://vozhuo.tk/img/GiWiFi/c8.PNG" alt="" /></p>
+
+<p>后来我查阅资料是发现了一个更为简单的方法，因为APP用的是百度移动广告联盟的SDK，其在AndroidManifest.xml要添加一系列代码，只要将下图标示的一行注释掉，即可去除所有百度提供的广告。
+<img src="https://vozhuo.tk/img/GiWiFi/c10.PNG" alt="" /></p>
+
+<p>下面就应该去除那些没有用的内容了。在“连接”这一选项卡中，除连接WiFi功能外，其他都是不需要的。搜索“连接WiFi”字样，定位到tp_first_fragment.xml文件。经分析后发现，除去Wifi的布局，剩下的只有一个id为“content”的LinearLayout，我选择将此控件隐藏，在其中添加参数“android:visibility=&ldquo;gone&rdquo; ”，有关这一选项卡的修改完成。
+<img src="https://vozhuo.tk/img/GiWiFi/c8.PNG" alt="" /></p>
+
+<p>“娱乐”这一选项卡应完全去除，于是搜索“娱乐”字段，发现并没有需要的内容，这时猜测“娱乐”字段可能写进了java代码，而反编译出的smali文件将其转化成了Unicode编码。把“娱乐”转成Unicode编码“\u5a31\u4e50”再次查找，在MainActivity.smali中定位，将相关代码注释掉，用同样的方法处理“本地”字段，回编译后两栏已去除。
+<img src="https://vozhuo.tk/img/GiWiFi/c9.PNG" alt="" /></p>
+
+<p>其余小修改在此不再赘述，至此GiWiFi手机助手的反编译完成。
+<img src="https://vozhuo.tk/img/GiWiFi/GiWiFi_decompiled.png" alt="反编译后的GiWiFi手机助手" /></p>
+
+<p>PS：第一次回编译后发现原本26.9MB的APK变成了40.2MB。查阅资料后发现apktool 2.0.3版本后引入了compressionType和doNotCompress两个字段，只要将doNotCompress字段下的文件类型删除即可。
+<img src="https://vozhuo.tk/img/GiWiFi/c11.PNG" alt="" /></p>
+
+<p>APK反编译基础资料：
+<a href="http://blog.csdn.net/lpohvbe/article/details/7981386">http://blog.csdn.net/lpohvbe/article/details/7981386</a></p>
+
+<p>反编译后的APP：
+<a href="https://vozhuo.tk/img/GiWiFi/GiWiFi_decompiled.apk">GiWiFi_decompiled.apk</a></p></article>
+    <footer class="post-footer">
+      
+      <ul class="post-tags">
+        
+          <li><a href="https://vozhuo.tk/tags/%E5%8F%8D%E7%BC%96%E8%AF%91"><span class="tag">反编译</span></a></li>
+        
+          <li><a href="https://vozhuo.tk/tags/andriod"><span class="tag">Andriod</span></a></li>
+        
+      </ul>
+      
+      <p class="post-copyright">
+        © 2019 VozhuoThis post was published <strong>776</strong> days ago, content in the post may be inaccurate, even wrong now, please take risk yourself.
+      </p>
+    </footer>
+    
+      
+      <div id="cyReward" role="cylabs" data-use="reward"></div>
+      <script src="//changyan.itc.cn/js/lib/jquery.js"></script>
+      <script src="//changyan.sohu.com/js/changyan.labs.https.js?appid=cyu1JCtWI"></script>
+      <div id="SOHUCS" sid="/post/giwifi_decompile/" ></div>
+      <script>
+      (function(){
+      var appid = 'cyu1JCtWI';
+      var conf = 'prod_87a280f2532c26d97430235e5cb8bd2f';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
+      
+    
+  </section>
+  
+<footer class="site-footer">
+  <p>© 2017-2019 Vozhuo&#39;s Blog</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank" rel="noopener">Nuo</a>.</p>
+  
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@15.0.0/dist/smooth-scroll.min.js"></script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video.min.js"></script>
+
+
+
+
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    },
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+
+
+<script src="https://vozhuo.tk/scripts/index.min.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('\/service-worker.js').then(function() {
+      console.log('[ServiceWorker] Registered');
+    });
+  }
+</script>
+
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-74583706-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?4cfb60f6b668e48d81b6f4b916461bd7";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+  </body>
+</html>

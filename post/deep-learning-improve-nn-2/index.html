@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>深度学习之改善深层神经网络(2)</title>
+
+  
+  
+  <link href="//cdn.jsdelivr.net" rel="dns-prefetch">
+  <link href="//cdnjs.cloudflare.com" rel="dns-prefetch">
+  <link href="//at.alicdn.com" rel="dns-prefetch">
+  <link href="//fonts.googleapis.com" rel="dns-prefetch">
+  <link href="//fonts.gstatic.com" rel="dns-prefetch">
+  
+  
+  
+  <link href="//www.google-analytics.com" rel="dns-prefetch">
+  <link href="//hm.baidu.com" rel="dns-prefetch">
+
+  
+
+  
+  
+  <meta name="description" content="小批量梯度下降 每次使用训练数据的子集进行梯度下降，算法执行速度会更快，这些子集称为Mini-batch（小批量）。当选择的批量大小为1时，每次对一个训练样本执行梯度下降，称为随机梯度下降。当大小为所有训练样本的个数时，则为批量梯度下降，每次对所有训练样本执行梯度下降。
+">
+
+  
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@gohugoio">
+    <meta name="twitter:title" content="深度学习之改善深层神经网络(2)">
+    <meta name="twitter:description" content="小批量梯度下降 每次使用训练数据的子集进行梯度下降，算法执行速度会更快，这些子集称为Mini-batch（小批量）。当选择的批量大小为1时，每次对一个训练样本执行梯度下降，称为随机梯度下降。当大小为所有训练样本的个数时，则为批量梯度下降，每次对所有训练样本执行梯度下降。
+">
+    <meta name="twitter:image" content="/images/avatar-vozhuo.png">
+  
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="深度学习之改善深层神经网络(2)">
+  <meta property="og:description" content="小批量梯度下降 每次使用训练数据的子集进行梯度下降，算法执行速度会更快，这些子集称为Mini-batch（小批量）。当选择的批量大小为1时，每次对一个训练样本执行梯度下降，称为随机梯度下降。当大小为所有训练样本的个数时，则为批量梯度下降，每次对所有训练样本执行梯度下降。
+">
+  <meta property="og:url" content="https://vozhuo.tk/post/deep-learning-improve-nn-2/">
+  <meta property="og:image" content="/images/avatar-vozhuo.png">
+
+
+
+
+<meta name="generator" content="Hugo 0.54.0">
+
+
+<link rel="canonical" href="https://vozhuo.tk/post/deep-learning-improve-nn-2/">
+
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="format-detection" content="telephone=no,email=no,adress=no">
+<meta http-equiv="Cache-Control" content="no-transform">
+
+
+<meta name="robots" content="index,follow">
+<meta name="referrer" content="origin-when-cross-origin">
+
+
+
+
+
+
+
+<meta name="theme-color" content="#02b875">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Vozhuo&#39;s Blog">
+<meta name="msapplication-tooltip" content="Vozhuo&#39;s Blog">
+<meta name='msapplication-navbutton-color' content="#02b875">
+<meta name="msapplication-TileColor" content="#02b875">
+<meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+<link rel="icon" href="https://vozhuo.tk/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://vozhuo.tk/icons/icon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://vozhuo.tk/icons/icon-32x32.png">
+<link rel="icon" sizes="192x192" href="https://vozhuo.tk/icons/icon-192x192.png">
+<link rel="apple-touch-icon" href="https://vozhuo.tk/icons/icon-152x152.png">
+<link rel="manifest" href="https://vozhuo.tk/manifest.json">
+
+
+<link rel="preload" href="https://vozhuo.tk/styles/main.min.css" as="style">
+<link rel="preload" href="https://vozhuo.tk/styles/custom.min.css" as="style">
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Lobster" as="style">
+<link rel="preload" href="https://vozhuo.tk/images/avatar-vozhuo.png" as="image">
+<link rel="preload" href="https://vozhuo.tk/images/grey-prism.svg" as="image">
+
+
+<style>
+  body {
+    background: rgb(244, 243, 241) url('/images/grey-prism.svg') repeat fixed;
+  }
+</style>
+<link rel="stylesheet" href="https://vozhuo.tk/styles/main.min.css">
+<link rel="stylesheet" href="https://vozhuo.tk/styles/custom.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.2/dist/medium-zoom.min.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video-js.min.css">
+
+
+
+  
+  
+<!--[if lte IE 8]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ie8@1.1.2/dist/videojs-ie8.min.js"></script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20180112/classList.min.js"></script>
+<![endif]-->
+
+
+</head>
+  <body>
+    
+    <div class="suspension">
+      <a role="button" aria-label="Go to top" title="Go to top" class="to-top is-hide"><span class="icon icon-up" aria-hidden="true"></span></a>
+      
+        
+        <a role="button" aria-label="Go to comments" title="Go to comments" class="to-comment" href="#SOHUCS"><span class="icon icon-comment" aria-hidden="true"></span></a>
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <img class="avatar" src="https://vozhuo.tk/images/avatar-vozhuo.png" alt="Avatar">
+  
+  <h2 class="title">Vozhuo&#39;s Blog</h2>
+  
+  <p class="subtitle">~ A ~</p>
+  <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
+    <span class="icon icon-menu" aria-hidden="true"></span>
+  </button>
+
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+        <li class="menu-item
+          
+          
+           is-active">
+          <a href="https://vozhuo.tk/">主页</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="https://vozhuo.tk/tags/">标签</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="https://vozhuo.tk/about/">关于</a>
+        </li>
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list"><li class="social-item">
+          <a href="mailto:qsx753698@outlook.com" title="Email" aria-label="Email">
+            <span class="icon icon-email" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//github.com/vozhuo" title="GitHub" aria-label="GitHub">
+            <span class="icon icon-github" aria-hidden="true"></span>
+          </a>
+        </li></ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">深度学习之改善深层神经网络(2)</h1>
+      <p class="post-meta">@Vozhuo · Dec 20, 2018 · 2 min read</p>
+    </header>
+    <article class="post-content"><h2 id="小批量梯度下降">小批量梯度下降</h2>
+
+<p>每次使用训练数据的子集进行梯度下降，算法执行速度会更快，这些子集称为Mini-batch（小批量）。当选择的批量大小为1时，每次对一个训练样本执行梯度下降，称为随机梯度下降。当大小为所有训练样本的个数时，则为批量梯度下降，每次对所有训练样本执行梯度下降。</p>
+
+<h2 id="指数加权平均">指数加权平均</h2>
+
+<p>指数加权平均实质上是一种近似求平均的方法。它可以减少数据的短期波动，并显示数据的趋势。主要函数如下：</p>
+
+<p>$$ v<em>{t} = \beta v</em>{t-1}+(1-\beta)\theta_{t} $$</p>
+
+<h2 id="动量梯度下降">动量梯度下降</h2>
+
+<p>动量梯度下降法除了计算梯度外，还要计算梯度的指数加权平均数，并使用该数字代替原来的梯度进行参数更新。这种方法可以减少梯度下降时的参数波动，加快迭代速度。</p>
+
+<h2 id="rmsprop">RMSprop</h2>
+
+<p>在指数加权平均的梯度计算公式中，RMSprop将微分项dW和db进行平方，然后使用平方根进行参数更新。同样也可以加快迭代速度。</p>
+
+<h2 id="adam优化算法">Adam优化算法</h2>
+
+<p>Adam（Adaptive Moment Estimation）优化算法是动量梯度下降和RMSprop的结合。</p>
+
+<p>下面介绍一个完整的小批量梯度下降法代码的核心部分。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">model</span>(X, Y, layers_dims, optimizer, learning_rate<span style="color:#f92672">=</span><span style="color:#ae81ff">0.0007</span>, mini_batch_size<span style="color:#f92672">=</span><span style="color:#ae81ff">64</span>, beta<span style="color:#f92672">=</span><span style="color:#ae81ff">0.9</span>,
+          beta1<span style="color:#f92672">=</span><span style="color:#ae81ff">0.9</span>, beta2<span style="color:#f92672">=</span><span style="color:#ae81ff">0.999</span>,  epsilon<span style="color:#f92672">=</span><span style="color:#ae81ff">1e-8</span>, num_epochs<span style="color:#f92672">=</span><span style="color:#ae81ff">10000</span>, print_cost<span style="color:#f92672">=</span>True):
+    L <span style="color:#f92672">=</span> len(layers_dims)
+    t <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+    seed <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>
+    <span style="color:#75715e"># 初始化参数</span>
+    parameters <span style="color:#f92672">=</span> initialize_parameters(layers_dims)
+    <span style="color:#75715e"># 初始化优化器所需参数</span>
+    <span style="color:#66d9ef">if</span> optimizer <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;gd&#34;</span>: <span style="color:#75715e"># 梯度下降法不需要其他参数</span>
+        <span style="color:#66d9ef">pass</span>
+    <span style="color:#66d9ef">elif</span> optimizer <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;momentum&#34;</span>: <span style="color:#75715e"># 动量梯度下降法</span>
+        v <span style="color:#f92672">=</span> initialize_velocity(parameters)
+    <span style="color:#66d9ef">elif</span> optimizer <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;adam&#34;</span>: <span style="color:#75715e"># Adam优化</span>
+        v, s <span style="color:#f92672">=</span> initialize_adam(parameters)
+    <span style="color:#75715e"># 迭代</span>
+    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(num_epochs):
+        <span style="color:#75715e"># 打乱训练集顺序，分配minibatch</span>
+        seed <span style="color:#f92672">=</span> seed <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+        minibatches <span style="color:#f92672">=</span> random_mini_batches(X, Y, mini_batch_size, seed)
+        <span style="color:#75715e"># 迭代各个minibatch，进行梯度下降</span>
+        <span style="color:#66d9ef">for</span> minibatch <span style="color:#f92672">in</span> minibatches:
+            (minibatch_X, minibatch_Y) <span style="color:#f92672">=</span> minibatch
+            <span style="color:#75715e"># 前向传播</span>
+            a3, caches <span style="color:#f92672">=</span> forward_propagation(minibatch_X, parameters)
+            <span style="color:#75715e"># 计算成本函数</span>
+            cost <span style="color:#f92672">=</span> compute_cost(a3, minibatch_Y)
+            <span style="color:#75715e"># 反向传播</span>
+            grads <span style="color:#f92672">=</span> backward_propagation(minibatch_X, minibatch_Y, caches)
+            <span style="color:#75715e"># 更新参数</span>
+            <span style="color:#66d9ef">if</span> optimizer <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;gd&#34;</span>: <span style="color:#75715e"># 梯度下降法</span>
+                parameters <span style="color:#f92672">=</span> update_parameters_with_gd(parameters, grads, learning_rate)
+            <span style="color:#66d9ef">elif</span> optimizer <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;momentum&#34;</span>: <span style="color:#75715e"># 动量梯度下降法</span>
+                parameters, v <span style="color:#f92672">=</span> update_parameters_with_momentum(parameters, grads, v, beta, learning_rate)
+            <span style="color:#66d9ef">elif</span> optimizer <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;adam&#34;</span>: <span style="color:#75715e"># Adam优化</span>
+                t <span style="color:#f92672">=</span> t <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+                parameters, v, s <span style="color:#f92672">=</span> update_parameters_with_adam(parameters, grads, v, s,
+                                                               t, learning_rate, beta1, beta2, epsilon)
+    <span style="color:#66d9ef">return</span> parameters</code></pre></div>
+<p>本函数的TenorFlow实现如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">model</span>(X_train, Y_train, X_test, Y_test, learning_rate<span style="color:#f92672">=</span><span style="color:#ae81ff">0.0001</span>,
+          num_epochs<span style="color:#f92672">=</span><span style="color:#ae81ff">1500</span>, minibatch_size<span style="color:#f92672">=</span><span style="color:#ae81ff">32</span>, print_cost<span style="color:#f92672">=</span>True):
+    ops<span style="color:#f92672">.</span>reset_default_graph()
+    tf<span style="color:#f92672">.</span>set_random_seed(<span style="color:#ae81ff">1</span>)
+    seed <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>
+    (n_x, m) <span style="color:#f92672">=</span> X_train<span style="color:#f92672">.</span>shape
+    n_y <span style="color:#f92672">=</span> Y_train<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">0</span>]
+    <span style="color:#75715e"># 定义TensorFlow占位符</span>
+    X, Y <span style="color:#f92672">=</span> create_placeholders(n_x, n_y)
+    <span style="color:#75715e"># 初始化参数</span>
+    parameters <span style="color:#f92672">=</span> initialize_parameters()
+    <span style="color:#75715e"># 前向传播</span>
+    Z3 <span style="color:#f92672">=</span> forward_propagation(X, parameters)
+    <span style="color:#75715e"># 计算成本函数</span>
+    cost <span style="color:#f92672">=</span> compute_cost(Z3, Y)
+    <span style="color:#75715e"># 反向传播已定义在优化器中，使用Adam优化器</span>
+    optimizer <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>train<span style="color:#f92672">.</span>AdamOptimizer(learning_rate<span style="color:#f92672">=</span>learning_rate)<span style="color:#f92672">.</span>minimize(cost)
+    <span style="color:#75715e"># 初始化TensorFlow变量</span>
+    init <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>global_variables_initializer()
+    <span style="color:#75715e"># 开启Session</span>
+    <span style="color:#66d9ef">with</span> tf<span style="color:#f92672">.</span>Session() <span style="color:#66d9ef">as</span> sess:
+        sess<span style="color:#f92672">.</span>run(init)
+        <span style="color:#75715e"># 迭代训练</span>
+        <span style="color:#66d9ef">for</span> epoch <span style="color:#f92672">in</span> range(num_epochs):
+            epoch_cost <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.</span>
+            num_minibatches <span style="color:#f92672">=</span> int(m <span style="color:#f92672">/</span> minibatch_size)  <span style="color:#75715e"># minibatch个数</span>
+            seed <span style="color:#f92672">=</span> seed <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>
+            <span style="color:#75715e"># 打乱训练集顺序，分配minibatch</span>
+            minibatches <span style="color:#f92672">=</span> random_mini_batches(X_train, Y_train, minibatch_size, seed)
+            <span style="color:#75715e"># 迭代各个minibatch</span>
+            <span style="color:#66d9ef">for</span> minibatch <span style="color:#f92672">in</span> minibatches:
+                (minibatch_X, minibatch_Y) <span style="color:#f92672">=</span> minibatch
+                <span style="color:#75715e"># 执行梯度下降</span>
+                _, minibatch_cost <span style="color:#f92672">=</span> sess<span style="color:#f92672">.</span>run([optimizer, cost], feed_dict<span style="color:#f92672">=</span>{X: minibatch_X, Y: minibatch_Y})
+                epoch_cost <span style="color:#f92672">+=</span> minibatch_cost <span style="color:#f92672">/</span> num_minibatches
+
+        <span style="color:#75715e"># 保存参数</span>
+        parameters <span style="color:#f92672">=</span> sess<span style="color:#f92672">.</span>run(parameters)
+        <span style="color:#75715e"># 计算预测准确率</span>
+        correct_prediction <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>equal(tf<span style="color:#f92672">.</span>argmax(Z3), tf<span style="color:#f92672">.</span>argmax(Y))
+        accuracy <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>reduce_mean(tf<span style="color:#f92672">.</span>cast(correct_prediction, <span style="color:#e6db74">&#34;float&#34;</span>))
+
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;Train Accuracy:&#34;</span>, accuracy<span style="color:#f92672">.</span>eval({X: X_train, Y: Y_train}))
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;Test Accuracy:&#34;</span>, accuracy<span style="color:#f92672">.</span>eval({X: X_test, Y: Y_test}))
+
+        <span style="color:#66d9ef">return</span> parameters</code></pre></div>
+<h2 id="超参数调试">超参数调试</h2>
+
+<p>在超参数选择的时候，某些参数需要按照一定比例在不同的小范围内均匀随机取值，如在$ 0.001,\ldots,1 $范围内，需要分别在 $0.001\sim0.001$ 、$0.001\sim0.01$ 、 $0.01\sim0.1$ 、 $0.1\sim1$ 子范围中进行均匀随机取值。</p>
+
+<h2 id="激活值归一化">激活值归一化</h2>
+
+<p>在深层次的神经网络中，我们可以归一化隐藏层的输出，从而加速训练过程。常见的方式是将每层激活前的z函数进行归一化。归一化后，所有z都变为均值为0、方差为1的分布，有时候我们不需要让总是维持这样的分布，所以需要再添加步骤：</p>
+
+<p>$\widetilde z^{(i)} = \gamma z^{(i)}_{\rm norm}+\beta$</p>
+
+<p>其中$\gamma$和$\beta$都是在梯度下降中可以更新的参数。这钟方法称为Batch Norm。它削弱了前层参数与后层参数之间的联系，使得神经网络的每层有一定的独立性，有助于整个网络的学习。</p>
+
+<h2 id="softmax回归">Softmax回归</h2>
+
+<p>多分类问题常使用Softmax回归，它将输出转换为各类别可能的概率，最大概率对应的类别判定为该模型的预测类别。</p></article>
+    <footer class="post-footer">
+      
+      <ul class="post-tags">
+        
+          <li><a href="https://vozhuo.tk/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0"><span class="tag">深度学习</span></a></li>
+        
+          <li><a href="https://vozhuo.tk/tags/tenorflow"><span class="tag">TenorFlow</span></a></li>
+        
+      </ul>
+      
+      <p class="post-copyright">
+        © 2019 Vozhuo
+      </p>
+    </footer>
+    
+      
+      <div id="cyReward" role="cylabs" data-use="reward"></div>
+      <script src="//changyan.itc.cn/js/lib/jquery.js"></script>
+      <script src="//changyan.sohu.com/js/changyan.labs.https.js?appid=cyu1JCtWI"></script>
+      <div id="SOHUCS" sid="/post/deep-learning-improve-nn-2/" ></div>
+      <script>
+      (function(){
+      var appid = 'cyu1JCtWI';
+      var conf = 'prod_87a280f2532c26d97430235e5cb8bd2f';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
+      
+    
+  </section>
+  
+<footer class="site-footer">
+  <p>© 2017-2019 Vozhuo&#39;s Blog</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank" rel="noopener">Nuo</a>.</p>
+  
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@15.0.0/dist/smooth-scroll.min.js"></script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video.min.js"></script>
+
+
+
+
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    },
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+
+
+<script src="https://vozhuo.tk/scripts/index.min.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('\/service-worker.js').then(function() {
+      console.log('[ServiceWorker] Registered');
+    });
+  }
+</script>
+
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-74583706-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?4cfb60f6b668e48d81b6f4b916461bd7";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+  </body>
+</html>

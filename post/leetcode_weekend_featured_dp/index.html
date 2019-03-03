@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>一周LeetCode习题精选——动态规划</title>
+
+  
+  
+  <link href="//cdn.jsdelivr.net" rel="dns-prefetch">
+  <link href="//cdnjs.cloudflare.com" rel="dns-prefetch">
+  <link href="//at.alicdn.com" rel="dns-prefetch">
+  <link href="//fonts.googleapis.com" rel="dns-prefetch">
+  <link href="//fonts.gstatic.com" rel="dns-prefetch">
+  
+  
+  
+  <link href="//www.google-analytics.com" rel="dns-prefetch">
+  <link href="//hm.baidu.com" rel="dns-prefetch">
+
+  
+
+  
+  
+  <meta name="description" content="LeetCode 198 链接：House Robber
+本题使用动态规划解决。首先需要分析题目的递归关系：当强盗到达第i间房屋时，他可以选择抢，也可以选择不抢。如果抢劫这间房屋，根据题目要求，他必定没有抢劫第i-1间房屋，但他可能抢劫第i-2间房屋。如果不抢劫第i间房屋，那么他可能抢劫第i-1间房屋。这两个选择造成抢劫得来金钱的不同。设rob(i)为前i间房屋抢劫得来金钱的最大值，第一种需要计算前i-2间房屋抢劫金钱的最大值加上第i间房屋抢劫的金钱。第二种只需要计算前i-1间房屋抢劫金钱的最大值。两者需取其中最大值，由此得出递归关系：
+">
+
+  
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@gohugoio">
+    <meta name="twitter:title" content="一周LeetCode习题精选——动态规划">
+    <meta name="twitter:description" content="LeetCode 198 链接：House Robber
+本题使用动态规划解决。首先需要分析题目的递归关系：当强盗到达第i间房屋时，他可以选择抢，也可以选择不抢。如果抢劫这间房屋，根据题目要求，他必定没有抢劫第i-1间房屋，但他可能抢劫第i-2间房屋。如果不抢劫第i间房屋，那么他可能抢劫第i-1间房屋。这两个选择造成抢劫得来金钱的不同。设rob(i)为前i间房屋抢劫得来金钱的最大值，第一种需要计算前i-2间房屋抢劫金钱的最大值加上第i间房屋抢劫的金钱。第二种只需要计算前i-1间房屋抢劫金钱的最大值。两者需取其中最大值，由此得出递归关系：
+">
+    <meta name="twitter:image" content="/images/avatar-vozhuo.png">
+  
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="一周LeetCode习题精选——动态规划">
+  <meta property="og:description" content="LeetCode 198 链接：House Robber
+本题使用动态规划解决。首先需要分析题目的递归关系：当强盗到达第i间房屋时，他可以选择抢，也可以选择不抢。如果抢劫这间房屋，根据题目要求，他必定没有抢劫第i-1间房屋，但他可能抢劫第i-2间房屋。如果不抢劫第i间房屋，那么他可能抢劫第i-1间房屋。这两个选择造成抢劫得来金钱的不同。设rob(i)为前i间房屋抢劫得来金钱的最大值，第一种需要计算前i-2间房屋抢劫金钱的最大值加上第i间房屋抢劫的金钱。第二种只需要计算前i-1间房屋抢劫金钱的最大值。两者需取其中最大值，由此得出递归关系：
+">
+  <meta property="og:url" content="https://vozhuo.tk/post/leetcode_weekend_featured_dp/">
+  <meta property="og:image" content="/images/avatar-vozhuo.png">
+
+
+
+
+<meta name="generator" content="Hugo 0.54.0">
+
+
+<link rel="canonical" href="https://vozhuo.tk/post/leetcode_weekend_featured_dp/">
+
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="format-detection" content="telephone=no,email=no,adress=no">
+<meta http-equiv="Cache-Control" content="no-transform">
+
+
+<meta name="robots" content="index,follow">
+<meta name="referrer" content="origin-when-cross-origin">
+
+
+
+
+
+
+
+<meta name="theme-color" content="#02b875">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Vozhuo&#39;s Blog">
+<meta name="msapplication-tooltip" content="Vozhuo&#39;s Blog">
+<meta name='msapplication-navbutton-color' content="#02b875">
+<meta name="msapplication-TileColor" content="#02b875">
+<meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+<link rel="icon" href="https://vozhuo.tk/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://vozhuo.tk/icons/icon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://vozhuo.tk/icons/icon-32x32.png">
+<link rel="icon" sizes="192x192" href="https://vozhuo.tk/icons/icon-192x192.png">
+<link rel="apple-touch-icon" href="https://vozhuo.tk/icons/icon-152x152.png">
+<link rel="manifest" href="https://vozhuo.tk/manifest.json">
+
+
+<link rel="preload" href="https://vozhuo.tk/styles/main.min.css" as="style">
+<link rel="preload" href="https://vozhuo.tk/styles/custom.min.css" as="style">
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Lobster" as="style">
+<link rel="preload" href="https://vozhuo.tk/images/avatar-vozhuo.png" as="image">
+<link rel="preload" href="https://vozhuo.tk/images/grey-prism.svg" as="image">
+
+
+<style>
+  body {
+    background: rgb(244, 243, 241) url('/images/grey-prism.svg') repeat fixed;
+  }
+</style>
+<link rel="stylesheet" href="https://vozhuo.tk/styles/main.min.css">
+<link rel="stylesheet" href="https://vozhuo.tk/styles/custom.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.2/dist/medium-zoom.min.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video-js.min.css">
+
+
+
+  
+  
+<!--[if lte IE 8]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ie8@1.1.2/dist/videojs-ie8.min.js"></script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20180112/classList.min.js"></script>
+<![endif]-->
+
+
+</head>
+  <body>
+    
+    <div class="suspension">
+      <a role="button" aria-label="Go to top" title="Go to top" class="to-top is-hide"><span class="icon icon-up" aria-hidden="true"></span></a>
+      
+        
+        <a role="button" aria-label="Go to comments" title="Go to comments" class="to-comment" href="#SOHUCS"><span class="icon icon-comment" aria-hidden="true"></span></a>
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <img class="avatar" src="https://vozhuo.tk/images/avatar-vozhuo.png" alt="Avatar">
+  
+  <h2 class="title">Vozhuo&#39;s Blog</h2>
+  
+  <p class="subtitle">~ A ~</p>
+  <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
+    <span class="icon icon-menu" aria-hidden="true"></span>
+  </button>
+
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+        <li class="menu-item
+          
+          
+           is-active">
+          <a href="https://vozhuo.tk/">主页</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="https://vozhuo.tk/tags/">标签</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="https://vozhuo.tk/about/">关于</a>
+        </li>
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list"><li class="social-item">
+          <a href="mailto:qsx753698@outlook.com" title="Email" aria-label="Email">
+            <span class="icon icon-email" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//github.com/vozhuo" title="GitHub" aria-label="GitHub">
+            <span class="icon icon-github" aria-hidden="true"></span>
+          </a>
+        </li></ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">一周LeetCode习题精选——动态规划</h1>
+      <p class="post-meta">@Vozhuo · Sep 30, 2018 · 2 min read</p>
+    </header>
+    <article class="post-content"><h2 id="leetcode-198">LeetCode 198</h2>
+
+<p>链接：<a href="https://leetcode.com/problems/house-robber/description/">House Robber</a></p>
+
+<p>本题使用动态规划解决。首先需要分析题目的递归关系：当强盗到达第i间房屋时，他可以选择抢，也可以选择不抢。如果抢劫这间房屋，根据题目要求，他必定没有抢劫第i-1间房屋，但他可能抢劫第i-2间房屋。如果不抢劫第i间房屋，那么他可能抢劫第i-1间房屋。这两个选择造成抢劫得来金钱的不同。设rob(i)为前i间房屋抢劫得来金钱的最大值，第一种需要计算前i-2间房屋抢劫金钱的最大值加上第i间房屋抢劫的金钱。第二种只需要计算前i-1间房屋抢劫金钱的最大值。两者需取其中最大值，由此得出递归关系：</p>
+
+<p>rob(i) = max(rob(i - 2) + curr, rob(i - 1)) # curr代表当前第i间房屋抢劫的金钱</p>
+
+<p>得出递归关系后可直接使用递归方法，不过普通的递归方法用在本题会超时：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">    <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span>:
+        <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">rob</span>(self, nums):
+            <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>rob_house(nums, len(nums) <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>)
+
+        <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">rob_house</span>(self, nums, i):
+            <span style="color:#66d9ef">if</span> i <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>:
+                <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>
+            <span style="color:#66d9ef">return</span> max(self<span style="color:#f92672">.</span>rob_house(nums, i <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>) <span style="color:#f92672">+</span> nums[i], self<span style="color:#f92672">.</span>rob_house(nums, i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>))</code></pre></div>
+<p>继续优化算法，采用备忘录法，备忘录法是自顶向下的算法，将求出的值保存在备忘录中，避免普通递归方法中的重复计算。定义一个值均为-1的数组，每次计算得出的结果存入数组中，如果某次递归发现memo[i]的值不为-1，说明已经保存之前计算的结果，直接返回memo[i]，无需再次计算。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">    <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span>:
+        <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">rob</span>(self, nums):
+            memo <span style="color:#f92672">=</span> [<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> <span style="color:#66d9ef">for</span> _ <span style="color:#f92672">in</span> range(len(nums))]
+            <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>rob_house(nums, len(nums) <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>, memo)
+
+        <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">rob_house</span>(self, nums, i, memo):
+            <span style="color:#66d9ef">if</span> i <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>:
+                <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>
+            <span style="color:#66d9ef">if</span> memo[i] <span style="color:#f92672">!=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>:
+                <span style="color:#66d9ef">return</span> memo[i]
+            memo[i] <span style="color:#f92672">=</span> max(self<span style="color:#f92672">.</span>rob_house(nums, i <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>, memo) <span style="color:#f92672">+</span> nums[i], self<span style="color:#f92672">.</span>rob_house(nums, i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>, memo))
+            <span style="color:#66d9ef">return</span> memo[i]</code></pre></div>
+<p>自底向上的动态规划，使用迭代方法。此方法和上一种方法均击败了94.83%的python3提交代码。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">    <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span>:
+        <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">rob</span>(self, nums):
+            <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> nums:
+                <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>
+            memo <span style="color:#f92672">=</span> [<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> <span style="color:#66d9ef">for</span> _ <span style="color:#f92672">in</span> range(len(nums) <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>)]
+            memo[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+            memo[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> nums[<span style="color:#ae81ff">0</span>]
+            <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">1</span>, len(nums)):
+                memo[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> max(memo[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> nums[i], memo[i])
+            <span style="color:#66d9ef">return</span> memo[<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]</code></pre></div>
+<p>在上一种方法中，实际参与循环的只有memo[i]和memo[i-1]两项，所以该方法的空间可以进一步的压缩，使用两个变量来代替。其中prev2代表递归式中的nums[i-2]，prev1代表nums[i-1]，每次循环将prev2的值修改为上一次循环prev1的值，更新后prev1的值则类似于递归关系中的rob(i)。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">    <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span>:
+        <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">rob</span>(self, nums):
+            prev2 <span style="color:#f92672">=</span> prev1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+            <span style="color:#66d9ef">for</span> n <span style="color:#f92672">in</span> nums:
+                prev2, prev1 <span style="color:#f92672">=</span> prev1, max(n <span style="color:#f92672">+</span> prev2, prev1)
+            <span style="color:#66d9ef">return</span> prev1</code></pre></div>
+<h2 id="leetcode-494">LeetCode 494</h2>
+
+<p>链接：<a href="https://leetcode.com/problems/target-sum/description/">Target Sum</a></p>
+
+<p>本题可使用搜索或者动态规划。前者即使用DFS暴力搜索，计算所有可能的和差情况。另外使用备忘录方法可以减少时间复杂度。这里主要介绍动态规划。</p>
+
+<p>我们定义Sum(i)为前i项数字所有可能的和差情况，则Sum(i-1)为前i-1项的和差情况，那么可以推出Sum(i-1)加nums[i]和减nums[i]分别是两种情况，即可得出递推关系</p>
+
+<pre><code>Sum(i) = (Sum(i-1) + nums[i]) + (Sum(i-1) - nums[i])
+</code></pre>
+
+<p>这里的Sum(i)可以用二维数组dp[i][j]来表示，i表示nums中的第i项数字，i等于0时不对应nums中的数字。j表示和差的结果，数组的值代表对于前i个数所能达到各个结果的次数。那么二维数组所需的空间又是多少呢？i的空间经上文分析可得为nums中数字的长度加1，j的空间我们来举例说明，假如数组为[1,1,1,1,1]，那么它的最大和为5，最小和为-5，空间为11，即是两倍的最大和加一。下面的视频推荐观看，作者解释的比较清晰。</p>
+
+<iframe src="//player.bilibili.com/player.html?aid=31501561&cid=55065777&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" width='80%' height='500px'> </iframe>
+
+<p>以下为AC代码：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">    <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span>:
+        <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">findTargetSumWays</span>(self, nums, S):
+            <span style="color:#f92672">from</span> functools <span style="color:#f92672">import</span> reduce
+            sum <span style="color:#f92672">=</span> reduce(<span style="color:#66d9ef">lambda</span> x, y: x<span style="color:#f92672">+</span>y, nums)
+            <span style="color:#66d9ef">if</span> sum <span style="color:#f92672">&lt;</span> S:
+                <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>
+            dp <span style="color:#f92672">=</span> [[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">*</span> (sum <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">for</span> _ <span style="color:#f92672">in</span> range(len(nums) <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>)]
+            dp[<span style="color:#ae81ff">0</span>][sum] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+            <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(len(nums)):
+                <span style="color:#66d9ef">for</span> j <span style="color:#f92672">in</span> range(nums[i], <span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> sum <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> nums[i]):
+                    <span style="color:#66d9ef">if</span> dp[i][j]:
+                        dp[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>][j <span style="color:#f92672">+</span> nums[i]] <span style="color:#f92672">+=</span> dp[i][j]
+                        dp[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>][j <span style="color:#f92672">-</span> nums[i]] <span style="color:#f92672">+=</span> dp[i][j]
+            <span style="color:#66d9ef">return</span> dp[len(nums)][S <span style="color:#f92672">+</span> sum]</code></pre></div>
+<p>由于数组遍历中i+1只和i有关系，所以我们可以将二维数组降为一维。在i循环时建立一个新数组next，j循环时用next数组记录结果，结束后将next的值复制给dp。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span>:
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">findTargetSumWays</span>(self, nums, S):
+        <span style="color:#f92672">from</span> functools <span style="color:#f92672">import</span> reduce
+        sum <span style="color:#f92672">=</span> reduce(<span style="color:#66d9ef">lambda</span> x, y: x<span style="color:#f92672">+</span>y, nums)
+        <span style="color:#66d9ef">if</span> sum <span style="color:#f92672">&lt;</span> S:
+            <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>
+        dp <span style="color:#f92672">=</span> [<span style="color:#ae81ff">0</span> <span style="color:#66d9ef">for</span> _ <span style="color:#f92672">in</span> range(sum <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>)]
+        dp[sum] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+        <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(len(nums)):
+            next <span style="color:#f92672">=</span> [<span style="color:#ae81ff">0</span> <span style="color:#66d9ef">for</span> _ <span style="color:#f92672">in</span> range(sum <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>)]
+            <span style="color:#66d9ef">for</span> j <span style="color:#f92672">in</span> range(nums[i], <span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> sum <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> nums[i]):
+                <span style="color:#66d9ef">if</span> dp[j]:
+                    next[j <span style="color:#f92672">+</span> nums[i]] <span style="color:#f92672">+=</span> dp[j]
+                    next[j <span style="color:#f92672">-</span> nums[i]] <span style="color:#f92672">+=</span> dp[j]
+            dp <span style="color:#f92672">=</span> next
+        <span style="color:#66d9ef">return</span> dp[S <span style="color:#f92672">+</span> sum]</code></pre></div>
+<p>参考资料：
+<a href="https://blog.csdn.net/u013309870/article/details/75193592">算法-动态规划 Dynamic Programming&ndash;从菜鸟到老鸟</a>
+<a href="https://leetcode.com/problems/target-sum/solution/">LeetCode 494题解</a>
+<a href="https://zxi.mytechroad.com/blog/dynamic-programming/leetcode-494-target-sum/">花花酱 LeetCode 494. Target Sum</a></p></article>
+    <footer class="post-footer">
+      
+      <ul class="post-tags">
+        
+          <li><a href="https://vozhuo.tk/tags/leetcode"><span class="tag">LeetCode</span></a></li>
+        
+          <li><a href="https://vozhuo.tk/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92"><span class="tag">动态规划</span></a></li>
+        
+          <li><a href="https://vozhuo.tk/tags/python"><span class="tag">Python</span></a></li>
+        
+      </ul>
+      
+      <p class="post-copyright">
+        © 2019 VozhuoThis post was published <strong>153</strong> days ago, content in the post may be inaccurate, even wrong now, please take risk yourself.
+      </p>
+    </footer>
+    
+      
+      <div id="cyReward" role="cylabs" data-use="reward"></div>
+      <script src="//changyan.itc.cn/js/lib/jquery.js"></script>
+      <script src="//changyan.sohu.com/js/changyan.labs.https.js?appid=cyu1JCtWI"></script>
+      <div id="SOHUCS" sid="/post/leetcode_weekend_featured_dp/" ></div>
+      <script>
+      (function(){
+      var appid = 'cyu1JCtWI';
+      var conf = 'prod_87a280f2532c26d97430235e5cb8bd2f';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
+      
+    
+  </section>
+  
+<footer class="site-footer">
+  <p>© 2017-2019 Vozhuo&#39;s Blog</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank" rel="noopener">Nuo</a>.</p>
+  
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@15.0.0/dist/smooth-scroll.min.js"></script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video.min.js"></script>
+
+
+
+
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    },
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+
+
+<script src="https://vozhuo.tk/scripts/index.min.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('\/service-worker.js').then(function() {
+      console.log('[ServiceWorker] Registered');
+    });
+  }
+</script>
+
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-74583706-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?4cfb60f6b668e48d81b6f4b916461bd7";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+  </body>
+</html>

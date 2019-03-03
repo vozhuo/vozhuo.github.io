@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>机器学习之异常检测</title>
+
+  
+  
+  <link href="//cdn.jsdelivr.net" rel="dns-prefetch">
+  <link href="//cdnjs.cloudflare.com" rel="dns-prefetch">
+  <link href="//at.alicdn.com" rel="dns-prefetch">
+  <link href="//fonts.googleapis.com" rel="dns-prefetch">
+  <link href="//fonts.gstatic.com" rel="dns-prefetch">
+  
+  
+  
+  <link href="//www.google-analytics.com" rel="dns-prefetch">
+  <link href="//hm.baidu.com" rel="dns-prefetch">
+
+  
+
+  
+  
+  <meta name="description" content="概念 异常检测是一种识别异常样本的方法，我们需要构建一个概率模型，如果某一样本被认定是正常样本的概率足够小，那么它会被当做异常样本。高斯分布（或称正态分布）模型是异常检测算法最常使用的概率分布模型。
+">
+
+  
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@gohugoio">
+    <meta name="twitter:title" content="机器学习之异常检测">
+    <meta name="twitter:description" content="概念 异常检测是一种识别异常样本的方法，我们需要构建一个概率模型，如果某一样本被认定是正常样本的概率足够小，那么它会被当做异常样本。高斯分布（或称正态分布）模型是异常检测算法最常使用的概率分布模型。
+">
+    <meta name="twitter:image" content="/images/avatar-vozhuo.png">
+  
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="机器学习之异常检测">
+  <meta property="og:description" content="概念 异常检测是一种识别异常样本的方法，我们需要构建一个概率模型，如果某一样本被认定是正常样本的概率足够小，那么它会被当做异常样本。高斯分布（或称正态分布）模型是异常检测算法最常使用的概率分布模型。
+">
+  <meta property="og:url" content="https://vozhuo.tk/post/machine-learning-detection/">
+  <meta property="og:image" content="/images/avatar-vozhuo.png">
+
+
+
+
+<meta name="generator" content="Hugo 0.54.0">
+
+
+<link rel="canonical" href="https://vozhuo.tk/post/machine-learning-detection/">
+
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="format-detection" content="telephone=no,email=no,adress=no">
+<meta http-equiv="Cache-Control" content="no-transform">
+
+
+<meta name="robots" content="index,follow">
+<meta name="referrer" content="origin-when-cross-origin">
+
+
+
+
+
+
+
+<meta name="theme-color" content="#02b875">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Vozhuo&#39;s Blog">
+<meta name="msapplication-tooltip" content="Vozhuo&#39;s Blog">
+<meta name='msapplication-navbutton-color' content="#02b875">
+<meta name="msapplication-TileColor" content="#02b875">
+<meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+<link rel="icon" href="https://vozhuo.tk/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://vozhuo.tk/icons/icon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://vozhuo.tk/icons/icon-32x32.png">
+<link rel="icon" sizes="192x192" href="https://vozhuo.tk/icons/icon-192x192.png">
+<link rel="apple-touch-icon" href="https://vozhuo.tk/icons/icon-152x152.png">
+<link rel="manifest" href="https://vozhuo.tk/manifest.json">
+
+
+<link rel="preload" href="https://vozhuo.tk/styles/main.min.css" as="style">
+<link rel="preload" href="https://vozhuo.tk/styles/custom.min.css" as="style">
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Lobster" as="style">
+<link rel="preload" href="https://vozhuo.tk/images/avatar-vozhuo.png" as="image">
+<link rel="preload" href="https://vozhuo.tk/images/grey-prism.svg" as="image">
+
+
+<style>
+  body {
+    background: rgb(244, 243, 241) url('/images/grey-prism.svg') repeat fixed;
+  }
+</style>
+<link rel="stylesheet" href="https://vozhuo.tk/styles/main.min.css">
+<link rel="stylesheet" href="https://vozhuo.tk/styles/custom.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.2/dist/medium-zoom.min.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video-js.min.css">
+
+
+
+  
+  
+<!--[if lte IE 8]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ie8@1.1.2/dist/videojs-ie8.min.js"></script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20180112/classList.min.js"></script>
+<![endif]-->
+
+
+</head>
+  <body>
+    
+    <div class="suspension">
+      <a role="button" aria-label="Go to top" title="Go to top" class="to-top is-hide"><span class="icon icon-up" aria-hidden="true"></span></a>
+      
+        
+        <a role="button" aria-label="Go to comments" title="Go to comments" class="to-comment" href="#SOHUCS"><span class="icon icon-comment" aria-hidden="true"></span></a>
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <img class="avatar" src="https://vozhuo.tk/images/avatar-vozhuo.png" alt="Avatar">
+  
+  <h2 class="title">Vozhuo&#39;s Blog</h2>
+  
+  <p class="subtitle">~ A ~</p>
+  <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
+    <span class="icon icon-menu" aria-hidden="true"></span>
+  </button>
+
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+        <li class="menu-item
+          
+          
+           is-active">
+          <a href="https://vozhuo.tk/">主页</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="https://vozhuo.tk/tags/">标签</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="https://vozhuo.tk/about/">关于</a>
+        </li>
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list"><li class="social-item">
+          <a href="mailto:qsx753698@outlook.com" title="Email" aria-label="Email">
+            <span class="icon icon-email" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//github.com/vozhuo" title="GitHub" aria-label="GitHub">
+            <span class="icon icon-github" aria-hidden="true"></span>
+          </a>
+        </li></ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">机器学习之异常检测</h1>
+      <p class="post-meta">@Vozhuo · Nov 22, 2018 · 2 min read</p>
+    </header>
+    <article class="post-content"><h2 id="概念">概念</h2>
+
+<p>异常检测是一种识别异常样本的方法，我们需要构建一个概率模型，如果某一样本被认定是正常样本的概率足够小，那么它会被当做异常样本。高斯分布（或称正态分布）模型是异常检测算法最常使用的概率分布模型。</p>
+
+<p>算法的基本步骤如下：利用极大似然估计估算特征x的高斯分布概率密度函数的参数$\mu$和$\delta^2$。假设有m个特征，那么样本模型$p(x)$就是这m个特征的概率密度函数的乘积。用此模型估计新的样本，当$ p(x)&lt;\epsilon $时，认为样本x是异常样本。</p>
+
+<p>那么如何选择合适的阈值$\epsilon$呢？一种计算方法是从所给数据最小和最大的概率密度之间选择多个数值，然后我们可以考虑使用F1分数来评价$\epsilon$的优劣，选出最优值。</p>
+
+<h2 id="tensorflow实现">TensorFlow实现</h2>
+
+<p>首先仍然是读取数据，计算平均值和方差。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">data <span style="color:#f92672">=</span> scio<span style="color:#f92672">.</span>loadmat(<span style="color:#e6db74">&#39;ex8data1.mat&#39;</span>)
+train_data <span style="color:#f92672">=</span> data[<span style="color:#e6db74">&#39;X&#39;</span>]
+X_val <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>Variable(data[<span style="color:#e6db74">&#39;Xval&#39;</span>], dtype<span style="color:#f92672">=</span>np<span style="color:#f92672">.</span>float32) <span style="color:#75715e"># 测试数据</span>
+y_val <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>Variable(data[<span style="color:#e6db74">&#39;yval&#39;</span>], dtype<span style="color:#f92672">=</span>np<span style="color:#f92672">.</span>float32) <span style="color:#75715e"># 是否为异常数据（0或1），与X_val数据相对应</span>
+X <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>Variable(train_data, dtype<span style="color:#f92672">=</span>np<span style="color:#f92672">.</span>float32)
+
+mean, sigma <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>nn<span style="color:#f92672">.</span>moments(X, axes<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>)</code></pre></div>
+<p>之后计算高斯分布模型$p(x)$，因为本例训练数据的特征值有两个，这里分别算出概率密度p1、p2，再相乘，这里注意需要扩展一个维度，使之变为矩阵。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">p</span>(x):
+    p1 <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>distributions<span style="color:#f92672">.</span>Normal(mean[<span style="color:#ae81ff">0</span>], tf<span style="color:#f92672">.</span>sqrt(sigma[<span style="color:#ae81ff">0</span>]))<span style="color:#f92672">.</span>prob(x[:, <span style="color:#ae81ff">0</span>]) <span style="color:#75715e"># prob方法带入相应的数据进行计算</span>
+    p2 <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>distributions<span style="color:#f92672">.</span>Normal(mean[<span style="color:#ae81ff">1</span>], tf<span style="color:#f92672">.</span>sqrt(sigma[<span style="color:#ae81ff">1</span>]))<span style="color:#f92672">.</span>prob(x[:, <span style="color:#ae81ff">1</span>])
+    <span style="color:#66d9ef">return</span> tf<span style="color:#f92672">.</span>expand_dims(tf<span style="color:#f92672">.</span>multiply(p1, p2), <span style="color:#ae81ff">1</span>)
+
+p_val <span style="color:#f92672">=</span> p(X_val) <span style="color:#75715e"># 测试集模型</span>
+p <span style="color:#f92672">=</span> p(X)  <span style="color:#75715e"># 训练集模型</span></code></pre></div>
+<p>然后就是计算F1分数选择$\epsilon$，我发现TensorFlow有自带的计算F1分数的函数：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">f1_score, update_op <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>contrib<span style="color:#f92672">.</span>metrics<span style="color:#f92672">.</span>f1_score(y_val, p_val)</code></pre></div>
+<p>但是除了官方文档之外，我没有查到任何使用的例子，自己用会报一大堆错误，由于无法解决这个问题，只能一步一步计算了。另外这个方法使用NumPy实现，而不是TensorFlow。因为TensorFlow的张量是不能迭代的，所以不能进行for循环，也没有找到很好的方式解决，所以就临时使用NumPy实现。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">choose_epsilon</span>(y_val, p_val): <span style="color:#75715e"># 两个参数代表实际值和预测值（概率密度）</span>
+    best_epsilon <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+    best_f1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+
+    step <span style="color:#f92672">=</span> (np<span style="color:#f92672">.</span>max(p_val) <span style="color:#f92672">-</span> np<span style="color:#f92672">.</span>min(p_val)) <span style="color:#f92672">/</span> <span style="color:#ae81ff">1000</span>
+    <span style="color:#66d9ef">for</span> epsilon <span style="color:#f92672">in</span> np<span style="color:#f92672">.</span>arange(np<span style="color:#f92672">.</span>min(p_val), np<span style="color:#f92672">.</span>max(p_val), step):
+        predictions <span style="color:#f92672">=</span> p_val <span style="color:#f92672">&lt;</span> epsilon <span style="color:#75715e"># 将预测值概率密度转为0或1</span>
+
+        tp <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>sum(np<span style="color:#f92672">.</span>logical_and(predictions <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>, y_val <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>))  <span style="color:#75715e"># true positive 预测为正，实际为正</span>
+        fp <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>sum(np<span style="color:#f92672">.</span>logical_and(predictions <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>, y_val <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>))  <span style="color:#75715e"># false positive 预测为正，实际为负</span>
+        fn <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>sum(np<span style="color:#f92672">.</span>logical_and(predictions <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>, y_val <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>))  <span style="color:#75715e"># false negative 预测为负，实际为正</span>
+
+        precision <span style="color:#f92672">=</span> tp <span style="color:#f92672">/</span> (tp <span style="color:#f92672">+</span> fp)  <span style="color:#75715e"># 计算精确率，注意这里会报一个警告，为保证分母不为0，需要加一个数（如0.0000000001），下面计算F1分数也如此</span>
+        recall <span style="color:#f92672">=</span> tp <span style="color:#f92672">/</span> (tp <span style="color:#f92672">+</span> fn) <span style="color:#75715e"># 计算召回率</span>
+        f1 <span style="color:#f92672">=</span> (<span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> precision <span style="color:#f92672">*</span> recall) <span style="color:#f92672">/</span> (precision <span style="color:#f92672">+</span> recall) <span style="color:#75715e"># 计算F1分数</span>
+
+        <span style="color:#66d9ef">if</span> f1 <span style="color:#f92672">&gt;</span> best_f1:
+            best_f1 <span style="color:#f92672">=</span> f1
+            best_epsilon <span style="color:#f92672">=</span> epsilon
+
+    <span style="color:#66d9ef">return</span> best_epsilon, best_f1</code></pre></div>
+<p>后续计算及可视化如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">with</span> tf<span style="color:#f92672">.</span>Session() <span style="color:#66d9ef">as</span> sess:
+    sess<span style="color:#f92672">.</span>run(tf<span style="color:#f92672">.</span>global_variables_initializer())
+    
+    epsilon, _ <span style="color:#f92672">=</span> choose_epsilon(sess<span style="color:#f92672">.</span>run(y_val), sess<span style="color:#f92672">.</span>run(p_val)) <span style="color:#75715e"># 计算最佳阈值</span>
+    outliers <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>where(sess<span style="color:#f92672">.</span>run(p) <span style="color:#f92672">&lt;</span> epsilon, True, False)<span style="color:#f92672">.</span>ravel() <span style="color:#75715e"># 找出异常数据，以True标示，这是使用训练集模型，而不是测试集模型</span>
+
+    plt<span style="color:#f92672">.</span>scatter(train_data[:, <span style="color:#ae81ff">0</span>], train_data[:, <span style="color:#ae81ff">1</span>]) <span style="color:#75715e"># 画出所有训练数据</span>
+    plt<span style="color:#f92672">.</span>scatter(train_data[outliers, <span style="color:#ae81ff">0</span>], train_data[outliers, <span style="color:#ae81ff">1</span>], color<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;r&#39;</span>) <span style="color:#75715e"># 画出异常数据</span>
+    plt<span style="color:#f92672">.</span>show()</code></pre></div>
+<p>最终输出的结果可视化如下，红点为异常数据，共6个。</p>
+
+<p><img src="https://vozhuo.tk/img/detection.png" width="50%" height="50%"></p>
+
+<p>参考资料：
+<a href="https://www.bugshoot.cn/thread-7408571.htm">机器学习练习（四）——异常检测</a></p></article>
+    <footer class="post-footer">
+      
+      <ul class="post-tags">
+        
+          <li><a href="https://vozhuo.tk/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0"><span class="tag">机器学习</span></a></li>
+        
+          <li><a href="https://vozhuo.tk/tags/tensorflow"><span class="tag">TensorFlow</span></a></li>
+        
+          <li><a href="https://vozhuo.tk/tags/python"><span class="tag">Python</span></a></li>
+        
+      </ul>
+      
+      <p class="post-copyright">
+        © 2019 Vozhuo
+      </p>
+    </footer>
+    
+      
+      <div id="cyReward" role="cylabs" data-use="reward"></div>
+      <script src="//changyan.itc.cn/js/lib/jquery.js"></script>
+      <script src="//changyan.sohu.com/js/changyan.labs.https.js?appid=cyu1JCtWI"></script>
+      <div id="SOHUCS" sid="/post/machine-learning-detection/" ></div>
+      <script>
+      (function(){
+      var appid = 'cyu1JCtWI';
+      var conf = 'prod_87a280f2532c26d97430235e5cb8bd2f';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
+      
+    
+  </section>
+  
+<footer class="site-footer">
+  <p>© 2017-2019 Vozhuo&#39;s Blog</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank" rel="noopener">Nuo</a>.</p>
+  
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@15.0.0/dist/smooth-scroll.min.js"></script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video.min.js"></script>
+
+
+
+
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    },
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+
+
+<script src="https://vozhuo.tk/scripts/index.min.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('\/service-worker.js').then(function() {
+      console.log('[ServiceWorker] Registered');
+    });
+  }
+</script>
+
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-74583706-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?4cfb60f6b668e48d81b6f4b916461bd7";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+  </body>
+</html>

@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>自然语言处理和词嵌入</title>
+
+  
+  
+  <link href="//cdn.jsdelivr.net" rel="dns-prefetch">
+  <link href="//cdnjs.cloudflare.com" rel="dns-prefetch">
+  <link href="//at.alicdn.com" rel="dns-prefetch">
+  <link href="//fonts.googleapis.com" rel="dns-prefetch">
+  <link href="//fonts.gstatic.com" rel="dns-prefetch">
+  
+  
+  
+  <link href="//www.google-analytics.com" rel="dns-prefetch">
+  <link href="//hm.baidu.com" rel="dns-prefetch">
+
+  
+
+  
+  
+  <meta name="description" content="词汇表征 计算机是无法直接认识单词的，所以为了让计算机能更好地理解人类语言，需要将词汇进行表征。之前用到的方法是One-hot表征，即创建一个向量，将对应单词的位置用1表示，其余位置用0表示。这种方法的缺点是无法获得词与词之间的相关性。另一种方法是特征表征，即词嵌入，用不同的特征对单词进行特征化表示。
+">
+
+  
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@gohugoio">
+    <meta name="twitter:title" content="自然语言处理和词嵌入">
+    <meta name="twitter:description" content="词汇表征 计算机是无法直接认识单词的，所以为了让计算机能更好地理解人类语言，需要将词汇进行表征。之前用到的方法是One-hot表征，即创建一个向量，将对应单词的位置用1表示，其余位置用0表示。这种方法的缺点是无法获得词与词之间的相关性。另一种方法是特征表征，即词嵌入，用不同的特征对单词进行特征化表示。
+">
+    <meta name="twitter:image" content="/images/avatar-vozhuo.png">
+  
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="自然语言处理和词嵌入">
+  <meta property="og:description" content="词汇表征 计算机是无法直接认识单词的，所以为了让计算机能更好地理解人类语言，需要将词汇进行表征。之前用到的方法是One-hot表征，即创建一个向量，将对应单词的位置用1表示，其余位置用0表示。这种方法的缺点是无法获得词与词之间的相关性。另一种方法是特征表征，即词嵌入，用不同的特征对单词进行特征化表示。
+">
+  <meta property="og:url" content="https://vozhuo.tk/post/deep-learning-word-embedding/">
+  <meta property="og:image" content="/images/avatar-vozhuo.png">
+
+
+
+
+<meta name="generator" content="Hugo 0.54.0">
+
+
+<link rel="canonical" href="https://vozhuo.tk/post/deep-learning-word-embedding/">
+
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="format-detection" content="telephone=no,email=no,adress=no">
+<meta http-equiv="Cache-Control" content="no-transform">
+
+
+<meta name="robots" content="index,follow">
+<meta name="referrer" content="origin-when-cross-origin">
+
+
+
+
+
+
+
+<meta name="theme-color" content="#02b875">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Vozhuo&#39;s Blog">
+<meta name="msapplication-tooltip" content="Vozhuo&#39;s Blog">
+<meta name='msapplication-navbutton-color' content="#02b875">
+<meta name="msapplication-TileColor" content="#02b875">
+<meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+<link rel="icon" href="https://vozhuo.tk/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://vozhuo.tk/icons/icon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://vozhuo.tk/icons/icon-32x32.png">
+<link rel="icon" sizes="192x192" href="https://vozhuo.tk/icons/icon-192x192.png">
+<link rel="apple-touch-icon" href="https://vozhuo.tk/icons/icon-152x152.png">
+<link rel="manifest" href="https://vozhuo.tk/manifest.json">
+
+
+<link rel="preload" href="https://vozhuo.tk/styles/main.min.css" as="style">
+<link rel="preload" href="https://vozhuo.tk/styles/custom.min.css" as="style">
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Lobster" as="style">
+<link rel="preload" href="https://vozhuo.tk/images/avatar-vozhuo.png" as="image">
+<link rel="preload" href="https://vozhuo.tk/images/grey-prism.svg" as="image">
+
+
+<style>
+  body {
+    background: rgb(244, 243, 241) url('/images/grey-prism.svg') repeat fixed;
+  }
+</style>
+<link rel="stylesheet" href="https://vozhuo.tk/styles/main.min.css">
+<link rel="stylesheet" href="https://vozhuo.tk/styles/custom.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.2/dist/medium-zoom.min.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video-js.min.css">
+
+
+
+  
+  
+<!--[if lte IE 8]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ie8@1.1.2/dist/videojs-ie8.min.js"></script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20180112/classList.min.js"></script>
+<![endif]-->
+
+
+</head>
+  <body>
+    
+    <div class="suspension">
+      <a role="button" aria-label="Go to top" title="Go to top" class="to-top is-hide"><span class="icon icon-up" aria-hidden="true"></span></a>
+      
+        
+        <a role="button" aria-label="Go to comments" title="Go to comments" class="to-comment" href="#SOHUCS"><span class="icon icon-comment" aria-hidden="true"></span></a>
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <img class="avatar" src="https://vozhuo.tk/images/avatar-vozhuo.png" alt="Avatar">
+  
+  <h2 class="title">Vozhuo&#39;s Blog</h2>
+  
+  <p class="subtitle">~ A ~</p>
+  <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
+    <span class="icon icon-menu" aria-hidden="true"></span>
+  </button>
+
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+        <li class="menu-item
+          
+          
+           is-active">
+          <a href="https://vozhuo.tk/">主页</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="https://vozhuo.tk/tags/">标签</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="https://vozhuo.tk/about/">关于</a>
+        </li>
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list"><li class="social-item">
+          <a href="mailto:qsx753698@outlook.com" title="Email" aria-label="Email">
+            <span class="icon icon-email" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//github.com/vozhuo" title="GitHub" aria-label="GitHub">
+            <span class="icon icon-github" aria-hidden="true"></span>
+          </a>
+        </li></ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">自然语言处理和词嵌入</h1>
+      <p class="post-meta">@Vozhuo · Feb 10, 2019 · 1 min read</p>
+    </header>
+    <article class="post-content"><h2 id="词汇表征">词汇表征</h2>
+
+<p>计算机是无法直接认识单词的，所以为了让计算机能更好地理解人类语言，需要将词汇进行表征。之前用到的方法是One-hot表征，即创建一个向量，将对应单词的位置用1表示，其余位置用0表示。这种方法的缺点是无法获得词与词之间的相关性。另一种方法是特征表征，即词嵌入，用不同的特征对单词进行特征化表示。</p>
+
+<p>词嵌入能够帮助实现类比推理。通过不同词向量之间的相减计算，可以发现不同词之间的类比关系，如“man—woman”以及“king—queen”。计算相似度可采用余弦相似度函数以及欧氏距离。</p>
+
+<p>以下为代码示例，通过word_a和word_b一组词类别word_c和目标词：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">complete_analogy</span>(word_a, word_b, word_c, word_to_vec_map):
+    <span style="color:#75715e"># 转小写</span>
+    word_a, word_b, word_c <span style="color:#f92672">=</span> word_a<span style="color:#f92672">.</span>lower(), word_b<span style="color:#f92672">.</span>lower(), word_c<span style="color:#f92672">.</span>lower()  
+    <span style="color:#75715e"># 获取三个单词的词嵌入</span>
+    e_a, e_b, e_c <span style="color:#f92672">=</span> word_to_vec_map[word_a], word_to_vec_map[word_b], word_to_vec_map[word_c]
+    words <span style="color:#f92672">=</span> word_to_vec_map<span style="color:#f92672">.</span>keys()
+    <span style="color:#75715e"># 初始化</span>
+    max_cosine_sim <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">100</span>
+    best_word <span style="color:#f92672">=</span> None
+    <span style="color:#75715e"># 遍历词向量集</span>
+    <span style="color:#66d9ef">for</span> w <span style="color:#f92672">in</span> words:        
+        <span style="color:#75715e"># 避免最佳单词成为输入的三个单词之一</span>
+        <span style="color:#66d9ef">if</span> w <span style="color:#f92672">in</span> [word_a, word_b, word_c] :
+            <span style="color:#66d9ef">continue</span>
+        <span style="color:#75715e"># 计算余弦相似度</span>
+        cosine_sim <span style="color:#f92672">=</span> cosine_similarity(e_b <span style="color:#f92672">-</span> e_a, word_to_vec_map[w] <span style="color:#f92672">-</span> e_c) 
+        <span style="color:#75715e"># 选择余弦相似度最大值和最佳单词</span>
+        <span style="color:#66d9ef">if</span> cosine_sim <span style="color:#f92672">&gt;</span> max_cosine_sim:
+            max_cosine_sim <span style="color:#f92672">=</span> cosine_sim
+            best_word <span style="color:#f92672">=</span> w        
+    <span style="color:#66d9ef">return</span> best_word</code></pre></div>
+<h2 id="学习算法">学习算法</h2>
+
+<p>一个词汇表对应一个嵌入矩阵，学习好了嵌入矩阵后，通过嵌入矩阵与对应词的One-hot向量相乘，即可得到该词汇的Embedding。词嵌入的学习算法有Word2Vec和GloVe。</p>
+
+<p>在Skip-grams模型中，我们需要抽取上下文（Content）和目标词（Target）配对，来构造一个监督学习问题。缺点是Softmax层计算的时间复杂度较高。</p>
+
+<p>上下文不一定是要目标词前面或者后面离得最近的几个单词，而是随机选择一个词作为上下文，同时在上下文的一定距离范围内随机选择另外一个词作为目标词。构造这样一个监督学习问题的目的，并不是想要解决监督学习问题本身，而是想要使用这个问题来学习一个好的词嵌入模型。</p>
+
+<h2 id="负采样">负采样</h2>
+
+<p>Word2Vec可以使用负采样方法提高效率。定义一个新的学习问题：预测两个词之间是否是上下文-目标词对，如果是词对，则学习的目标为1，否则为0。下一步使用k次相同的上下文，随机选择不同的目标词，并对相应的词对进行正负样本的标记，生成训练集。最后学习x—y的映射关系。</p>
+
+<h2 id="glove词向量">GloVe词向量</h2>
+
+<p>GloVe（global vectors for word representation）词向量模型是另一种计算词嵌入的方法。本模型中，要定义一个量$X_{ij}$，表示目标词i出现在上下文j的次数。</p>
+
+<h2 id="情感分类">情感分类</h2>
+
+<p>情感分类是通过一段文本判断其内容的情感趋向，是自然语言处理最重要的模块之一。RNN模型配合词嵌入是一个很好的解决方案，首先获取一个训练好的词嵌入矩阵E，得到每个词的词嵌入向量，输入到many-to-one的RNN模型中，最后通过softmax分类器，得到最后的输出。</p>
+
+<h2 id="消除偏见">消除偏见</h2>
+
+<p>学习词嵌入向量后，可能会出现性别、种族等偏见。定义偏见的方向后，对相应的词汇相减并求平均，可以使用中和化、均衡等方法消除偏见。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">Emojify_V2</span>(input_shape, word_to_vec_map, word_to_index):
+    <span style="color:#75715e"># 定义sentence_indices作为模型输入</span>
+    sentence_indices <span style="color:#f92672">=</span> Input(shape<span style="color:#f92672">=</span>input_shape,dtype<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;int32&#39;</span>)
+    <span style="color:#75715e"># 创建使用GloVe向量预训练的嵌入层</span>
+    embedding_layer <span style="color:#f92672">=</span> pretrained_embedding_layer(word_to_vec_map, word_to_index)
+    <span style="color:#75715e"># 通过嵌入层传播sentence_indices，获得embeddings</span>
+    embeddings <span style="color:#f92672">=</span> embedding_layer(sentence_indices)  
+    <span style="color:#75715e"># 通过具有128维隐藏状态的LSTM层传播embeddings，返回输出序列</span>
+    X <span style="color:#f92672">=</span> LSTM (<span style="color:#ae81ff">128</span>, return_sequences<span style="color:#f92672">=</span>True)(embeddings)  
+    <span style="color:#75715e"># 添加Dropout，防止过拟合</span>
+    X <span style="color:#f92672">=</span> Dropout(<span style="color:#ae81ff">0.5</span>)(X)
+    <span style="color:#75715e"># 通过LSTM层传播，这里返回单一隐藏状态，而不是上一次的序列</span>
+    X <span style="color:#f92672">=</span> LSTM (<span style="color:#ae81ff">128</span>, return_sequences<span style="color:#f92672">=</span>False)(X)
+    <span style="color:#75715e"># 添加Dropout</span>
+    X <span style="color:#f92672">=</span> Dropout(<span style="color:#ae81ff">0.5</span>)(X)
+    <span style="color:#75715e"># 通过全连接层传播</span>
+    X <span style="color:#f92672">=</span> Dense(<span style="color:#ae81ff">5</span>)(X)
+    <span style="color:#75715e"># Softmax激活</span>
+    X <span style="color:#f92672">=</span> Activation(<span style="color:#e6db74">&#39;softmax&#39;</span>)(X)  
+    <span style="color:#75715e"># 创建sentence_indices-&gt;x的模型</span>
+    model <span style="color:#f92672">=</span> Model(sentence_indices, X)
+    <span style="color:#66d9ef">return</span> model</code></pre></div></article>
+    <footer class="post-footer">
+      
+      <ul class="post-tags">
+        
+          <li><a href="https://vozhuo.tk/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0"><span class="tag">深度学习</span></a></li>
+        
+          <li><a href="https://vozhuo.tk/tags/python"><span class="tag">Python</span></a></li>
+        
+      </ul>
+      
+      <p class="post-copyright">
+        © 2019 Vozhuo
+      </p>
+    </footer>
+    
+      
+      <div id="cyReward" role="cylabs" data-use="reward"></div>
+      <script src="//changyan.itc.cn/js/lib/jquery.js"></script>
+      <script src="//changyan.sohu.com/js/changyan.labs.https.js?appid=cyu1JCtWI"></script>
+      <div id="SOHUCS" sid="/post/deep-learning-word-embedding/" ></div>
+      <script>
+      (function(){
+      var appid = 'cyu1JCtWI';
+      var conf = 'prod_87a280f2532c26d97430235e5cb8bd2f';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
+      
+    
+  </section>
+  
+<footer class="site-footer">
+  <p>© 2017-2019 Vozhuo&#39;s Blog</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank" rel="noopener">Nuo</a>.</p>
+  
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@15.0.0/dist/smooth-scroll.min.js"></script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video.min.js"></script>
+
+
+
+
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    },
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+
+
+<script src="https://vozhuo.tk/scripts/index.min.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('\/service-worker.js').then(function() {
+      console.log('[ServiceWorker] Registered');
+    });
+  }
+</script>
+
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-74583706-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?4cfb60f6b668e48d81b6f4b916461bd7";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+  </body>
+</html>
