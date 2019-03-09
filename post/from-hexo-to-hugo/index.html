@@ -24,7 +24,7 @@
 
   
   
-  <meta name="description" content="本站使用的静态博客框架已从Hexo迁移至[https://gohugo.io/ Hugo]。Hugo生成博客的速度要远大于Hexo，不过主题没有Hexo多。我选择的主题是[https://github.com/laozhu/hugo-nuo Hugo Nuo]。
+  <meta name="description" content="本站使用的静态博客框架已从Hexo迁移至Hugo。Hugo生成博客的速度要远大于Hexo，不过主题没有Hexo多。我选择的主题是Hugo Nuo。
 ">
 
   
@@ -32,7 +32,7 @@
     <meta name="twitter:card" content="summary">
     <meta name="twitter:site" content="@gohugoio">
     <meta name="twitter:title" content="Hexo迁移至Hugo">
-    <meta name="twitter:description" content="本站使用的静态博客框架已从Hexo迁移至[https://gohugo.io/ Hugo]。Hugo生成博客的速度要远大于Hexo，不过主题没有Hexo多。我选择的主题是[https://github.com/laozhu/hugo-nuo Hugo Nuo]。
+    <meta name="twitter:description" content="本站使用的静态博客框架已从Hexo迁移至Hugo。Hugo生成博客的速度要远大于Hexo，不过主题没有Hexo多。我选择的主题是Hugo Nuo。
 ">
     <meta name="twitter:image" content="/images/avatar-vozhuo.png">
   
@@ -40,7 +40,7 @@
   
   <meta property="og:type" content="article">
   <meta property="og:title" content="Hexo迁移至Hugo">
-  <meta property="og:description" content="本站使用的静态博客框架已从Hexo迁移至[https://gohugo.io/ Hugo]。Hugo生成博客的速度要远大于Hexo，不过主题没有Hexo多。我选择的主题是[https://github.com/laozhu/hugo-nuo Hugo Nuo]。
+  <meta property="og:description" content="本站使用的静态博客框架已从Hexo迁移至Hugo。Hugo生成博客的速度要远大于Hexo，不过主题没有Hexo多。我选择的主题是Hugo Nuo。
 ">
   <meta property="og:url" content="https://vozhuo.tk/post/from-hexo-to-hugo/">
   <meta property="og:image" content="/images/avatar-vozhuo.png">
@@ -196,22 +196,25 @@
       <h1 class="post-title">Hexo迁移至Hugo</h1>
       <p class="post-meta">@Vozhuo · Mar 9, 2019 · 1 min read</p>
     </header>
-    <article class="post-content"><p>本站使用的静态博客框架已从Hexo迁移至[<a href="https://gohugo.io/">https://gohugo.io/</a> Hugo]。Hugo生成博客的速度要远大于Hexo，不过主题没有Hexo多。我选择的主题是[<a href="https://github.com/laozhu/hugo-nuo">https://github.com/laozhu/hugo-nuo</a> Hugo Nuo]。</p>
+    <article class="post-content"><p>本站使用的静态博客框架已从Hexo迁移至<a href="https://gohugo.io/">Hugo</a>。Hugo生成博客的速度要远大于Hexo，不过主题没有Hexo多。我选择的主题是<a href="https://github.com/laozhu/hugo-nuo">Hugo Nuo</a>。</p>
 
 <p>Hugo没有像Hexo那样专门的部署命令deploy，所以为了方便，需要自己写一个部署脚本。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bat" data-lang="bat">@<span style="color:#66d9ef">echo</span> off
-<span style="color:#66d9ef">echo</span> &#39;Generating...&#39;
+
+<p>```bat
+@echo off
+echo &lsquo;Generating&hellip;&rsquo;
 hugo
-<span style="color:#66d9ef">cd</span> public
+cd public
 git add -A
-git commit -m &#39;Updating&#39;
+git commit -m &lsquo;Updating&rsquo;</p>
 
-<span style="color:#66d9ef">echo</span> &#39;Deploying...&#39;
-git push
+<p>echo &lsquo;Deploying&hellip;&rsquo;
+git push</p>
 
-<span style="color:#66d9ef">echo</span> &#39;Done&#39;
+<p>echo &lsquo;Done&rsquo;</p>
 
-<span style="color:#66d9ef">cd</span> ..</code></pre></div></article>
+<p>cd ..
+```bat</p></article>
     <footer class="post-footer">
       
       <ul class="post-tags">
