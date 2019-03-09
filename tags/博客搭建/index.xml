@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-Hans</language>
     <copyright>© 2019 Vozhuo</copyright>
-    <lastBuildDate>Sat, 28 Jul 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 09 Mar 2019 12:12:23 +0800</lastBuildDate>
     
 	<atom:link href="https://vozhuo.tk/tags/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Hexo迁移至Hugo</title>
+      <link>https://vozhuo.tk/post/from-hexo-to-hugo/</link>
+      <pubDate>Sat, 09 Mar 2019 12:12:23 +0800</pubDate>
+      
+      <guid>https://vozhuo.tk/post/from-hexo-to-hugo/</guid>
+      <description>&lt;p&gt;本站使用的静态博客框架已从Hexo迁移至[&lt;a href=&#34;https://gohugo.io/&#34;&gt;https://gohugo.io/&lt;/a&gt; Hugo]。Hugo生成博客的速度要远大于Hexo，不过主题没有Hexo多。我选择的主题是[&lt;a href=&#34;https://github.com/laozhu/hugo-nuo&#34;&gt;https://github.com/laozhu/hugo-nuo&lt;/a&gt; Hugo Nuo]。&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>从Jekyll到Hexo</title>

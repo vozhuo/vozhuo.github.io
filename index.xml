@@ -22,6 +22,15 @@
     </item>
     
     <item>
+      <title>Hexo迁移至Hugo</title>
+      <link>https://vozhuo.tk/post/from-hexo-to-hugo/</link>
+      <pubDate>Sat, 09 Mar 2019 12:12:23 +0800</pubDate>
+      
+      <guid>https://vozhuo.tk/post/from-hexo-to-hugo/</guid>
+      <description>&lt;p&gt;本站使用的静态博客框架已从Hexo迁移至[&lt;a href=&#34;https://gohugo.io/&#34;&gt;https://gohugo.io/&lt;/a&gt; Hugo]。Hugo生成博客的速度要远大于Hexo，不过主题没有Hexo多。我选择的主题是[&lt;a href=&#34;https://github.com/laozhu/hugo-nuo&#34;&gt;https://github.com/laozhu/hugo-nuo&lt;/a&gt; Hugo Nuo]。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
       <title>MXNet深度学习笔记（二）</title>
       <link>https://vozhuo.tk/post/mxnet-study-2/</link>
       <pubDate>Fri, 01 Mar 2019 09:41:01 +0000</pubDate>
