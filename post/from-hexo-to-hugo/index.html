@@ -199,22 +199,19 @@
     <article class="post-content"><p>本站使用的静态博客框架已从Hexo迁移至<a href="https://gohugo.io/">Hugo</a>。Hugo生成博客的速度要远大于Hexo，不过主题没有Hexo多。我选择的主题是<a href="https://github.com/laozhu/hugo-nuo">Hugo Nuo</a>。</p>
 
 <p>Hugo没有像Hexo那样专门的部署命令deploy，所以为了方便，需要自己写一个部署脚本。</p>
-
-<p>```bat
-@echo off
-echo &lsquo;Generating&hellip;&rsquo;
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bat" data-lang="bat">@<span style="color:#66d9ef">echo</span> off
+<span style="color:#66d9ef">echo</span> &#39;Generating...&#39;
 hugo
-cd public
+<span style="color:#66d9ef">cd</span> public
 git add -A
-git commit -m &lsquo;Updating&rsquo;</p>
+git commit -m &#39;Updating&#39;
 
-<p>echo &lsquo;Deploying&hellip;&rsquo;
-git push</p>
+<span style="color:#66d9ef">echo</span> &#39;Deploying...&#39;
+git push
 
-<p>echo &lsquo;Done&rsquo;</p>
+<span style="color:#66d9ef">echo</span> &#39;Done&#39;
 
-<p>cd ..
-```bat</p></article>
+<span style="color:#66d9ef">cd</span> ..</code></pre></div></article>
     <footer class="post-footer">
       
       <ul class="post-tags">
