@@ -5,7 +5,7 @@
   <meta charset="utf-8" />
 
   
-  <title>机器学习之逻辑回归</title>
+  <title>Kaggle比赛—狗的品种识别（初）</title>
 
   
   
@@ -24,25 +24,25 @@
 
   
   
-  <meta name="description" content="概念 在现实生活中，我们遇到的数据大多数都是非线性的，因此不能用线性回归的方法来进行数据拟合，这就需要用到逻辑回归。逻辑回归虽然名字里带“回归”，但是实际上是一种分类方法，用于两分类问题。基本过程如下：
+  <meta name="description" content="在深度学习模型训练中，随着模型参数的迭代，损失函数也会不断变化。此时可画出图像以了解变化趋势。以Kaggle比赛狗的品种识别为例，针对动手学深度学习9.13.5的代码段，进行如下修改，略去重复代码：
 ">
 
   
   
     <meta name="twitter:card" content="summary">
     <meta name="twitter:site" content="@gohugoio">
-    <meta name="twitter:title" content="机器学习之逻辑回归">
-    <meta name="twitter:description" content="概念 在现实生活中，我们遇到的数据大多数都是非线性的，因此不能用线性回归的方法来进行数据拟合，这就需要用到逻辑回归。逻辑回归虽然名字里带“回归”，但是实际上是一种分类方法，用于两分类问题。基本过程如下：
+    <meta name="twitter:title" content="Kaggle比赛—狗的品种识别（初）">
+    <meta name="twitter:description" content="在深度学习模型训练中，随着模型参数的迭代，损失函数也会不断变化。此时可画出图像以了解变化趋势。以Kaggle比赛狗的品种识别为例，针对动手学深度学习9.13.5的代码段，进行如下修改，略去重复代码：
 ">
     <meta name="twitter:image" content="/images/avatar-vozhuo.png">
   
 
   
   <meta property="og:type" content="article">
-  <meta property="og:title" content="机器学习之逻辑回归">
-  <meta property="og:description" content="概念 在现实生活中，我们遇到的数据大多数都是非线性的，因此不能用线性回归的方法来进行数据拟合，这就需要用到逻辑回归。逻辑回归虽然名字里带“回归”，但是实际上是一种分类方法，用于两分类问题。基本过程如下：
+  <meta property="og:title" content="Kaggle比赛—狗的品种识别（初）">
+  <meta property="og:description" content="在深度学习模型训练中，随着模型参数的迭代，损失函数也会不断变化。此时可画出图像以了解变化趋势。以Kaggle比赛狗的品种识别为例，针对动手学深度学习9.13.5的代码段，进行如下修改，略去重复代码：
 ">
-  <meta property="og:url" content="https://vozhuo.tk/post/machine-learning-logistic-regression/">
+  <meta property="og:url" content="https://vozhuo.tk/post/kaggle-gluon-dog/">
   <meta property="og:image" content="/images/avatar-vozhuo.png">
 
 
@@ -51,7 +51,7 @@
 <meta name="generator" content="Hugo 0.54.0">
 
 
-<link rel="canonical" href="https://vozhuo.tk/post/machine-learning-logistic-regression/">
+<link rel="canonical" href="https://vozhuo.tk/post/kaggle-gluon-dog/">
 
 <meta name="renderer" content="webkit">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -193,77 +193,50 @@
 
   <section class="main post-detail">
     <header class="post-header">
-      <h1 class="post-title">机器学习之逻辑回归</h1>
-      <p class="post-meta">@Vozhuo · Nov 4, 2018 · 1 min read</p>
+      <h1 class="post-title">Kaggle比赛—狗的品种识别（初）</h1>
+      <p class="post-meta">@Vozhuo · Mar 12, 2019 · 1 min read</p>
     </header>
-    <article class="post-content"><h2 id="概念">概念</h2>
+    <article class="post-content"><p>在深度学习模型训练中，随着模型参数的迭代，损失函数也会不断变化。此时可画出图像以了解变化趋势。以Kaggle比赛狗的品种识别为例，针对动手学深度学习<a href="http://zh.gluon.ai/chapter_computer-vision/kaggle-gluon-dog.html#%E5%AE%9A%E4%B9%89%E8%AE%AD%E7%BB%83%E5%87%BD%E6%95%B0">9.13.5</a>的代码段，进行如下修改，略去重复代码：</p>
 
-<p>在现实生活中，我们遇到的数据大多数都是非线性的，因此不能用线性回归的方法来进行数据拟合，这就需要用到逻辑回归。逻辑回归虽然名字里带“回归”，但是实际上是一种分类方法，用于两分类问题。基本过程如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">train</span>(net, train_iter, valid_iter, num_epochs, lr, wd, ctx, lr_period,
+          lr_decay):
+    <span style="color:#e6db74">&#39;&#39;&#39;略去&#39;&#39;&#39;</span>
+    <span style="color:#75715e"># 记录训练误差和验证误差</span>
+    ts <span style="color:#f92672">=</span> []
+    vs <span style="color:#f92672">=</span> []
+    <span style="color:#66d9ef">for</span> epoch <span style="color:#f92672">in</span> range(num_epochs):
+        <span style="color:#e6db74">&#39;&#39;&#39;略去&#39;&#39;&#39;</span>
+        <span style="color:#66d9ef">for</span> batch_i, (X, y) <span style="color:#f92672">in</span> enumerate(train_iter): <span style="color:#75715e"># 修改以获取当前样本数</span>
+            <span style="color:#e6db74">&#39;&#39;&#39;略去&#39;&#39;&#39;</span>
+            <span style="color:#66d9ef">if</span> (batch_i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">*</span> batch_size <span style="color:#f92672">%</span> <span style="color:#ae81ff">20</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>:
+                ts<span style="color:#f92672">.</span>append(train_l_sum <span style="color:#f92672">/</span> n)  <span style="color:#75715e"># 每20个样本记录下当前误差</span>
+                <span style="color:#66d9ef">if</span> valid_iter <span style="color:#f92672">is</span> <span style="color:#f92672">not</span> None:
+                    vs<span style="color:#f92672">.</span>append(evaluate_loss(valid_iter, net, ctx))
+        <span style="color:#e6db74">&#39;&#39;&#39;略去&#39;&#39;&#39;</span>
+    <span style="color:#75715e"># 画出训练误差和验证误差曲线</span>
+    d2l<span style="color:#f92672">.</span>set_figsize()
+    d2l<span style="color:#f92672">.</span>plt<span style="color:#f92672">.</span>plot(np<span style="color:#f92672">.</span>linspace(<span style="color:#ae81ff">0</span>, num_epochs, len(ls)), ls, label<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;train loss&#39;</span>)
+    <span style="color:#66d9ef">if</span> vs:
+        d2l<span style="color:#f92672">.</span>plt<span style="color:#f92672">.</span>plot(np<span style="color:#f92672">.</span>linspace(<span style="color:#ae81ff">0</span>, num_epochs, len(vs)), vs, label<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;valid loss&#39;</span>)
+    d2l<span style="color:#f92672">.</span>plt<span style="color:#f92672">.</span>xlabel(<span style="color:#e6db74">&#39;epoch&#39;</span>)
+    d2l<span style="color:#f92672">.</span>plt<span style="color:#f92672">.</span>ylabel(<span style="color:#e6db74">&#39;loss&#39;</span>)
+    d2l<span style="color:#f92672">.</span>plt<span style="color:#f92672">.</span>legend()
+    d2l<span style="color:#f92672">.</span>plt<span style="color:#f92672">.</span>show()</code></pre></div>
+<p>设置num_epochs为2，即可得出针对验证集的曲线图：</p>
 
-<ol>
-<li>找一个合适的预测函数，而函数的输出必须只有两个值，所以这里利用逻辑函数（或称Sigmoid函数），形式如下，图像是一个取值为0到1的S型曲线。
-$$ g(z) = \frac{1}{1+e^{-z}} $$</li>
-<li>构造损失函数。这里的损失函数和$ J(\theta) $函数都是通过最大似然估计推导得到的。</li>
-<li>找到$ J(\theta) $函数的最小值。寻找函数最小值有许多方法，如梯度下降法。</li>
-</ol>
-
-<p>具体公式及推导可参考：<a href="https://blog.csdn.net/ligang_csdn/article/details/53838743">https://blog.csdn.net/ligang_csdn/article/details/53838743</a></p>
-
-<h2 id="tensorflow实现">TensorFlow实现</h2>
-
-<p>数据集使用Andrew Ng机器学习课程中的ex2data1.txt，根据学生的两次考试成绩判断该学生是否会被录取。数据有3组，前2组为两次考试成绩，第3组为是否被录取，1代表被录取，0则没有被录取。</p>
-
-<p>首先需要将数据读入并分离。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">df <span style="color:#f92672">=</span> pd<span style="color:#f92672">.</span>read_csv(<span style="color:#e6db74">&#34;ex2data1.txt&#34;</span>, header<span style="color:#f92672">=</span>None)
-train_data <span style="color:#f92672">=</span> df<span style="color:#f92672">.</span>values
-
-train_X <span style="color:#f92672">=</span> train_data[:, :<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#75715e"># 前两组</span>
-train_y <span style="color:#f92672">=</span> train_data[:, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>:] <span style="color:#75715e"># 第三组</span>
-
-feature_num <span style="color:#f92672">=</span> len(train_X[<span style="color:#ae81ff">0</span>]) <span style="color:#75715e"># 特征数，本例为2</span>
-sample_num <span style="color:#f92672">=</span> len(train_X) <span style="color:#75715e"># 样例数，本例为100</span></code></pre></div>
-<p>然后定义数据集和训练目标，其中W为权值矩阵，b为偏置量。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># 定义数据集</span>
-X <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>placeholder(tf<span style="color:#f92672">.</span>float32)
-y <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>placeholder(tf<span style="color:#f92672">.</span>float32)
-<span style="color:#75715e"># 训练</span>
-W <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>Variable(tf<span style="color:#f92672">.</span>zeros([feature_num, <span style="color:#ae81ff">1</span>]))
-b <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>Variable([<span style="color:#f92672">-</span><span style="color:#ae81ff">0.9</span>]) <span style="color:#75715e"># -0.9为自定义</span></code></pre></div>
-<p>接下来定义预测函数和损失函数，并进行优化。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">db <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>matmul(X, tf<span style="color:#f92672">.</span>reshape(W, [<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>])) <span style="color:#f92672">+</span> b
-hyp <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>sigmoid(db) <span style="color:#75715e"># 预测函数</span>
-
-cost0 <span style="color:#f92672">=</span> y <span style="color:#f92672">*</span> tf<span style="color:#f92672">.</span>log(hyp)
-cost1 <span style="color:#f92672">=</span> (<span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> y) <span style="color:#f92672">*</span> tf<span style="color:#f92672">.</span>log(<span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> hyp)
-cost <span style="color:#f92672">=</span> (cost0 <span style="color:#f92672">+</span> cost1) <span style="color:#f92672">/</span> <span style="color:#f92672">-</span>sample_num <span style="color:#75715e"># J(θ)函数</span>
-loss <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>reduce_sum(cost) <span style="color:#75715e"># 损失函数</span>
-train <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>train<span style="color:#f92672">.</span>GradientDescentOptimizer(<span style="color:#ae81ff">0.001</span>)<span style="color:#f92672">.</span>minimize(loss) <span style="color:#75715e"># 使用梯度下降法，学习率0.001</span></code></pre></div>
-<p>下一步开始训练。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">with</span> tf<span style="color:#f92672">.</span>Session() <span style="color:#66d9ef">as</span> sess:
-    sess<span style="color:#f92672">.</span>run(tf<span style="color:#f92672">.</span>global_variables_initializer())
-    <span style="color:#66d9ef">for</span> step <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">1000000</span>): <span style="color:#75715e"># 进行一百万次训练</span>
-        sess<span style="color:#f92672">.</span>run(train, {X: train_X, y: train_y})
-        <span style="color:#66d9ef">if</span> step <span style="color:#f92672">%</span> <span style="color:#ae81ff">100</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>:
-            <span style="color:#66d9ef">print</span>(step, sess<span style="color:#f92672">.</span>run(W)<span style="color:#f92672">.</span>flatten(), sess<span style="color:#f92672">.</span>run(b)<span style="color:#f92672">.</span>flatten())</code></pre></div>
-<p>最后进行可视化，最终得出的图像如下：
-<img src="https://vozhuo.tk/img/Logistic regression.png" alt="" /></p>
-
-<p>参考资料：
-<a href="https://segmentfault.com/a/1190000009954640">从零开始使用TensorFlow建立简单的逻辑回归模型</a></p></article>
+<p><img src="https://vozhuo.tk/img/mxnet-loss.png" alt="" /></p></article>
     <footer class="post-footer">
       
       <ul class="post-tags">
         
-          <li><a href="https://vozhuo.tk/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0"><span class="tag">机器学习</span></a></li>
+          <li><a href="https://vozhuo.tk/tags/mxnet"><span class="tag">MXNet</span></a></li>
         
-          <li><a href="https://vozhuo.tk/tags/tensorflow"><span class="tag">TensorFlow</span></a></li>
-        
-          <li><a href="https://vozhuo.tk/tags/python"><span class="tag">Python</span></a></li>
+          <li><a href="https://vozhuo.tk/tags/kaggle"><span class="tag">Kaggle</span></a></li>
         
       </ul>
       
       <p class="post-copyright">
-        © 2019 VozhuoThis post was published <strong>127</strong> days ago, content in the post may be inaccurate, even wrong now, please take risk yourself.
+        © 2019 Vozhuo
       </p>
     </footer>
     
@@ -271,7 +244,7 @@ train <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span
       <div id="cyReward" role="cylabs" data-use="reward"></div>
       <script src="//changyan.itc.cn/js/lib/jquery.js"></script>
       <script src="//changyan.sohu.com/js/changyan.labs.https.js?appid=cyu1JCtWI"></script>
-      <div id="SOHUCS" sid="/post/machine-learning-logistic-regression/" ></div>
+      <div id="SOHUCS" sid="/post/kaggle-gluon-dog/" ></div>
       <script>
       (function(){
       var appid = 'cyu1JCtWI';
