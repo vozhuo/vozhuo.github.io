@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>深度学习之生成模型</title>
+
+  
+  
+  <link href="//cdn.jsdelivr.net" rel="dns-prefetch">
+  <link href="//cdnjs.cloudflare.com" rel="dns-prefetch">
+  <link href="//at.alicdn.com" rel="dns-prefetch">
+  <link href="//fonts.googleapis.com" rel="dns-prefetch">
+  <link href="//fonts.gstatic.com" rel="dns-prefetch">
+  
+  
+  
+  <link href="//www.google-analytics.com" rel="dns-prefetch">
+  <link href="//hm.baidu.com" rel="dns-prefetch">
+
+  
+
+  
+  
+  <meta name="description" content="PiexlRNN/CNN 使用概率链式法则计算一张图片出现的概率，其中每一项为给定前i-1个像素点后第i个像素点的条件概率分布。此分布通过RNN（LSTM）/CNN来建模，再通过最大化图片x的似然学习RNN/CNN的参数。
+">
+
+  
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@gohugoio">
+    <meta name="twitter:title" content="深度学习之生成模型">
+    <meta name="twitter:description" content="PiexlRNN/CNN 使用概率链式法则计算一张图片出现的概率，其中每一项为给定前i-1个像素点后第i个像素点的条件概率分布。此分布通过RNN（LSTM）/CNN来建模，再通过最大化图片x的似然学习RNN/CNN的参数。
+">
+    <meta name="twitter:image" content="/images/avatar-vozhuo.png">
+  
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="深度学习之生成模型">
+  <meta property="og:description" content="PiexlRNN/CNN 使用概率链式法则计算一张图片出现的概率，其中每一项为给定前i-1个像素点后第i个像素点的条件概率分布。此分布通过RNN（LSTM）/CNN来建模，再通过最大化图片x的似然学习RNN/CNN的参数。
+">
+  <meta property="og:url" content="https://vozhuo.tk/post/deep-learning-generative-model/">
+  <meta property="og:image" content="/images/avatar-vozhuo.png">
+
+
+
+
+<meta name="generator" content="Hugo 0.54.0">
+
+
+<link rel="canonical" href="https://vozhuo.tk/post/deep-learning-generative-model/">
+
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="format-detection" content="telephone=no,email=no,adress=no">
+<meta http-equiv="Cache-Control" content="no-transform">
+
+
+<meta name="robots" content="index,follow">
+<meta name="referrer" content="origin-when-cross-origin">
+
+
+
+
+
+
+
+<meta name="theme-color" content="#02b875">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Vozhuo&#39;s Blog">
+<meta name="msapplication-tooltip" content="Vozhuo&#39;s Blog">
+<meta name='msapplication-navbutton-color' content="#02b875">
+<meta name="msapplication-TileColor" content="#02b875">
+<meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+<link rel="icon" href="https://vozhuo.tk/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://vozhuo.tk/icons/icon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://vozhuo.tk/icons/icon-32x32.png">
+<link rel="icon" sizes="192x192" href="https://vozhuo.tk/icons/icon-192x192.png">
+<link rel="apple-touch-icon" href="https://vozhuo.tk/icons/icon-152x152.png">
+<link rel="manifest" href="https://vozhuo.tk/manifest.json">
+
+
+<link rel="preload" href="https://vozhuo.tk/styles/main.min.css" as="style">
+<link rel="preload" href="https://vozhuo.tk/styles/custom.min.css" as="style">
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Lobster" as="style">
+<link rel="preload" href="https://vozhuo.tk/images/avatar-vozhuo.png" as="image">
+<link rel="preload" href="https://vozhuo.tk/images/grey-prism.svg" as="image">
+
+
+<style>
+  body {
+    background: rgb(244, 243, 241) url('/images/grey-prism.svg') repeat fixed;
+  }
+</style>
+<link rel="stylesheet" href="https://vozhuo.tk/styles/main.min.css">
+<link rel="stylesheet" href="https://vozhuo.tk/styles/custom.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.2/dist/medium-zoom.min.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video-js.min.css">
+
+
+
+  
+  
+<!--[if lte IE 8]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ie8@1.1.2/dist/videojs-ie8.min.js"></script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20180112/classList.min.js"></script>
+<![endif]-->
+
+
+</head>
+  <body>
+    
+    <div class="suspension">
+      <a role="button" aria-label="Go to top" title="Go to top" class="to-top is-hide"><span class="icon icon-up" aria-hidden="true"></span></a>
+      
+        
+        <a role="button" aria-label="Go to comments" title="Go to comments" class="to-comment" href="#SOHUCS"><span class="icon icon-comment" aria-hidden="true"></span></a>
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <img class="avatar" src="https://vozhuo.tk/images/avatar-vozhuo.png" alt="Avatar">
+  
+  <h2 class="title">Vozhuo&#39;s Blog</h2>
+  
+  <p class="subtitle">May you rest in a deep and restless slumber.</p>
+  <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
+    <span class="icon icon-menu" aria-hidden="true"></span>
+  </button>
+
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+        <li class="menu-item
+          
+          
+           is-active">
+          <a href="https://vozhuo.tk/">主页</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="https://vozhuo.tk/tags/">标签</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="https://vozhuo.tk/about/">关于</a>
+        </li>
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list"><li class="social-item">
+          <a href="mailto:qsx753698@outlook.com" title="Email" aria-label="Email">
+            <span class="icon icon-email" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//github.com/vozhuo" title="GitHub" aria-label="GitHub">
+            <span class="icon icon-github" aria-hidden="true"></span>
+          </a>
+        </li></ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">深度学习之生成模型</h1>
+      <p class="post-meta">@Vozhuo · Apr 14, 2019 · 1 min read</p>
+    </header>
+    <article class="post-content"><h2 id="piexlrnn-cnn">PiexlRNN/CNN</h2>
+
+<p>使用概率链式法则计算一张图片出现的概率，其中每一项为给定前i-1个像素点后第i个像素点的条件概率分布。此分布通过RNN（LSTM）/CNN来建模，再通过最大化图片x的似然学习RNN/CNN的参数。</p>
+
+<p>无论是PiexlRNN还是PixelCNN，预测时都需要从左上角开始逐个像素点地生成图片，因此预测阶段都比较慢。</p>
+
+<h2 id="变分自编码器-variational-auto-encoder-vae">变分自编码器（Variational Auto-Encoder，VAE）</h2>
+
+<p>自编码器：输入图像通过卷积层（编码器）生成潜在变量，解卷积层（解码器）将潜在变量还原回原始图像。通过减小输入和输出图像的误差，达到非监督学习的目的。</p>
+
+<p>自编码器只能依靠通过原始图像产生潜在变量，而不能随意产生合理的潜在变量。而变分自编码器对编码器添加约束，迫使其产生服从单位高斯分布的潜在变量。那么就可以从单位高斯分布中采样出一个潜在向量，并将其传到解码器，从而生成新的图像。</p>
+
+<p><img src="https://vozhuo.tk/img/vae.png" width="50%" height="50%"></p>
+
+<p>由于采样操作对 μ 和 σ 是不可导，导致无法进行反向传播。为了解决这个问题，需要用到重参数化的一个技巧：生成一个均值向量一个标准差向量，而非直接生成实值向量。在计算解码网络的误差时，我们只需从标准差中取样，再加上均值向量，就能得到我们的潜在向量。</p>
+
+<p>优点：可直接把生成的图像同原始图像进行对比，这是GAN做不到的。</p>
+
+<p>不足：直接采用均方误差而非对抗网络，所以网络倾向于生成更为模糊的图像。</p>
+
+<h2 id="生成对抗网络-gan">生成对抗网络（GAN）</h2>
+
+<p>GAN有两个主要组成部分，生成器（Generator）和判别器（Discriminator）。生成网络采用随机输入，尝试输出数据样本。生成器产生一个数据，将其送入判别器网络。鉴别网络的任务是接收真实数据或者生成数据，并尝试预测输入是真实还是生成的。</p>
+
+<p>循环k次更新判别器之后，使用较小的学习率来更新一次生成器的参数，训练生成器使其尽可能减小生成样本与真实样本之间的差距。最终理想情况是使得判别器无法判断样本来自于生成器输出还是真实输出。</p>
+
+<p>参考资料：</p>
+
+<p><a href="https://juejin.im/post/598972735188256de4693951">https://juejin.im/post/598972735188256de4693951</a></p>
+
+<p><a href="https://zhuanlan.zhihu.com/p/33752313">https://zhuanlan.zhihu.com/p/33752313</a></p></article>
+    <footer class="post-footer">
+      
+      <ul class="post-tags">
+        
+          <li><a href="https://vozhuo.tk/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0"><span class="tag">深度学习</span></a></li>
+        
+          <li><a href="https://vozhuo.tk/tags/%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B"><span class="tag">生成模型</span></a></li>
+        
+      </ul>
+      
+      <p class="post-copyright">
+        © 2019 Vozhuo
+      </p>
+    </footer>
+    
+      
+      <div id="cyReward" role="cylabs" data-use="reward"></div>
+      <script src="//changyan.itc.cn/js/lib/jquery.js"></script>
+      <script src="//changyan.sohu.com/js/changyan.labs.https.js?appid=cyu1JCtWI"></script>
+      <div id="SOHUCS" sid="/post/deep-learning-generative-model/" ></div>
+      <script>
+      (function(){
+      var appid = 'cyu1JCtWI';
+      var conf = 'prod_87a280f2532c26d97430235e5cb8bd2f';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
+      
+    
+  </section>
+  
+<footer class="site-footer">
+  <p>© 2017-2019 Vozhuo&#39;s Blog</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank" rel="noopener">Nuo</a>.</p>
+  
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@15.0.0/dist/smooth-scroll.min.js"></script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video.min.js"></script>
+
+
+
+
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    },
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+
+
+<script src="https://vozhuo.tk/scripts/index.min.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('\/service-worker.js').then(function() {
+      console.log('[ServiceWorker] Registered');
+    });
+  }
+</script>
+
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-74583706-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?4cfb60f6b668e48d81b6f4b916461bd7";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+  </body>
+</html>

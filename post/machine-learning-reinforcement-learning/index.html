@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>机器学习之强化学习</title>
+
+  
+  
+  <link href="//cdn.jsdelivr.net" rel="dns-prefetch">
+  <link href="//cdnjs.cloudflare.com" rel="dns-prefetch">
+  <link href="//at.alicdn.com" rel="dns-prefetch">
+  <link href="//fonts.googleapis.com" rel="dns-prefetch">
+  <link href="//fonts.gstatic.com" rel="dns-prefetch">
+  
+  
+  
+  <link href="//www.google-analytics.com" rel="dns-prefetch">
+  <link href="//hm.baidu.com" rel="dns-prefetch">
+
+  
+
+  
+  
+  <meta name="description" content="强化学习是机器学习的子领域之一。智能体（Agent）通过与环境（Environment）互动，来学习采取何种行动（Action）能使其在给定环境中的奖励（Reward）最大化。
+">
+
+  
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@gohugoio">
+    <meta name="twitter:title" content="机器学习之强化学习">
+    <meta name="twitter:description" content="强化学习是机器学习的子领域之一。智能体（Agent）通过与环境（Environment）互动，来学习采取何种行动（Action）能使其在给定环境中的奖励（Reward）最大化。
+">
+    <meta name="twitter:image" content="/images/avatar-vozhuo.png">
+  
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="机器学习之强化学习">
+  <meta property="og:description" content="强化学习是机器学习的子领域之一。智能体（Agent）通过与环境（Environment）互动，来学习采取何种行动（Action）能使其在给定环境中的奖励（Reward）最大化。
+">
+  <meta property="og:url" content="https://vozhuo.tk/post/machine-learning-reinforcement-learning/">
+  <meta property="og:image" content="/images/avatar-vozhuo.png">
+
+
+
+
+<meta name="generator" content="Hugo 0.54.0">
+
+
+<link rel="canonical" href="https://vozhuo.tk/post/machine-learning-reinforcement-learning/">
+
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="format-detection" content="telephone=no,email=no,adress=no">
+<meta http-equiv="Cache-Control" content="no-transform">
+
+
+<meta name="robots" content="index,follow">
+<meta name="referrer" content="origin-when-cross-origin">
+
+
+
+
+
+
+
+<meta name="theme-color" content="#02b875">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Vozhuo&#39;s Blog">
+<meta name="msapplication-tooltip" content="Vozhuo&#39;s Blog">
+<meta name='msapplication-navbutton-color' content="#02b875">
+<meta name="msapplication-TileColor" content="#02b875">
+<meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+<link rel="icon" href="https://vozhuo.tk/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://vozhuo.tk/icons/icon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://vozhuo.tk/icons/icon-32x32.png">
+<link rel="icon" sizes="192x192" href="https://vozhuo.tk/icons/icon-192x192.png">
+<link rel="apple-touch-icon" href="https://vozhuo.tk/icons/icon-152x152.png">
+<link rel="manifest" href="https://vozhuo.tk/manifest.json">
+
+
+<link rel="preload" href="https://vozhuo.tk/styles/main.min.css" as="style">
+<link rel="preload" href="https://vozhuo.tk/styles/custom.min.css" as="style">
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Lobster" as="style">
+<link rel="preload" href="https://vozhuo.tk/images/avatar-vozhuo.png" as="image">
+<link rel="preload" href="https://vozhuo.tk/images/grey-prism.svg" as="image">
+
+
+<style>
+  body {
+    background: rgb(244, 243, 241) url('/images/grey-prism.svg') repeat fixed;
+  }
+</style>
+<link rel="stylesheet" href="https://vozhuo.tk/styles/main.min.css">
+<link rel="stylesheet" href="https://vozhuo.tk/styles/custom.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.2/dist/medium-zoom.min.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video-js.min.css">
+
+
+
+  
+  
+<!--[if lte IE 8]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ie8@1.1.2/dist/videojs-ie8.min.js"></script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20180112/classList.min.js"></script>
+<![endif]-->
+
+
+</head>
+  <body>
+    
+    <div class="suspension">
+      <a role="button" aria-label="Go to top" title="Go to top" class="to-top is-hide"><span class="icon icon-up" aria-hidden="true"></span></a>
+      
+        
+        <a role="button" aria-label="Go to comments" title="Go to comments" class="to-comment" href="#SOHUCS"><span class="icon icon-comment" aria-hidden="true"></span></a>
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <img class="avatar" src="https://vozhuo.tk/images/avatar-vozhuo.png" alt="Avatar">
+  
+  <h2 class="title">Vozhuo&#39;s Blog</h2>
+  
+  <p class="subtitle">May you rest in a deep and restless slumber.</p>
+  <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
+    <span class="icon icon-menu" aria-hidden="true"></span>
+  </button>
+
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+        <li class="menu-item
+          
+          
+           is-active">
+          <a href="https://vozhuo.tk/">主页</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="https://vozhuo.tk/tags/">标签</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="https://vozhuo.tk/about/">关于</a>
+        </li>
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list"><li class="social-item">
+          <a href="mailto:qsx753698@outlook.com" title="Email" aria-label="Email">
+            <span class="icon icon-email" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//github.com/vozhuo" title="GitHub" aria-label="GitHub">
+            <span class="icon icon-github" aria-hidden="true"></span>
+          </a>
+        </li></ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">机器学习之强化学习</h1>
+      <p class="post-meta">@Vozhuo · Apr 14, 2019 · 1 min read</p>
+    </header>
+    <article class="post-content"><p>强化学习是机器学习的子领域之一。智能体（Agent）通过与环境（Environment）互动，来学习采取何种行动（Action）能使其在给定环境中的奖励（Reward）最大化。</p>
+
+<p><img src="https://vozhuo.tk/img/reinforcement.png" width="50%" height="50%"></p>
+
+<h2 id="马尔可夫决策过程-markov-decision-process-mdp">马尔可夫决策过程（Markov Decision Process, MDP）</h2>
+
+<p>MDP用于解决最优化问题。即对于每个时间节点，当该过程处于某状态时，决策者可采取在该状态下被允许的任意决策，此后下一步系统状态将随机产生，同时回馈给决策者相应的期望值，该状态转移具有马尔可夫性质。
+马尔可夫决策过程的核心问题是寻找最优策略组合，即在一系列决策的组合下，决策者将得到最大期望值。</p>
+
+<p>求解最优策略有以下几个著名方法：</p>
+
+<h2 id="q-learning">Q learning</h2>
+
+<p>Q为动作效用函数（action-utility function），用于评价在特定状态下采取某个动作的优劣，可以理解为智能体（Agent）的大脑。
+创建一个表格Q-Table。通过它，我们可以为每一个状态（State）上进行的每一个动作（Action）计算出最大的未来奖励（Reward）的期望。</p>
+
+<p><img src="https://vozhuo.tk/img/q-table.png" width="30%" height="30%"></p>
+
+<h3 id="dqn-deep-q-network">DQN (Deep Q Network)</h3>
+
+<p>DeepMind的研究项目，结合了深度学习与纯强化学习。我们可以将状态和动作当成神经网络的输入, 然后经过神经网络分析后得到动作的Q值, 这样我们就没必要在表格中记录Q值, 而是直接使用神经网络生成Q值。</p>
+
+<h2 id="sarsa-state-action-reward-state-action">Sarsa（State–action–reward–state–action）</h2>
+
+<p>Sarsa和Q-Learning是非常类似的，二者在决策环节都是基于Q表，但是区别在于Sarsa的更新方式不一样。
+当Sarsa 和 Q-Learning处在状态s时，均选择可带来最大回报的动作a，这样可到达状态s’。而下一步，Q-Learning会观察在s’上哪个动作会带来最大回报（不会真正执行该动作，仅用来更新Q表），在s’上做决定时, 再基于更新后的Q表选择动作。而Sarsa在状态s’估算的动作也是接下来要执行的动作。</p>
+
+<p>基于二者差异，称Sarsa为On-policy（在线学习），Q-Learning为Off-policy（离线学习）。</p>
+
+<h2 id="policy-gradients">Policy Gradients</h2>
+
+<p>上面两种方法都是基于值的学习方法，Policy Gradients是一种基于策略的学习方法，网络不会输出Q值，而是直接输出动作或动作的概率。基本原理是通过反馈调整策略，具体来说就是在得到正向奖励时，增加相应的动作的概率；得到负向的奖励时，降低相应动作的概率。</p>
+
+<h2 id="actor-critic">Actor Critic</h2>
+
+<p>Actor Critic结合基于值的Q learning和基于策略的Policy Gradients两类强化学习算法。其中Actor决定采取哪种行动，Critic告诉Actor行动怎么样以及如何调整。</p>
+
+<p>参考资料：</p>
+
+<p><a href="https://morvanzhou.github.io/tutorials/machine-learning/reinforcement-learning/">https://morvanzhou.github.io/tutorials/machine-learning/reinforcement-learning/</a></p>
+
+<p><a href="https://www.jiqizhixin.com/articles/2018-04-17-3">https://www.jiqizhixin.com/articles/2018-04-17-3</a></p>
+
+<p><a href="https://blog.csdn.net/itplus/article/details/9361915">https://blog.csdn.net/itplus/article/details/9361915</a></p></article>
+    <footer class="post-footer">
+      
+      <ul class="post-tags">
+        
+          <li><a href="https://vozhuo.tk/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0"><span class="tag">机器学习</span></a></li>
+        
+          <li><a href="https://vozhuo.tk/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0"><span class="tag">强化学习</span></a></li>
+        
+      </ul>
+      
+      <p class="post-copyright">
+        © 2019 Vozhuo
+      </p>
+    </footer>
+    
+      
+      <div id="cyReward" role="cylabs" data-use="reward"></div>
+      <script src="//changyan.itc.cn/js/lib/jquery.js"></script>
+      <script src="//changyan.sohu.com/js/changyan.labs.https.js?appid=cyu1JCtWI"></script>
+      <div id="SOHUCS" sid="/post/machine-learning-reinforcement-learning/" ></div>
+      <script>
+      (function(){
+      var appid = 'cyu1JCtWI';
+      var conf = 'prod_87a280f2532c26d97430235e5cb8bd2f';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
+      
+    
+  </section>
+  
+<footer class="site-footer">
+  <p>© 2017-2019 Vozhuo&#39;s Blog</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank" rel="noopener">Nuo</a>.</p>
+  
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@15.0.0/dist/smooth-scroll.min.js"></script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video.min.js"></script>
+
+
+
+
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    },
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+
+
+<script src="https://vozhuo.tk/scripts/index.min.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('\/service-worker.js').then(function() {
+      console.log('[ServiceWorker] Registered');
+    });
+  }
+</script>
+
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-74583706-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?4cfb60f6b668e48d81b6f4b916461bd7";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+  </body>
+</html>
