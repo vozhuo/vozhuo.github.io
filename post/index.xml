@@ -7,10 +7,30 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-Hans</language>
     <copyright>© 2019 Vozhuo</copyright>
-    <lastBuildDate>Fri, 10 May 2019 16:24:50 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 19 May 2019 20:39:15 +0800</lastBuildDate>
     
 	<atom:link href="https://vozhuo.tk/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>[转载]有关晚清、民国现实思考的浮光掠影</title>
+      <link>https://vozhuo.tk/post/for-the-sake-of-the-republic-review/</link>
+      <pubDate>Sun, 19 May 2019 20:39:15 +0800</pubDate>
+      
+      <guid>https://vozhuo.tk/post/for-the-sake-of-the-republic-review/</guid>
+      <description>&lt;p&gt;来源：&lt;a href=&#34;https://movie.douban.com/review/2071637/&#34;&gt;豆瓣&lt;/a&gt;，对格式略有整理，本文发布于2009年。&lt;/p&gt;
+
+&lt;p&gt;最近重看《走向共和》以及看了一些关于民国、晚清的文章，很有感触。中国是个从来没有停止过折腾的国家，总是在绕弯子了想图省便，吝啬抗争，结果比任何一个开明国家走的更曲折、流了更多血。一个民族经此曲折，至今依然矛盾重重，很难相信中国人总在表扬自己的有智慧。一些感触散乱记下，供学史的人一笑。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>全卷积网络学习笔记</title>
+      <link>https://vozhuo.tk/post/fcn-note/</link>
+      <pubDate>Sun, 19 May 2019 20:30:41 +0800</pubDate>
+      
+      <guid>https://vozhuo.tk/post/fcn-note/</guid>
+      <description>&lt;p&gt;全卷积网络（FCN）对图像进行像素级的分类，用于语义分割。FCN与CNN的主要区别在于，FCN将传统CNN中的全连接层转化为1 * 1的卷积层。与传统的CNN网络不同，FCN可以接受任意尺寸的输入图像，然后采用反卷积进行上采样，使之恢复到与输入图像相同的尺寸，从而可以预测每个像素。&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>Mask R-CNN关键技术分析</title>

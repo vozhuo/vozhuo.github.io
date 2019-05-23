@@ -8,6 +8,16 @@
   </url>
   
   <url>
+    <loc>https://vozhuo.tk/post/for-the-sake-of-the-republic-review/</loc>
+    <lastmod>2019-05-19T20:39:15+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://vozhuo.tk/post/fcn-note/</loc>
+    <lastmod>2019-05-19T20:30:41+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://vozhuo.tk/post/mask-rcnn-key-methods/</loc>
     <lastmod>2019-05-10T16:24:50+08:00</lastmod>
   </url>
@@ -283,7 +293,7 @@
   
   <url>
     <loc>https://vozhuo.tk/post/</loc>
-    <lastmod>2019-05-10T16:24:50+08:00</lastmod>
+    <lastmod>2019-05-19T20:39:15+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -326,6 +336,18 @@
   <url>
     <loc>https://vozhuo.tk/tags/webview/</loc>
     <lastmod>2018-09-04T00:00:00+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://vozhuo.tk/tags/%E5%85%A8%E5%8D%B7%E7%A7%AF%E7%BD%91%E7%BB%9C/</loc>
+    <lastmod>2019-05-19T20:30:41+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://vozhuo.tk/tags/%E5%89%A7%E8%AF%84/</loc>
+    <lastmod>2019-05-19T20:39:15+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -420,8 +442,20 @@
   </url>
   
   <url>
+    <loc>https://vozhuo.tk/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/</loc>
+    <lastmod>2019-05-19T20:30:41+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://vozhuo.tk/tags/%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%95/</loc>
     <lastmod>2018-10-07T13:48:36+00:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://vozhuo.tk/tags/%E8%B5%B0%E5%90%91%E5%85%B1%E5%92%8C/</loc>
+    <lastmod>2019-05-19T20:39:15+08:00</lastmod>
     <priority>0</priority>
   </url>
   
