@@ -7,10 +7,44 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-Hans</language>
     <copyright>© 2019 Vozhuo</copyright>
-    <lastBuildDate>Sun, 19 May 2019 20:39:15 +0800</lastBuildDate>
+    <lastBuildDate>Sat, 01 Jun 2019 19:25:06 +0800</lastBuildDate>
     
 	<atom:link href="https://vozhuo.tk/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>图神经网络初探</title>
+      <link>https://vozhuo.tk/post/gnn-view/</link>
+      <pubDate>Sat, 01 Jun 2019 19:25:06 +0800</pubDate>
+      
+      <guid>https://vozhuo.tk/post/gnn-view/</guid>
+      <description>&lt;h2 id=&#34;背景&#34;&gt;背景&lt;/h2&gt;
+
+&lt;p&gt;深度学习取得成功的领域主要来源于欧几里得数据（如2维网格的图像和1维序列的文本），但现实生活中还存在大量的非欧几里得数据，如社交网络、电商网络、生物网络和交通网络等。尚未出现对这些数据的有效分析。例如，在电子商务领域，一个基于图的学习系统能够利用用户和产品之间的交互以实现高度精准的推荐。在化学领域，分子被建模为图，新药研发需要测定其生物活性。在论文引用网络中，论文之间通过引用关系互相连接，需要将它们分成不同的类别。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Relation Networks for Object Detection阅读笔记</title>
+      <link>https://vozhuo.tk/post/rn-for-object-dection-note/</link>
+      <pubDate>Sun, 26 May 2019 18:55:01 +0800</pubDate>
+      
+      <guid>https://vozhuo.tk/post/rn-for-object-dection-note/</guid>
+      <description>&lt;p&gt;来源：&lt;a href=&#34;https://arxiv.org/abs/1711.11575&#34;&gt;https://arxiv.org/abs/1711.11575&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;会议&lt;/strong&gt;：
+CVPR 2018 ORAL&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;作者&lt;/strong&gt;：
+Han Hu /
+Jiayuan Gu /
+Zheng Zhang /
+Jifeng Dai /
+Yichen Wei /&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;机构&lt;/strong&gt;：
+Microsoft Research Asia /
+Department of Machine Intelligence, School of EECS, Peking University&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>[转载]有关晚清、民国现实思考的浮光掠影</title>
