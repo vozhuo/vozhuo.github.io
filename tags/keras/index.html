@@ -5,7 +5,11 @@
   <meta charset="utf-8" />
 
   
-  <title>Hexo迁移至Hugo</title>
+  <title>
+  Tag → keras
+  
+   | Vozhuo&#39;s Blog
+</title>
 
   
   
@@ -23,26 +27,21 @@
   
 
   
-  
-  <meta name="description" content="本站使用的静态博客框架已从Hexo迁移至Hugo。Hugo生成博客的速度要远大于Hexo，不过主题没有Hexo多。我选择的主题是Hugo Nuo。
-">
+  <meta name="author" content="Vozhuo">
+  <meta name="description" content="Vozhuo">
 
   
-  
-    <meta name="twitter:card" content="summary">
-    <meta name="twitter:site" content="@gohugoio">
-    <meta name="twitter:title" content="Hexo迁移至Hugo">
-    <meta name="twitter:description" content="本站使用的静态博客框架已从Hexo迁移至Hugo。Hugo生成博客的速度要远大于Hexo，不过主题没有Hexo多。我选择的主题是Hugo Nuo。
-">
-    <meta name="twitter:image" content="/images/avatar-vozhuo.png">
-  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:site" content="@gohugoio">
+  <meta name="twitter:title" content="Vozhuo&#39;s Blog">
+  <meta name="twitter:description" content="Vozhuo">
+  <meta name="twitter:image" content="/images/avatar-vozhuo.png">
 
   
-  <meta property="og:type" content="article">
-  <meta property="og:title" content="Hexo迁移至Hugo">
-  <meta property="og:description" content="本站使用的静态博客框架已从Hexo迁移至Hugo。Hugo生成博客的速度要远大于Hexo，不过主题没有Hexo多。我选择的主题是Hugo Nuo。
-">
-  <meta property="og:url" content="https://vozhuo.tk/post/from-hexo-to-hugo/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Vozhuo&#39;s Blog">
+  <meta property="og:description" content="Vozhuo">
+  <meta property="og:url" content="https://vozhuo.tk/tags/keras/">
   <meta property="og:image" content="/images/avatar-vozhuo.png">
 
 
@@ -51,7 +50,8 @@
 <meta name="generator" content="Hugo 0.54.0">
 
 
-<link rel="canonical" href="https://vozhuo.tk/post/from-hexo-to-hugo/">
+<link rel="canonical" href="https://vozhuo.tk/tags/keras/">
+<link rel="alternate" type="application/rss+xml" href="https://vozhuo.tk/tags/keras/index.xml" title="Vozhuo's Blog">
 
 <meta name="renderer" content="webkit">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -104,12 +104,8 @@
 
 
 
-<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.2/dist/medium-zoom.min.js"></script>
 
 
-
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video-js.min.css">
 
 
 
@@ -131,10 +127,6 @@
     
     <div class="suspension">
       <a role="button" aria-label="Go to top" title="Go to top" class="to-top is-hide"><span class="icon icon-up" aria-hidden="true"></span></a>
-      
-        
-        <a role="button" aria-label="Go to comments" title="Go to comments" class="to-comment" href="#SOHUCS"><span class="icon icon-comment" aria-hidden="true"></span></a>
-        
       
     </div>
     
@@ -159,13 +151,13 @@
         <li class="menu-item
           
           
-           is-active">
+          ">
           <a href="https://vozhuo.tk/">主页</a>
         </li>
       
         <li class="menu-item
           
-          
+           is-active
           ">
           <a href="https://vozhuo.tk/tags/">标签</a>
         </li>
@@ -193,53 +185,28 @@
   </nav>
 </header>
 
-  <section class="main post-detail">
-    <header class="post-header">
-      <h1 class="post-title">Hexo迁移至Hugo</h1>
-      <p class="post-meta">@Vozhuo · Mar 9, 2019 · 1 min read</p>
+  <section class="main post-list">
+    <header class="list-header offscreen">
+      <h2 class="list-label">Posts List</h2>
     </header>
-    <article class="post-content"><p>本站使用的静态博客框架已从Hexo迁移至<a href="https://gohugo.io/">Hugo</a>。Hugo生成博客的速度要远大于Hexo，不过主题没有Hexo多。我选择的主题是<a href="https://github.com/laozhu/hugo-nuo">Hugo Nuo</a>。</p>
-
-<p>Hugo没有像Hexo那样专门的部署命令deploy，所以为了方便，需要自己写一个部署脚本。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bat" data-lang="bat">@<span style="color:#66d9ef">echo</span> off
-<span style="color:#66d9ef">echo</span> &#39;Generating...&#39;
-hugo
-<span style="color:#66d9ef">cd</span> public
-git add -A
-git commit -m &#39;Updating&#39;
-
-<span style="color:#66d9ef">echo</span> &#39;Deploying...&#39;
-git push
-
-<span style="color:#66d9ef">echo</span> &#39;Done&#39;
-
-<span style="color:#66d9ef">cd</span> ..</code></pre></div></article>
-    <footer class="post-footer">
-      
-      <ul class="post-tags">
-        
-          <li><a href="https://vozhuo.tk/tags/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA"><span class="tag">博客搭建</span></a></li>
-        
-      </ul>
-      
-      <p class="post-copyright">
-        © 2019 VozhuoThis post was published <strong>119</strong> days ago, content in the post may be inaccurate, even wrong now, please take risk yourself.
-      </p>
-    </footer>
+    
     
       
-      <div id="cyReward" role="cylabs" data-use="reward"></div>
-      <script src="//changyan.itc.cn/js/lib/jquery.js"></script>
-      <script src="//changyan.sohu.com/js/changyan.labs.https.js?appid=cyu1JCtWI"></script>
-      <div id="SOHUCS" sid="/post/from-hexo-to-hugo/" ></div>
-      <script>
-      (function(){
-      var appid = 'cyu1JCtWI';
-      var conf = 'prod_87a280f2532c26d97430235e5cb8bd2f';
-      var width = window.innerWidth || document.documentElement.clientWidth;
-      if (width < 960) {
-      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
+        <article class="post-entry">
+  <header class="post-header">
+    <h3 class="post-title"><a href="https://vozhuo.tk/post/keras-image-classification/" class="post-link">使用Keras做花卉图像分类</a></h3>
+    <p class="post-meta">2019-07-07 · 1 min read</p>
+  </header>
+  
+  <p class="post-summary">本文使用Keras预训练的模型做图片分类，下载花卉图像数据集的方法参考TensorFlow教程。此数据集共有5种花卉，将花卉图片重新组织为训练集和测试集。
+</p>
+  <footer class="post-footer">
+    <a class="read-more" href="https://vozhuo.tk/post/keras-image-classification/">Read More →</a>
+  </footer>
+</article>
+
       
+    
     
   </section>
   
@@ -254,33 +221,8 @@ git push
 
 
 
-<script async src="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video.min.js"></script>
 
 
-
-
-<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({
-    tex2jax: {
-      inlineMath: [['$','$'], ['\\(','\\)']],
-      displayMath: [['$$','$$'], ['\\[','\\]']],
-      processEscapes: true,
-      processEnvironments: true,
-      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
-      TeX: { equationNumbers: { autoNumber: "AMS" },
-      extensions: ["AMSmath.js", "AMSsymbols.js"] }
-    },
-  });
-</script>
-<script type="text/x-mathjax-config">
-  // Fix <code> tags after MathJax finishes running. This is a
-  // hack to overcome a shortcoming of Markdown. Discussion at
-  // https://github.com/mojombo/jekyll/issues/199
-  MathJax.Hub.Queue(() => {
-    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
-  });
-</script>
 
 
 

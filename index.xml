@@ -22,6 +22,15 @@
     </item>
     
     <item>
+      <title>使用Keras做花卉图像分类</title>
+      <link>https://vozhuo.tk/post/keras-image-classification/</link>
+      <pubDate>Sun, 07 Jul 2019 11:28:07 +0800</pubDate>
+      
+      <guid>https://vozhuo.tk/post/keras-image-classification/</guid>
+      <description>&lt;p&gt;本文使用Keras预训练的模型做图片分类，下载花卉图像数据集的方法参考&lt;a href=&#34;https://www.tensorflow.org/tutorials/load_data/images&#34;&gt;TensorFlow教程&lt;/a&gt;。此数据集共有5种花卉，将花卉图片重新组织为训练集和测试集。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
       <title>图神经网络初探</title>
       <link>https://vozhuo.tk/post/gnn-view/</link>
       <pubDate>Sat, 01 Jun 2019 19:25:06 +0800</pubDate>

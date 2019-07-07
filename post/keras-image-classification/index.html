@@ -5,7 +5,7 @@
   <meta charset="utf-8" />
 
   
-  <title>毕设项目中的开源库</title>
+  <title>使用Keras做花卉图像分类</title>
 
   
   
@@ -24,31 +24,25 @@
 
   
   
-  <meta name="description" content="这篇博文分享一下我在毕业设计开发时用到的一些开源库和技术。
-Aria 用于实现WebView的文件下载功能，我们知道原生的WebView是没有下载功能的，所以需要自己实现。我并没有这方面的知识，从网上看了一些资料后，最终选择了Aria，使用效果还是不错的。
-BRVAH 全名BaseRecyclerViewAdapterHelper，是一个RecyclerAdapter框架。我的项目使用了很多RecyclerView，而定义Adapter是个很头疼的事情，太多重复的工作。项目使用此框架后精简了很多代码，此外它还有Item点击事件、列表加载动画、拖拽/滑动删除等一系列实用的功能。
+  <meta name="description" content="本文使用Keras预训练的模型做图片分类，下载花卉图像数据集的方法参考TensorFlow教程。此数据集共有5种花卉，将花卉图片重新组织为训练集和测试集。
 ">
 
   
   
     <meta name="twitter:card" content="summary">
     <meta name="twitter:site" content="@gohugoio">
-    <meta name="twitter:title" content="毕设项目中的开源库">
-    <meta name="twitter:description" content="这篇博文分享一下我在毕业设计开发时用到的一些开源库和技术。
-Aria 用于实现WebView的文件下载功能，我们知道原生的WebView是没有下载功能的，所以需要自己实现。我并没有这方面的知识，从网上看了一些资料后，最终选择了Aria，使用效果还是不错的。
-BRVAH 全名BaseRecyclerViewAdapterHelper，是一个RecyclerAdapter框架。我的项目使用了很多RecyclerView，而定义Adapter是个很头疼的事情，太多重复的工作。项目使用此框架后精简了很多代码，此外它还有Item点击事件、列表加载动画、拖拽/滑动删除等一系列实用的功能。
+    <meta name="twitter:title" content="使用Keras做花卉图像分类">
+    <meta name="twitter:description" content="本文使用Keras预训练的模型做图片分类，下载花卉图像数据集的方法参考TensorFlow教程。此数据集共有5种花卉，将花卉图片重新组织为训练集和测试集。
 ">
     <meta name="twitter:image" content="/images/avatar-vozhuo.png">
   
 
   
   <meta property="og:type" content="article">
-  <meta property="og:title" content="毕设项目中的开源库">
-  <meta property="og:description" content="这篇博文分享一下我在毕业设计开发时用到的一些开源库和技术。
-Aria 用于实现WebView的文件下载功能，我们知道原生的WebView是没有下载功能的，所以需要自己实现。我并没有这方面的知识，从网上看了一些资料后，最终选择了Aria，使用效果还是不错的。
-BRVAH 全名BaseRecyclerViewAdapterHelper，是一个RecyclerAdapter框架。我的项目使用了很多RecyclerView，而定义Adapter是个很头疼的事情，太多重复的工作。项目使用此框架后精简了很多代码，此外它还有Item点击事件、列表加载动画、拖拽/滑动删除等一系列实用的功能。
+  <meta property="og:title" content="使用Keras做花卉图像分类">
+  <meta property="og:description" content="本文使用Keras预训练的模型做图片分类，下载花卉图像数据集的方法参考TensorFlow教程。此数据集共有5种花卉，将花卉图片重新组织为训练集和测试集。
 ">
-  <meta property="og:url" content="https://vozhuo.tk/post/android_project_dependencies/">
+  <meta property="og:url" content="https://vozhuo.tk/post/keras-image-classification/">
   <meta property="og:image" content="/images/avatar-vozhuo.png">
 
 
@@ -57,7 +51,7 @@ BRVAH 全名BaseRecyclerViewAdapterHelper，是一个RecyclerAdapter框架。我
 <meta name="generator" content="Hugo 0.54.0">
 
 
-<link rel="canonical" href="https://vozhuo.tk/post/android_project_dependencies/">
+<link rel="canonical" href="https://vozhuo.tk/post/keras-image-classification/">
 
 <meta name="renderer" content="webkit">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -201,38 +195,65 @@ BRVAH 全名BaseRecyclerViewAdapterHelper，是一个RecyclerAdapter框架。我
 
   <section class="main post-detail">
     <header class="post-header">
-      <h1 class="post-title">毕设项目中的开源库</h1>
-      <p class="post-meta">@Vozhuo · Sep 4, 2018 · 1 min read</p>
+      <h1 class="post-title">使用Keras做花卉图像分类</h1>
+      <p class="post-meta">@Vozhuo · Jul 7, 2019 · 1 min read</p>
     </header>
-    <article class="post-content"><p>这篇博文分享一下我在毕业设计开发时用到的一些开源库和技术。</p>
+    <article class="post-content"><p>本文使用Keras预训练的模型做图片分类，下载花卉图像数据集的方法参考<a href="https://www.tensorflow.org/tutorials/load_data/images">TensorFlow教程</a>。此数据集共有5种花卉，将花卉图片重新组织为训练集和测试集。</p>
 
-<h1 id="aria-https-github-com-arialyy-aria"><a href="https://github.com/AriaLyy/Aria">Aria</a></h1>
+<p>首先利用Keras的ImageDataGenerator函数进行数据增强，然后从文件目录中读取训练集和测试集。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">train_aug <span style="color:#f92672">=</span> ImageDataGenerator(
+        rescale<span style="color:#f92672">=</span><span style="color:#ae81ff">1.</span><span style="color:#f92672">/</span><span style="color:#ae81ff">255</span>,
+        shear_range<span style="color:#f92672">=</span><span style="color:#ae81ff">0.2</span>,
+        zoom_range<span style="color:#f92672">=</span><span style="color:#ae81ff">0.2</span>,
+        horizontal_flip<span style="color:#f92672">=</span>True)
 
-<p>用于实现WebView的文件下载功能，我们知道原生的WebView是没有下载功能的，所以需要自己实现。我并没有这方面的知识，从网上看了一些资料后，最终选择了Aria，使用效果还是不错的。</p>
+test_aug <span style="color:#f92672">=</span> ImageDataGenerator(rescale<span style="color:#f92672">=</span><span style="color:#ae81ff">1.</span><span style="color:#f92672">/</span><span style="color:#ae81ff">255</span>)
 
-<h1 id="brvah-https-github-com-cymchad-baserecyclerviewadapterhelper"><a href="https://github.com/CymChad/BaseRecyclerViewAdapterHelper">BRVAH</a></h1>
+train_generator <span style="color:#f92672">=</span> train_aug<span style="color:#f92672">.</span>flow_from_directory(
+        os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(ROOT_DIR, <span style="color:#e6db74">&#39;flower_photos/train&#39;</span>),
+        target_size<span style="color:#f92672">=</span>(<span style="color:#ae81ff">224</span>, <span style="color:#ae81ff">224</span>),
+        batch_size<span style="color:#f92672">=</span><span style="color:#ae81ff">32</span>)
 
-<p>全名BaseRecyclerViewAdapterHelper，是一个RecyclerAdapter框架。我的项目使用了很多RecyclerView，而定义Adapter是个很头疼的事情，太多重复的工作。项目使用此框架后精简了很多代码，此外它还有Item点击事件、列表加载动画、拖拽/滑动删除等一系列实用的功能。</p>
+validation_generator <span style="color:#f92672">=</span> test_aug<span style="color:#f92672">.</span>flow_from_directory(
+        os<span style="color:#f92672">.</span>path<span style="color:#f92672">.</span>join(ROOT_DIR, <span style="color:#e6db74">&#39;flower_photos/test&#39;</span>),
+        target_size<span style="color:#f92672">=</span>(<span style="color:#ae81ff">224</span>, <span style="color:#ae81ff">224</span>),
+        batch_size<span style="color:#f92672">=</span><span style="color:#ae81ff">32</span>)</code></pre></div>
+<p>使用Keras的VGG16模型进行微调，以便用于新数据集。参考<a href="https://keras.io/applications/">官方文档</a>中的代码。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">base_model <span style="color:#f92672">=</span> VGG16(weights<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;imagenet&#39;</span>, include_top<span style="color:#f92672">=</span>False)
 
-<h1 id="circleimageview-https-github-com-hdodenhof-circleimageview"><a href="https://github.com/hdodenhof/CircleImageView">CircleImageView</a></h1>
+x <span style="color:#f92672">=</span> base_model<span style="color:#f92672">.</span>output
+x <span style="color:#f92672">=</span> GlobalAveragePooling2D()(x)
+x <span style="color:#f92672">=</span> Dense(<span style="color:#ae81ff">1024</span>, activation<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;relu&#39;</span>)(x)
+<span style="color:#75715e"># 预测五类</span>
+predictions <span style="color:#f92672">=</span> Dense(<span style="color:#ae81ff">5</span>, activation<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;softmax&#39;</span>)(x)
 
-<p>一个简单的圆形ImageView控件。</p>
+model <span style="color:#f92672">=</span> Model(inputs<span style="color:#f92672">=</span>base_model<span style="color:#f92672">.</span>input, outputs<span style="color:#f92672">=</span>predictions)
+<span style="color:#75715e"># 冻结原模型的层，仅训练添加后的层</span>
+<span style="color:#66d9ef">for</span> layer <span style="color:#f92672">in</span> base_model<span style="color:#f92672">.</span>layers:
+    layer<span style="color:#f92672">.</span>trainable <span style="color:#f92672">=</span> False</code></pre></div>
+<p>编译并运行模型。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">model<span style="color:#f92672">.</span>compile(optimizer<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;adam&#39;</span>, loss<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;categorical_crossentropy&#39;</span>, metrics<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;accuracy&#39;</span>])
+model<span style="color:#f92672">.</span>fit_generator(
+        train_generator,
+        steps_per_epoch<span style="color:#f92672">=</span>len(train_generator),
+        epochs<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>,
+        validation_data<span style="color:#f92672">=</span>validation_generator,
+        validation_steps<span style="color:#f92672">=</span>len(validation_generator))</code></pre></div>
+<p>参考资料：</p>
 
-<h1 id="butterknife-https-github-com-jakewharton-butterknife-和-data-binding-https-developer-android-com-topic-libraries-data-binding"><a href="https://github.com/JakeWharton/butterknife">ButterKnife</a>和<a href="https://developer.android.com/topic/libraries/data-binding/">Data Binding</a></h1>
-
-<p>这两个都是Android的数据绑定框架，专门解决类似findViewById的问题，可以节省很多代码量。项目前期使用ButterKnife，后来改用了Data Binding，毕竟这是Google官方的东西。</p></article>
+<p><a href="https://blog.csdn.net/learning_tortosie/article/details/85243310">如何使用Keras fit和fit_generator（动手教程）</a></p></article>
     <footer class="post-footer">
       
       <ul class="post-tags">
         
-          <li><a href="https://vozhuo.tk/tags/android"><span class="tag">Android</span></a></li>
+          <li><a href="https://vozhuo.tk/tags/keras"><span class="tag">Keras</span></a></li>
         
-          <li><a href="https://vozhuo.tk/tags/github"><span class="tag">GitHub</span></a></li>
+          <li><a href="https://vozhuo.tk/tags/%E5%9B%BE%E5%83%8F%E5%88%86%E7%B1%BB"><span class="tag">图像分类</span></a></li>
         
       </ul>
       
       <p class="post-copyright">
-        © 2019 VozhuoThis post was published <strong>305</strong> days ago, content in the post may be inaccurate, even wrong now, please take risk yourself.
+        © 2019 Vozhuo
       </p>
     </footer>
     
@@ -240,7 +261,7 @@ BRVAH 全名BaseRecyclerViewAdapterHelper，是一个RecyclerAdapter框架。我
       <div id="cyReward" role="cylabs" data-use="reward"></div>
       <script src="//changyan.itc.cn/js/lib/jquery.js"></script>
       <script src="//changyan.sohu.com/js/changyan.labs.https.js?appid=cyu1JCtWI"></script>
-      <div id="SOHUCS" sid="/post/android_project_dependencies/" ></div>
+      <div id="SOHUCS" sid="/post/keras-image-classification/" ></div>
       <script>
       (function(){
       var appid = 'cyu1JCtWI';
