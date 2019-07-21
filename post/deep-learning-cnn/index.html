@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>深度学习之卷积神经网络</title>
+
+  
+  
+  <link href="//cdn.jsdelivr.net" rel="dns-prefetch">
+  <link href="//cdnjs.cloudflare.com" rel="dns-prefetch">
+  
+  <link href="//at.alicdn.com" rel="dns-prefetch">
+  
+  <link href="//fonts.googleapis.com" rel="dns-prefetch">
+  <link href="//fonts.gstatic.com" rel="dns-prefetch">
+  
+  
+  
+  <link href="//www.google-analytics.com" rel="dns-prefetch">
+  <link href="//hm.baidu.com" rel="dns-prefetch">
+
+  
+
+  
+  
+  <meta name="description" content="概念 当输入的图片尺寸较大时，深度神经网络将不再适用。卷积神经网络从而出现，可用于解决计算机视觉问题。卷积运算是卷积神经网络的重要部分，一个应用是图像边缘检测。Padding和步长是卷积运算的两个重要参数。Valid卷积：无Padding；Same卷积：加入Padding使输出与输入图片的大小相同。
+">
+
+  
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@gohugoio">
+    <meta name="twitter:title" content="深度学习之卷积神经网络">
+    <meta name="twitter:description" content="概念 当输入的图片尺寸较大时，深度神经网络将不再适用。卷积神经网络从而出现，可用于解决计算机视觉问题。卷积运算是卷积神经网络的重要部分，一个应用是图像边缘检测。Padding和步长是卷积运算的两个重要参数。Valid卷积：无Padding；Same卷积：加入Padding使输出与输入图片的大小相同。
+">
+    <meta name="twitter:image" content="/images/avatar.png">
+  
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="深度学习之卷积神经网络">
+  <meta property="og:description" content="概念 当输入的图片尺寸较大时，深度神经网络将不再适用。卷积神经网络从而出现，可用于解决计算机视觉问题。卷积运算是卷积神经网络的重要部分，一个应用是图像边缘检测。Padding和步长是卷积运算的两个重要参数。Valid卷积：无Padding；Same卷积：加入Padding使输出与输入图片的大小相同。
+">
+  <meta property="og:url" content="/post/deep-learning-cnn/">
+  <meta property="og:image" content="/images/avatar.png">
+
+
+
+
+<meta name="generator" content="Hugo 0.55.6">
+
+
+<link rel="canonical" href="/post/deep-learning-cnn/">
+
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="format-detection" content="telephone=no,email=no,adress=no">
+<meta http-equiv="Cache-Control" content="no-transform">
+
+
+<meta name="robots" content="index,follow">
+<meta name="referrer" content="origin-when-cross-origin">
+
+
+
+
+
+
+
+<meta name="theme-color" content="#02b875">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Vozhuo&#39;s Blog">
+<meta name="msapplication-tooltip" content="Vozhuo&#39;s Blog">
+<meta name='msapplication-navbutton-color' content="#02b875">
+<meta name="msapplication-TileColor" content="#02b875">
+<meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png">
+<link rel="icon" sizes="192x192" href="/icons/icon-192x192.png">
+<link rel="apple-touch-icon" href="/icons/icon-152x152.png">
+<link rel="manifest" href="/manifest.json">
+
+
+<link rel="preload" href="/styles/main-rendered.min.css" as="style">
+
+<link rel="preload" href="/styles/custom.min.css" as="style">
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Lobster" as="style">
+<link rel="preload" href="/images/avatar.png" as="image">
+<link rel="preload" href="/images/grey-prism.svg" as="image">
+
+
+<style>
+  body {
+    background: rgb(244, 243, 241) url('/images/grey-prism.svg') repeat fixed;
+  }
+</style>
+<link rel="stylesheet" href="/styles/main-rendered.min.css">
+
+<link rel="stylesheet" href="/styles/custom.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.2/dist/medium-zoom.min.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video-js.min.css">
+
+
+
+  
+  
+<!--[if lte IE 8]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ie8@1.1.2/dist/videojs-ie8.min.js"></script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20180112/classList.min.js"></script>
+<![endif]-->
+
+
+</head>
+  <body>
+    <div class="suspension">
+      <a role="button" aria-label="Go to top" title="Go to top" class="to-top is-hide"><span class="icon icon-up" aria-hidden="true"></span></a>
+      
+        
+	<a role="button" aria-label="Go to comments" title="Go to comments" class="to-comment" href="#SOHUCS"><span class="icon icon-comment" aria-hidden="true"></span></a>
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <a href=""><img class="avatar" src="/images/avatar.png" alt="Avatar"></a>
+  
+  <h2 class="title"><a href="">Vozhuo&#39;s Blog</a></h2>
+  
+  <p class="subtitle">May you rest in a deep and restless slumber.</p>
+  <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
+    <span class="icon icon-menu" aria-hidden="true"></span>
+  </button>
+
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+        <li class="menu-item
+          
+          
+           is-active">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list"><li class="social-item">
+          <a href="mailto:qsx753698@outlook.com" title="Email" aria-label="Email">
+            <span class="icon icon-email" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//github.com/vozhuo" rel="me" title="GitHub" aria-label="GitHub">
+	    <span class="icon icon-github" aria-hidden="true"></span>
+          </a>
+        </li></ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">深度学习之卷积神经网络</h1>
+      <p class="post-meta">@Vozhuo · Jan 9, 2019 · 2 min read</p>
+    </header>
+    <article class="post-content"><h2 id="概念">概念</h2>
+
+<p>当输入的图片尺寸较大时，深度神经网络将不再适用。卷积神经网络从而出现，可用于解决计算机视觉问题。卷积运算是卷积神经网络的重要部分，一个应用是图像边缘检测。Padding和步长是卷积运算的两个重要参数。Valid卷积：无Padding；Same卷积：加入Padding使输出与输入图片的大小相同。</p>
+
+<p>在彩色图像中，图片有R、G、B三个颜色通道，此时应使用三维卷积方法。在卷积神经网络中，卷积网络层有卷积层（Convolution）、池化层（Pooling）和全连接层（Fully connected）。池化分为最大池化和平均池化，前者在缩小特征图时使用区域最大值代表池化后的值，后者则使用平均值。和卷积层不同，池化层没有需要学习的参数。</p>
+
+<p>一个完整的卷积神经网络遵循如下模式：Conv—Pool—Conv—Pool—Fc—Fc—Fc—Softmax。与普通的全连接神经网络相比，卷积神经网络涉及的参数更少，且有参数共享、连接稀疏性等特点。</p>
+
+<p>以下示例为卷积层的前向传播代码：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">conv_forward</span>(A_prev, W, b, hparameters):
+    <span style="color:#75715e"># 前一个值A_prev维度大小</span>
+    (m, n_H_prev, n_W_prev, n_C_prev) <span style="color:#f92672">=</span> A_prev<span style="color:#f92672">.</span>shape
+    <span style="color:#75715e"># W维度大小</span>
+    (f, f, n_C_prev, n_C) <span style="color:#f92672">=</span> W<span style="color:#f92672">.</span>shape
+    <span style="color:#75715e"># 从hparameters分离参数</span>
+    stride <span style="color:#f92672">=</span> hparameters[<span style="color:#e6db74">&#39;stride&#39;</span>]
+    pad <span style="color:#f92672">=</span> hparameters[<span style="color:#e6db74">&#39;pad&#39;</span>]
+    <span style="color:#75715e"># 根据公式计算卷积层输出大小</span>
+    n_H <span style="color:#f92672">=</span> int((n_H_prev <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> pad <span style="color:#f92672">-</span> f) <span style="color:#f92672">/</span> stride <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>)
+    n_W <span style="color:#f92672">=</span> int((n_W_prev <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> pad <span style="color:#f92672">-</span> f) <span style="color:#f92672">/</span> stride <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>)
+    <span style="color:#75715e"># 初始化输出值Z</span>
+    Z <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>zeros((m, n_H, n_W, n_C))
+    <span style="color:#75715e"># 为A_prev填充元素</span>
+    A_prev_pad <span style="color:#f92672">=</span> zero_pad(A_prev, pad)
+    <span style="color:#75715e"># 迭代</span>
+    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(m):
+        a_prev_pad <span style="color:#f92672">=</span> A_prev_pad[i, :, :, :] <span style="color:#75715e"># 选择第i个训练样例</span>
+        <span style="color:#66d9ef">for</span> h <span style="color:#f92672">in</span> range(n_H): <span style="color:#75715e"># 遍历输出值的各个维度以赋值</span>
+            <span style="color:#66d9ef">for</span> w <span style="color:#f92672">in</span> range(n_W):
+                <span style="color:#66d9ef">for</span> c <span style="color:#f92672">in</span> range(n_C):
+                    <span style="color:#75715e"># 找到当前切片的边缘</span>
+                    vert_start <span style="color:#f92672">=</span> h <span style="color:#f92672">*</span> stride
+                    vert_end <span style="color:#f92672">=</span> vert_start <span style="color:#f92672">+</span> f
+                    horiz_start <span style="color:#f92672">=</span> w <span style="color:#f92672">*</span> stride
+                    horiz_end <span style="color:#f92672">=</span> horiz_start <span style="color:#f92672">+</span> f
+                    <span style="color:#75715e"># 定义切片</span>
+                    a_slice_prev <span style="color:#f92672">=</span> a_prev_pad[vert_start : vert_end, horiz_start : horiz_end, :]
+                    <span style="color:#75715e"># 使用过滤器W和偏置b卷积切片，获得输出神经元。</span>
+                    Z[i, h, w, c] <span style="color:#f92672">=</span> conv_single_step(a_slice_prev, W[:,:,:,c], b[:,:,:,c])
+    <span style="color:#75715e"># 保存信息</span>
+    cache <span style="color:#f92672">=</span> (A_prev, W, b, hparameters)
+    <span style="color:#66d9ef">return</span> Z, cache</code></pre></div>
+<p>以下使用TensorFlow实现整个前向传播过程：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">forward_propagation</span>(X, parameters):
+    W1 <span style="color:#f92672">=</span> parameters[<span style="color:#e6db74">&#39;W1&#39;</span>]
+    W2 <span style="color:#f92672">=</span> parameters[<span style="color:#e6db74">&#39;W2&#39;</span>]
+    <span style="color:#75715e"># 卷积层</span>
+    Z1 <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>nn<span style="color:#f92672">.</span>conv2d(X,W1, strides <span style="color:#f92672">=</span> [<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>], padding <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;SAME&#39;</span>)
+    <span style="color:#75715e"># ReLU激活函数</span>
+    A1 <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>nn<span style="color:#f92672">.</span>relu(Z1)
+    <span style="color:#75715e"># 最大池化</span>
+    P1 <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>nn<span style="color:#f92672">.</span>max_pool(A1, ksize <span style="color:#f92672">=</span> [<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">8</span>,<span style="color:#ae81ff">8</span>,<span style="color:#ae81ff">1</span>], strides <span style="color:#f92672">=</span> [<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">8</span>,<span style="color:#ae81ff">8</span>,<span style="color:#ae81ff">1</span>], padding <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;SAME&#39;</span>)
+    <span style="color:#75715e"># 卷积层</span>
+    Z2 <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>nn<span style="color:#f92672">.</span>conv2d(P1,W2, strides <span style="color:#f92672">=</span> [<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>], padding <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;SAME&#39;</span>)
+    <span style="color:#75715e"># ReLU激活函数</span>
+    A2 <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>nn<span style="color:#f92672">.</span>relu(Z2)
+    <span style="color:#75715e"># 最大池化</span>
+    P2 <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>nn<span style="color:#f92672">.</span>max_pool(A2, ksize <span style="color:#f92672">=</span> [<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">4</span>,<span style="color:#ae81ff">4</span>,<span style="color:#ae81ff">1</span>], strides <span style="color:#f92672">=</span> [<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">4</span>,<span style="color:#ae81ff">4</span>,<span style="color:#ae81ff">1</span>], padding <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;SAME&#39;</span>)
+    <span style="color:#75715e"># 展开成一维</span>
+    P2 <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>contrib<span style="color:#f92672">.</span>layers<span style="color:#f92672">.</span>flatten(P2)
+    <span style="color:#75715e">#  全连接层，输出层中有6个神经元。后期需调用Softmax。</span>
+    Z3 <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>contrib<span style="color:#f92672">.</span>layers<span style="color:#f92672">.</span>fully_connected(P2, <span style="color:#ae81ff">6</span>, activation_fn<span style="color:#f92672">=</span>None)
+    <span style="color:#66d9ef">return</span> Z3</code></pre></div>
+<h2 id="经典卷积网络">经典卷积网络</h2>
+
+<h3 id="lenet">LeNet</h3>
+
+<p>LeNet-5主要针对灰度图片设计，输入为$ 32\times32\times1 $。通常一个卷积层后面接一个池化层。随着网络深度增加，图像大小不断缩小，通道数量不断增加。</p>
+
+<h3 id="alexnet">AlexNet</h3>
+
+<p>AlexNet主要处理彩色图片，其网络结构与LeNet相似，但规模更大，使用ReLU激活函数和多个GPU。</p>
+
+<h3 id="vggnet">VGGNet</h3>
+
+<p>VGG-16使用$3\times3$，stride=1的SAME卷积层和$2\times2$， stride=2的池化层。</p>
+
+<h2 id="resnet">ResNet</h2>
+
+<p>ResNet由残差块构建。普通的神经网络块传输如下图所示：</p>
+
+<p><img src="/img/nn.jpg" alt="" /></p>
+
+<p>ResNet块则在传播过程中增加了一个从$ a^{[l]}$ 直接到 $z^{[l+2]}$ 的连接，称为“short cut”或者“skip connection”。前向传播公式的最后一个步骤变为： $a^{[l+2]} = g(z^{[l+2]}+a^{[l]})$</p>
+
+<p>多个残差块堆积起来构成ResNet网络结构。对于中间的激活函数来说，ResNet有助于达到更深的网络，解决梯度消失和梯度爆炸问题。</p>
+
+<h2 id="inception-network">Inception Network</h2>
+
+<p>在Inception Network中，我们无需考虑使用何种网络层及网络层大小问题。在Inception结构中，应用不同的卷积核以及池化层，计算结果叠加，增加通道数量。</p>
+
+<h2 id="迁移学习">迁移学习</h2>
+
+<p>如果我们的模型只有少量数据集，可以使用迁移学习应用其他研究者建立的模型和参数，仅训练最后自定义的Softmax网络。如果自己也有大量数据集，则可以多训练后面的几层，必要时可训练所有的参数。</p></article>
+    <footer class="post-footer">
+      
+      <ul class="post-tags">
+        
+          <li><a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0"><span class="tag">深度学习</span></a></li>
+        
+          <li><a href="/tags/tenorflow"><span class="tag">TenorFlow</span></a></li>
+        
+      </ul>
+      
+      <p class="post-copyright">
+        © 2019 VozhuoThis post was published <strong>192</strong> days ago, content in the post may be inaccurate, even wrong now, please take risk yourself.
+      </p>
+    </footer>
+    
+      
+      <div id="cyReward" role="cylabs" data-use="reward"></div>
+      <script src="//changyan.itc.cn/js/lib/jquery.js"></script>
+      <script src="//changyan.sohu.com/js/changyan.labs.https.js?appid=cyu1JCtWI"></script>
+      <div id="SOHUCS" sid="/post/deep-learning-cnn/" ></div>
+      <script>
+      (function(){
+      var appid = 'cyu1JCtWI';
+      var conf = 'prod_87a280f2532c26d97430235e5cb8bd2f';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
+      
+    
+  </section>
+  
+<footer class="site-footer">
+  <p>© 2017-2019 Vozhuo&#39;s Blog</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank" rel="noopener">Nuo</a>.</p>
+  
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@15.0.0/dist/smooth-scroll.min.js"></script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video.min.js"></script>
+
+
+
+
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    },
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+
+
+<script src="/scripts/index.min.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('\/service-worker.js').then(function() {
+      console.log('[ServiceWorker] Registered');
+    });
+  }
+</script>
+
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-74583706-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?4cfb60f6b668e48d81b6f4b916461bd7";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+  </body>
+</html>

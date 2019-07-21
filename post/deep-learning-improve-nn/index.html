@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>深度学习之改善深层神经网络</title>
+
+  
+  
+  <link href="//cdn.jsdelivr.net" rel="dns-prefetch">
+  <link href="//cdnjs.cloudflare.com" rel="dns-prefetch">
+  
+  <link href="//at.alicdn.com" rel="dns-prefetch">
+  
+  <link href="//fonts.googleapis.com" rel="dns-prefetch">
+  <link href="//fonts.gstatic.com" rel="dns-prefetch">
+  
+  
+  
+  <link href="//www.google-analytics.com" rel="dns-prefetch">
+  <link href="//hm.baidu.com" rel="dns-prefetch">
+
+  
+
+  
+  
+  <meta name="description" content="本文主要叙述神经网络的数据集、偏差与方差、正则化、随机失活、归一化输入、梯度消失与梯度爆炸、梯度检验等要点。
+数据集 在建立神经网络模型前，我们要将数据集划分为三个部分：训练集、交叉验证集和测试集。欠拟合的情况下，出现高偏差；过拟合的情况下，出现高方差。出现高偏差时，可以使用增加隐藏层数目、加长训练时间等方法解决。出现高方差时，可以使用增加训练数据、正则化等方法解决。
+">
+
+  
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@gohugoio">
+    <meta name="twitter:title" content="深度学习之改善深层神经网络">
+    <meta name="twitter:description" content="本文主要叙述神经网络的数据集、偏差与方差、正则化、随机失活、归一化输入、梯度消失与梯度爆炸、梯度检验等要点。
+数据集 在建立神经网络模型前，我们要将数据集划分为三个部分：训练集、交叉验证集和测试集。欠拟合的情况下，出现高偏差；过拟合的情况下，出现高方差。出现高偏差时，可以使用增加隐藏层数目、加长训练时间等方法解决。出现高方差时，可以使用增加训练数据、正则化等方法解决。
+">
+    <meta name="twitter:image" content="/images/avatar.png">
+  
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="深度学习之改善深层神经网络">
+  <meta property="og:description" content="本文主要叙述神经网络的数据集、偏差与方差、正则化、随机失活、归一化输入、梯度消失与梯度爆炸、梯度检验等要点。
+数据集 在建立神经网络模型前，我们要将数据集划分为三个部分：训练集、交叉验证集和测试集。欠拟合的情况下，出现高偏差；过拟合的情况下，出现高方差。出现高偏差时，可以使用增加隐藏层数目、加长训练时间等方法解决。出现高方差时，可以使用增加训练数据、正则化等方法解决。
+">
+  <meta property="og:url" content="/post/deep-learning-improve-nn/">
+  <meta property="og:image" content="/images/avatar.png">
+
+
+
+
+<meta name="generator" content="Hugo 0.55.6">
+
+
+<link rel="canonical" href="/post/deep-learning-improve-nn/">
+
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="format-detection" content="telephone=no,email=no,adress=no">
+<meta http-equiv="Cache-Control" content="no-transform">
+
+
+<meta name="robots" content="index,follow">
+<meta name="referrer" content="origin-when-cross-origin">
+
+
+
+
+
+
+
+<meta name="theme-color" content="#02b875">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Vozhuo&#39;s Blog">
+<meta name="msapplication-tooltip" content="Vozhuo&#39;s Blog">
+<meta name='msapplication-navbutton-color' content="#02b875">
+<meta name="msapplication-TileColor" content="#02b875">
+<meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png">
+<link rel="icon" sizes="192x192" href="/icons/icon-192x192.png">
+<link rel="apple-touch-icon" href="/icons/icon-152x152.png">
+<link rel="manifest" href="/manifest.json">
+
+
+<link rel="preload" href="/styles/main-rendered.min.css" as="style">
+
+<link rel="preload" href="/styles/custom.min.css" as="style">
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Lobster" as="style">
+<link rel="preload" href="/images/avatar.png" as="image">
+<link rel="preload" href="/images/grey-prism.svg" as="image">
+
+
+<style>
+  body {
+    background: rgb(244, 243, 241) url('/images/grey-prism.svg') repeat fixed;
+  }
+</style>
+<link rel="stylesheet" href="/styles/main-rendered.min.css">
+
+<link rel="stylesheet" href="/styles/custom.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.2/dist/medium-zoom.min.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video-js.min.css">
+
+
+
+  
+  
+<!--[if lte IE 8]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ie8@1.1.2/dist/videojs-ie8.min.js"></script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20180112/classList.min.js"></script>
+<![endif]-->
+
+
+</head>
+  <body>
+    <div class="suspension">
+      <a role="button" aria-label="Go to top" title="Go to top" class="to-top is-hide"><span class="icon icon-up" aria-hidden="true"></span></a>
+      
+        
+	<a role="button" aria-label="Go to comments" title="Go to comments" class="to-comment" href="#SOHUCS"><span class="icon icon-comment" aria-hidden="true"></span></a>
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <a href=""><img class="avatar" src="/images/avatar.png" alt="Avatar"></a>
+  
+  <h2 class="title"><a href="">Vozhuo&#39;s Blog</a></h2>
+  
+  <p class="subtitle">May you rest in a deep and restless slumber.</p>
+  <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
+    <span class="icon icon-menu" aria-hidden="true"></span>
+  </button>
+
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+        <li class="menu-item
+          
+          
+           is-active">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list"><li class="social-item">
+          <a href="mailto:qsx753698@outlook.com" title="Email" aria-label="Email">
+            <span class="icon icon-email" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//github.com/vozhuo" rel="me" title="GitHub" aria-label="GitHub">
+	    <span class="icon icon-github" aria-hidden="true"></span>
+          </a>
+        </li></ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">深度学习之改善深层神经网络</h1>
+      <p class="post-meta">@Vozhuo · Dec 13, 2018 · 2 min read</p>
+    </header>
+    <article class="post-content"><p>本文主要叙述神经网络的数据集、偏差与方差、正则化、随机失活、归一化输入、梯度消失与梯度爆炸、梯度检验等要点。</p>
+
+<h2 id="数据集">数据集</h2>
+
+<p>在建立神经网络模型前，我们要将数据集划分为三个部分：训练集、交叉验证集和测试集。欠拟合的情况下，出现高偏差；过拟合的情况下，出现高方差。出现高偏差时，可以使用增加隐藏层数目、加长训练时间等方法解决。出现高方差时，可以使用增加训练数据、正则化等方法解决。</p>
+
+<h2 id="正则化">正则化</h2>
+
+<p>正则化是指在成本函数中加入一项正则化项，以降低模型的复杂度。比较常用的正则化方法是L2正则化。当正则化因子$\lambda$设置的足够大时，权重矩阵W的值会接近于0，消除了很多神经元的权重，从而减小过拟合。</p>
+
+<p>另外一个正则化方法是随机失活。在神经网络的某些层，为随机消除某些神经元，也可以达到降低复杂度的目的。在实际应用中，一般采用反向随机失活方法。随机失活的一个缺点是，其使得成本函数不能被明确定义，因为每次迭代都会随机消除一些神经元结点。</p>
+
+<p>随机失活方法的核心代码如下，针对第一个隐藏层。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">keep_prob <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span> <span style="color:#75715e"># 随机失活概率</span>
+Z1 <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>dot(W1, X) <span style="color:#f92672">+</span> b1
+A1 <span style="color:#f92672">=</span> relu(Z1)
+<span style="color:#75715e"># 前向传播，以下针对A1进行随机失活</span>
+D1 <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>rand(A1<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">0</span>], A1<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">1</span>])
+D1 <span style="color:#f92672">=</span> D1 <span style="color:#f92672">&lt;</span> keep_prob <span style="color:#75715e"># 转为布尔矩阵</span>
+A1 <span style="color:#f92672">=</span> D1 <span style="color:#f92672">*</span> A1 <span style="color:#75715e"># 随机将矩阵中的数置零</span>
+A1 <span style="color:#f92672">=</span> A1 <span style="color:#f92672">/</span> keep_prob <span style="color:#75715e"># 保持期望值与未进行随机失活时相同，此方法称为反向随机失活</span>
+<span style="color:#75715e"># 反向传播，以下针对dA1</span>
+dA1 <span style="color:#f92672">=</span> dA1 <span style="color:#f92672">*</span> D1 <span style="color:#75715e"># 使用之前计算的D1关闭神经元，使之与前向传播相同</span>
+dA1 <span style="color:#f92672">=</span> dA1 <span style="color:#f92672">/</span> keep_prob <span style="color:#75715e"># 放大剩余神经元的值，保持期望</span></code></pre></div>
+<p>其他正则化方法有数据扩增、早停法等。早停法是指在交叉验证集的误差上升前停止迭代，避免过拟合。其缺点是无法独立处理偏差与方差的优化。</p>
+
+<h2 id="归一化">归一化</h2>
+
+<p>归一化也称标准化，将数据限制在一定范围内，避免某些特征权重差距过大，从而加快梯度下降求最优解的速度。方法有线性归一化、标准差归一化和非线性归一化。</p>
+
+<h2 id="梯度">梯度</h2>
+
+<p>在计算梯度时，可能出现梯度指数级递增和递减的情况，分别称为梯度爆炸和梯度消失。这涉及到参数初始化的问题，可使用Xavier（或Glorot）初始化和He初始化等方法解决。He初始化的方法如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">initialize_parameters_he</span>(layers_dims):
+    np<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>seed(<span style="color:#ae81ff">3</span>)
+    parameters <span style="color:#f92672">=</span> {}
+    L <span style="color:#f92672">=</span> len(layers_dims) <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>
+
+    <span style="color:#66d9ef">for</span> l <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">1</span>, L <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>):
+        parameters[<span style="color:#e6db74">&#39;W&#39;</span> <span style="color:#f92672">+</span> str(l)] <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>randn(layers_dims[l], layers_dims[l <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>]) <span style="color:#f92672">*</span> np<span style="color:#f92672">.</span>sqrt(<span style="color:#ae81ff">2.</span><span style="color:#f92672">/</span>layers_dims[l<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]) <span style="color:#75715e"># 参数W初始化后需要乘以额外系数</span>
+        parameters[<span style="color:#e6db74">&#39;b&#39;</span> <span style="color:#f92672">+</span> str(l)] <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>zeros((layers_dims[l], <span style="color:#ae81ff">1</span>))
+
+    <span style="color:#66d9ef">return</span> parameters</code></pre></div>
+<p>梯度检验则是计算数值梯度，得到梯度的近似值，再与反向传播得出的梯度相比较，看两个值是否接近。如果相近，则证明神经网络中计算梯度的算法是正确的。对于n层神经网络的梯度校验代码如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">gradient_check_n</span>(parameters, gradients, X, Y, epsilon<span style="color:#f92672">=</span><span style="color:#ae81ff">1e-7</span>):
+    <span style="color:#75715e"># 加载变量，初始化</span>
+    parameters_values, _ <span style="color:#f92672">=</span> dictionary_to_vector(parameters)
+    grad <span style="color:#f92672">=</span> gradients_to_vector(gradients)
+    num_parameters <span style="color:#f92672">=</span> parameters_values<span style="color:#f92672">.</span>shape[<span style="color:#ae81ff">0</span>]
+    J_plus <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>zeros((num_parameters, <span style="color:#ae81ff">1</span>))
+    J_minus <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>zeros((num_parameters, <span style="color:#ae81ff">1</span>))
+    gradapprox <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>zeros((num_parameters, <span style="color:#ae81ff">1</span>))
+    <span style="color:#75715e"># 参数theta迭代</span>
+    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(num_parameters):
+        <span style="color:#75715e"># 每个参数theta加epsilon，再次计算J</span>
+        thetaplus <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>copy(parameters_values)
+        thetaplus[i][<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> thetaplus[i][<span style="color:#ae81ff">0</span>] <span style="color:#f92672">+</span> epsilon
+        J_plus[i], _ <span style="color:#f92672">=</span> forward_propagation_n(X, Y, vector_to_dictionary(thetaplus))
+        <span style="color:#75715e"># 每个参数theta减epsilon，再次计算J</span>
+        thetaminus <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>copy(parameters_values)
+        thetaminus[i][<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> thetaminus[i][<span style="color:#ae81ff">0</span>] <span style="color:#f92672">-</span> epsilon
+        J_minus[i], _ <span style="color:#f92672">=</span> forward_propagation_n(X, Y, vector_to_dictionary(thetaminus))
+        <span style="color:#75715e"># 估算梯度</span>
+        gradapprox[i] <span style="color:#f92672">=</span> (J_plus[i] <span style="color:#f92672">-</span> J_minus[i]) <span style="color:#f92672">/</span> (<span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> epsilon)
+    <span style="color:#75715e"># 使用欧式距离比较估算梯度和实际计算的梯度的相似程度</span>
+    numerator <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>linalg<span style="color:#f92672">.</span>norm(grad) <span style="color:#f92672">-</span> np<span style="color:#f92672">.</span>linalg<span style="color:#f92672">.</span>norm(gradapprox)
+    denominator <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>linalg<span style="color:#f92672">.</span>norm(grad) <span style="color:#f92672">+</span> np<span style="color:#f92672">.</span>linalg<span style="color:#f92672">.</span>norm(gradapprox)
+    difference <span style="color:#f92672">=</span> numerator <span style="color:#f92672">/</span> denominator
+
+    <span style="color:#66d9ef">if</span> difference <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">1e-7</span>:
+        <span style="color:#66d9ef">print</span>(
+            <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\033</span><span style="color:#e6db74">[93m&#34;</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;There is a mistake in the backward propagation! difference = &#34;</span> <span style="color:#f92672">+</span> str(difference) <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\033</span><span style="color:#e6db74">[0m&#34;</span>)
+    <span style="color:#66d9ef">else</span>:
+        <span style="color:#66d9ef">print</span>(
+            <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\033</span><span style="color:#e6db74">[92m&#34;</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;Your backward propagation works perfectly fine! difference = &#34;</span> <span style="color:#f92672">+</span> str(difference) <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\033</span><span style="color:#e6db74">[0m&#34;</span>)
+
+    <span style="color:#66d9ef">return</span> difference</code></pre></div></article>
+    <footer class="post-footer">
+      
+      <ul class="post-tags">
+        
+          <li><a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0"><span class="tag">深度学习</span></a></li>
+        
+          <li><a href="/tags/python"><span class="tag">Python</span></a></li>
+        
+      </ul>
+      
+      <p class="post-copyright">
+        © 2019 VozhuoThis post was published <strong>220</strong> days ago, content in the post may be inaccurate, even wrong now, please take risk yourself.
+      </p>
+    </footer>
+    
+      
+      <div id="cyReward" role="cylabs" data-use="reward"></div>
+      <script src="//changyan.itc.cn/js/lib/jquery.js"></script>
+      <script src="//changyan.sohu.com/js/changyan.labs.https.js?appid=cyu1JCtWI"></script>
+      <div id="SOHUCS" sid="/post/deep-learning-improve-nn/" ></div>
+      <script>
+      (function(){
+      var appid = 'cyu1JCtWI';
+      var conf = 'prod_87a280f2532c26d97430235e5cb8bd2f';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
+      
+    
+  </section>
+  
+<footer class="site-footer">
+  <p>© 2017-2019 Vozhuo&#39;s Blog</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank" rel="noopener">Nuo</a>.</p>
+  
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@15.0.0/dist/smooth-scroll.min.js"></script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video.min.js"></script>
+
+
+
+
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    },
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+
+
+<script src="/scripts/index.min.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('\/service-worker.js').then(function() {
+      console.log('[ServiceWorker] Registered');
+    });
+  }
+</script>
+
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-74583706-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?4cfb60f6b668e48d81b6f4b916461bd7";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+  </body>
+</html>

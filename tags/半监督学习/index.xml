@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>半监督学习 on Vozhuo&#39;s Blog</title>
+    <link>/tags/%E5%8D%8A%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0/</link>
+    <description>Recent content in 半监督学习 on Vozhuo&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-Hans</language>
+    <copyright>© 2019 Vozhuo</copyright>
+    <lastBuildDate>Sun, 21 Jul 2019 21:30:10 +0800</lastBuildDate>
+    
+	<atom:link href="/tags/%E5%8D%8A%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>半监督学习总览</title>
+      <link>/post/ssl-overview/</link>
+      <pubDate>Sun, 21 Jul 2019 21:30:10 +0800</pubDate>
+      
+      <guid>/post/ssl-overview/</guid>
+      <description>&lt;p&gt;&lt;strong&gt;半监督学习定义&lt;/strong&gt;：使用大量无标签样例和少量有标签样例进行学习。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;出现的原因&lt;/strong&gt;：在许多实际应用中（如自然语言处理、计算机视觉和生物学等领域），无类标签的样例很容易得到，而对样例的标记代价昂贵。&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

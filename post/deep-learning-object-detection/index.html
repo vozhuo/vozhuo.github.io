@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>深度学习之目标检测</title>
+
+  
+  
+  <link href="//cdn.jsdelivr.net" rel="dns-prefetch">
+  <link href="//cdnjs.cloudflare.com" rel="dns-prefetch">
+  
+  <link href="//at.alicdn.com" rel="dns-prefetch">
+  
+  <link href="//fonts.googleapis.com" rel="dns-prefetch">
+  <link href="//fonts.gstatic.com" rel="dns-prefetch">
+  
+  
+  
+  <link href="//www.google-analytics.com" rel="dns-prefetch">
+  <link href="//hm.baidu.com" rel="dns-prefetch">
+
+  
+
+  
+  
+  <meta name="description" content="目标检测是计算机视觉领域的一项重要应用。通过目标检测模型，能将图片中的人、汽车等目标物体检测出来。
+一个简单的目标标签y如下：
+">
+
+  
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@gohugoio">
+    <meta name="twitter:title" content="深度学习之目标检测">
+    <meta name="twitter:description" content="目标检测是计算机视觉领域的一项重要应用。通过目标检测模型，能将图片中的人、汽车等目标物体检测出来。
+一个简单的目标标签y如下：
+">
+    <meta name="twitter:image" content="/images/avatar.png">
+  
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="深度学习之目标检测">
+  <meta property="og:description" content="目标检测是计算机视觉领域的一项重要应用。通过目标检测模型，能将图片中的人、汽车等目标物体检测出来。
+一个简单的目标标签y如下：
+">
+  <meta property="og:url" content="/post/deep-learning-object-detection/">
+  <meta property="og:image" content="/images/avatar.png">
+
+
+
+
+<meta name="generator" content="Hugo 0.55.6">
+
+
+<link rel="canonical" href="/post/deep-learning-object-detection/">
+
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="format-detection" content="telephone=no,email=no,adress=no">
+<meta http-equiv="Cache-Control" content="no-transform">
+
+
+<meta name="robots" content="index,follow">
+<meta name="referrer" content="origin-when-cross-origin">
+
+
+
+
+
+
+
+<meta name="theme-color" content="#02b875">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Vozhuo&#39;s Blog">
+<meta name="msapplication-tooltip" content="Vozhuo&#39;s Blog">
+<meta name='msapplication-navbutton-color' content="#02b875">
+<meta name="msapplication-TileColor" content="#02b875">
+<meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png">
+<link rel="icon" sizes="192x192" href="/icons/icon-192x192.png">
+<link rel="apple-touch-icon" href="/icons/icon-152x152.png">
+<link rel="manifest" href="/manifest.json">
+
+
+<link rel="preload" href="/styles/main-rendered.min.css" as="style">
+
+<link rel="preload" href="/styles/custom.min.css" as="style">
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Lobster" as="style">
+<link rel="preload" href="/images/avatar.png" as="image">
+<link rel="preload" href="/images/grey-prism.svg" as="image">
+
+
+<style>
+  body {
+    background: rgb(244, 243, 241) url('/images/grey-prism.svg') repeat fixed;
+  }
+</style>
+<link rel="stylesheet" href="/styles/main-rendered.min.css">
+
+<link rel="stylesheet" href="/styles/custom.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.2/dist/medium-zoom.min.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video-js.min.css">
+
+
+
+  
+  
+<!--[if lte IE 8]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ie8@1.1.2/dist/videojs-ie8.min.js"></script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20180112/classList.min.js"></script>
+<![endif]-->
+
+
+</head>
+  <body>
+    <div class="suspension">
+      <a role="button" aria-label="Go to top" title="Go to top" class="to-top is-hide"><span class="icon icon-up" aria-hidden="true"></span></a>
+      
+        
+	<a role="button" aria-label="Go to comments" title="Go to comments" class="to-comment" href="#SOHUCS"><span class="icon icon-comment" aria-hidden="true"></span></a>
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <a href=""><img class="avatar" src="/images/avatar.png" alt="Avatar"></a>
+  
+  <h2 class="title"><a href="">Vozhuo&#39;s Blog</a></h2>
+  
+  <p class="subtitle">May you rest in a deep and restless slumber.</p>
+  <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
+    <span class="icon icon-menu" aria-hidden="true"></span>
+  </button>
+
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+        <li class="menu-item
+          
+          
+           is-active">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list"><li class="social-item">
+          <a href="mailto:qsx753698@outlook.com" title="Email" aria-label="Email">
+            <span class="icon icon-email" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//github.com/vozhuo" rel="me" title="GitHub" aria-label="GitHub">
+	    <span class="icon icon-github" aria-hidden="true"></span>
+          </a>
+        </li></ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">深度学习之目标检测</h1>
+      <p class="post-meta">@Vozhuo · Jan 18, 2019 · 1 min read</p>
+    </header>
+    <article class="post-content"><p>目标检测是计算机视觉领域的一项重要应用。通过目标检测模型，能将图片中的人、汽车等目标物体检测出来。</p>
+
+<p>一个简单的目标标签y如下：</p>
+
+<p><img src="/img/math.jpg" width="60%" height="60%"></p>
+
+<p>其中，$b<em>{x}$、$b</em>{y}$ 表示汽车中点， $b<em>{h}$、$b</em>{w}$ 表示定位框的高和宽。当 $P_{c}=1$ 时，表示图片中存在目标物体，反之表示图片中不存在物体，此时不再关心y的其他值为多少，这些值也不会参数损失函数的计算。</p>
+
+<h2 id="滑动窗口">滑动窗口</h2>
+
+<p>目标检测采用基于滑动窗口的检测算法。此方法计算成本较大，且有许多重复的运算。目前可以使用卷积层实现滑动窗口，不需要将输入图片分割成多个子集分别执行前向传播，而是把它们作为一张图片输入到卷积神经网络中进行计算，其中的重叠部分可以共享大量的计算。</p>
+
+<p>用卷积方式实现滑动窗口，可使计算效率大大提高，但存在的问题是不能输出最精准的边界框。YOLO算法可以使得滑动窗口算法寻找到更加精准的边界框。此算法将图片分割成多个格子，观察每个对象的中点，将该对象分配到其中点所在的格子中。</p>
+
+<h2 id="交并比">交并比</h2>
+
+<p>交并比函数用来评价目标检测算法是否运作良好。</p>
+
+<p>$$ IoU = 交集面积 / 并集面积 $$</p>
+
+<p>一般在目标检测任务中，约定如果$IoU\geqslant0.5$，说明检测正确。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">iou</span>(box1, box2):
+    <span style="color:#e6db74">&#34;&#34;&#34;
+</span><span style="color:#e6db74">    参数：
+</span><span style="color:#e6db74">    box1 -- 第一个边界框, 坐标 (x1, y1, x2, y2)
+</span><span style="color:#e6db74">    box2 -- 第二个边界框, 坐标 (x1, y1, x2, y2)
+</span><span style="color:#e6db74">    &#34;&#34;&#34;</span>
+    <span style="color:#75715e"># 计算交集</span>
+    xi1 <span style="color:#f92672">=</span> max(box1[<span style="color:#ae81ff">0</span>], box2[<span style="color:#ae81ff">0</span>])
+    yi1 <span style="color:#f92672">=</span> max(box1[<span style="color:#ae81ff">1</span>], box2[<span style="color:#ae81ff">1</span>])
+    xi2 <span style="color:#f92672">=</span> min(box1[<span style="color:#ae81ff">2</span>], box2[<span style="color:#ae81ff">2</span>])
+    yi2 <span style="color:#f92672">=</span> min(box1[<span style="color:#ae81ff">3</span>], box2[<span style="color:#ae81ff">3</span>])
+    inter_area <span style="color:#f92672">=</span> (yi2 <span style="color:#f92672">-</span> yi1) <span style="color:#f92672">*</span> (xi2 <span style="color:#f92672">-</span> xi1)
+    <span style="color:#75715e"># 计算并集，公式：Union(A,B) = A + B - Inter(A,B)</span>
+    box1_area <span style="color:#f92672">=</span> (box1[<span style="color:#ae81ff">3</span>] <span style="color:#f92672">-</span> box1[<span style="color:#ae81ff">1</span>]) <span style="color:#f92672">*</span> (box1[<span style="color:#ae81ff">2</span>] <span style="color:#f92672">-</span> box1[<span style="color:#ae81ff">0</span>])
+    box2_area <span style="color:#f92672">=</span> (box2[<span style="color:#ae81ff">3</span>] <span style="color:#f92672">-</span> box2[<span style="color:#ae81ff">1</span>]) <span style="color:#f92672">*</span> (box2[<span style="color:#ae81ff">2</span>] <span style="color:#f92672">-</span> box2[<span style="color:#ae81ff">0</span>])
+    union_area <span style="color:#f92672">=</span> box1_area <span style="color:#f92672">+</span> box2_area <span style="color:#f92672">-</span> inter_area
+    <span style="color:#75715e"># 计算IoU</span>
+    iou <span style="color:#f92672">=</span> inter_area <span style="color:#f92672">/</span> union_area
+    <span style="color:#66d9ef">return</span> iou</code></pre></div>
+<h2 id="非极大值抑制">非极大值抑制</h2>
+
+<p>目标检测算法可能会对同一个对象做出多次检测，非极大值抑制可以确保模型对每个对象只检测一次，其对多种检测结果进行清理，选取最大$P_{c}$的边界框，对其他具有高交并比的边界框进行抑制。</p>
+
+<p>首先，我们需要清除那些分数低（差的检测）的边界框。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">yolo_filter_boxes</span>(box_confidence, boxes, box_class_probs, threshold <span style="color:#f92672">=</span> <span style="color:#f92672">.</span><span style="color:#ae81ff">6</span>):
+    <span style="color:#75715e"># 计算每个边界框的分数，用box_confidence（边界框的含有目标的置信概率）乘以box_class_probs（边界框对每个类别的检测概率）。</span>
+    box_scores <span style="color:#f92672">=</span> box_confidence <span style="color:#f92672">*</span> box_class_probs
+    <span style="color:#75715e"># 找到各个分数最大值所属的类别和值</span>
+    box_classes <span style="color:#f92672">=</span> K<span style="color:#f92672">.</span>argmax(box_scores, axis<span style="color:#f92672">=-</span><span style="color:#ae81ff">1</span>)
+    box_class_scores <span style="color:#f92672">=</span> K<span style="color:#f92672">.</span>max(box_scores, axis<span style="color:#f92672">=-</span><span style="color:#ae81ff">1</span>, keepdims<span style="color:#f92672">=</span>False)
+    <span style="color:#75715e"># 通过阈值创建一个mask（掩码），决定需保留的边界框</span>
+    filtering_mask <span style="color:#f92672">=</span> box_class_scores <span style="color:#f92672">&gt;=</span> threshold
+    <span style="color:#75715e"># 根据掩码更新各参数</span>
+    scores <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>boolean_mask(box_class_scores, filtering_mask)
+    boxes <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>boolean_mask(boxes, filtering_mask)
+    classes <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>boolean_mask(box_classes, filtering_mask)
+    
+    <span style="color:#66d9ef">return</span> scores, boxes, classes</code></pre></div>
+<p>当几个边界框相互重叠并且检测到的是同一个对象时，只选择一个边界框。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">yolo_non_max_suppression</span>(scores, boxes, classes, max_boxes<span style="color:#f92672">=</span><span style="color:#ae81ff">10</span>, iou_threshold<span style="color:#f92672">=</span><span style="color:#ae81ff">0.5</span>):
+    max_boxes_tensor <span style="color:#f92672">=</span> K<span style="color:#f92672">.</span>variable(max_boxes, dtype<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;int32&#39;</span>)
+    K<span style="color:#f92672">.</span>get_session()<span style="color:#f92672">.</span>run(tf<span style="color:#f92672">.</span>variables_initializer([max_boxes_tensor]))
+    <span style="color:#75715e"># 使用TensorFlow内置的函数实现非极大值抑制，输入边界框（box）和最大边界框，scores为边界框的概率分数P，返回要保留的数据的索引</span>
+    nms_indices <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>image<span style="color:#f92672">.</span>non_max_suppression(boxes, scores, max_boxes, iou_threshold)
+    <span style="color:#75715e"># 根据索引选出边界框及相关数据</span>
+    scores <span style="color:#f92672">=</span> K<span style="color:#f92672">.</span>gather(scores, nms_indices)
+    boxes <span style="color:#f92672">=</span> K<span style="color:#f92672">.</span>gather(boxes, nms_indices)
+    classes <span style="color:#f92672">=</span> K<span style="color:#f92672">.</span>gather(classes, nms_indices)
+    <span style="color:#66d9ef">return</span> scores, boxes, classes</code></pre></div>
+<h2 id="anchor-box">Anchor box</h2>
+
+<p>预先定义多个不同形状的Anchor box，把预测目标和对应的Anchor box关联起来，从而实现多个重叠对象的检测。</p>
+
+<h2 id="候选区域">候选区域</h2>
+
+<p>在图片中选出一些目标的候选区域，从而避免传统滑动窗口在大量无对象区域的无用运算。使用了R-CNN后，仅在少数窗口上运行卷积网络。</p></article>
+    <footer class="post-footer">
+      
+      <ul class="post-tags">
+        
+          <li><a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0"><span class="tag">深度学习</span></a></li>
+        
+          <li><a href="/tags/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C"><span class="tag">卷积神经网络</span></a></li>
+        
+      </ul>
+      
+      <p class="post-copyright">
+        © 2019 VozhuoThis post was published <strong>184</strong> days ago, content in the post may be inaccurate, even wrong now, please take risk yourself.
+      </p>
+    </footer>
+    
+      
+      <div id="cyReward" role="cylabs" data-use="reward"></div>
+      <script src="//changyan.itc.cn/js/lib/jquery.js"></script>
+      <script src="//changyan.sohu.com/js/changyan.labs.https.js?appid=cyu1JCtWI"></script>
+      <div id="SOHUCS" sid="/post/deep-learning-object-detection/" ></div>
+      <script>
+      (function(){
+      var appid = 'cyu1JCtWI';
+      var conf = 'prod_87a280f2532c26d97430235e5cb8bd2f';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
+      
+    
+  </section>
+  
+<footer class="site-footer">
+  <p>© 2017-2019 Vozhuo&#39;s Blog</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank" rel="noopener">Nuo</a>.</p>
+  
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@15.0.0/dist/smooth-scroll.min.js"></script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video.min.js"></script>
+
+
+
+
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    },
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+
+
+<script src="/scripts/index.min.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('\/service-worker.js').then(function() {
+      console.log('[ServiceWorker] Registered');
+    });
+  }
+</script>
+
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-74583706-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?4cfb60f6b668e48d81b6f4b916461bd7";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+  </body>
+</html>

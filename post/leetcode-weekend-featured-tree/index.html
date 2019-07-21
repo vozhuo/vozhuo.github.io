@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>一周LeetCode习题精选——树</title>
+
+  
+  
+  <link href="//cdn.jsdelivr.net" rel="dns-prefetch">
+  <link href="//cdnjs.cloudflare.com" rel="dns-prefetch">
+  
+  <link href="//at.alicdn.com" rel="dns-prefetch">
+  
+  <link href="//fonts.googleapis.com" rel="dns-prefetch">
+  <link href="//fonts.gstatic.com" rel="dns-prefetch">
+  
+  
+  
+  <link href="//www.google-analytics.com" rel="dns-prefetch">
+  <link href="//hm.baidu.com" rel="dns-prefetch">
+
+  
+
+  
+  
+  <meta name="description" content="LeetCode 226 链接：Invert Binary Tree
+ Google: 90% of our engineers use the software you wrote (Homebrew), but you can’t invert a binary tree on a whiteboard so fuck off.
+ 难倒大神的反转二叉树问题，其实这道题并不难，用递归和遍历都可解决。
+">
+
+  
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@gohugoio">
+    <meta name="twitter:title" content="一周LeetCode习题精选——树">
+    <meta name="twitter:description" content="LeetCode 226 链接：Invert Binary Tree
+ Google: 90% of our engineers use the software you wrote (Homebrew), but you can’t invert a binary tree on a whiteboard so fuck off.
+ 难倒大神的反转二叉树问题，其实这道题并不难，用递归和遍历都可解决。
+">
+    <meta name="twitter:image" content="/images/avatar.png">
+  
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="一周LeetCode习题精选——树">
+  <meta property="og:description" content="LeetCode 226 链接：Invert Binary Tree
+ Google: 90% of our engineers use the software you wrote (Homebrew), but you can’t invert a binary tree on a whiteboard so fuck off.
+ 难倒大神的反转二叉树问题，其实这道题并不难，用递归和遍历都可解决。
+">
+  <meta property="og:url" content="/post/leetcode-weekend-featured-tree/">
+  <meta property="og:image" content="/images/avatar.png">
+
+
+
+
+<meta name="generator" content="Hugo 0.55.6">
+
+
+<link rel="canonical" href="/post/leetcode-weekend-featured-tree/">
+
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="format-detection" content="telephone=no,email=no,adress=no">
+<meta http-equiv="Cache-Control" content="no-transform">
+
+
+<meta name="robots" content="index,follow">
+<meta name="referrer" content="origin-when-cross-origin">
+
+
+
+
+
+
+
+<meta name="theme-color" content="#02b875">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Vozhuo&#39;s Blog">
+<meta name="msapplication-tooltip" content="Vozhuo&#39;s Blog">
+<meta name='msapplication-navbutton-color' content="#02b875">
+<meta name="msapplication-TileColor" content="#02b875">
+<meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png">
+<link rel="icon" sizes="192x192" href="/icons/icon-192x192.png">
+<link rel="apple-touch-icon" href="/icons/icon-152x152.png">
+<link rel="manifest" href="/manifest.json">
+
+
+<link rel="preload" href="/styles/main-rendered.min.css" as="style">
+
+<link rel="preload" href="/styles/custom.min.css" as="style">
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Lobster" as="style">
+<link rel="preload" href="/images/avatar.png" as="image">
+<link rel="preload" href="/images/grey-prism.svg" as="image">
+
+
+<style>
+  body {
+    background: rgb(244, 243, 241) url('/images/grey-prism.svg') repeat fixed;
+  }
+</style>
+<link rel="stylesheet" href="/styles/main-rendered.min.css">
+
+<link rel="stylesheet" href="/styles/custom.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.2/dist/medium-zoom.min.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video-js.min.css">
+
+
+
+  
+  
+<!--[if lte IE 8]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ie8@1.1.2/dist/videojs-ie8.min.js"></script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20180112/classList.min.js"></script>
+<![endif]-->
+
+
+</head>
+  <body>
+    <div class="suspension">
+      <a role="button" aria-label="Go to top" title="Go to top" class="to-top is-hide"><span class="icon icon-up" aria-hidden="true"></span></a>
+      
+        
+	<a role="button" aria-label="Go to comments" title="Go to comments" class="to-comment" href="#SOHUCS"><span class="icon icon-comment" aria-hidden="true"></span></a>
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <a href=""><img class="avatar" src="/images/avatar.png" alt="Avatar"></a>
+  
+  <h2 class="title"><a href="">Vozhuo&#39;s Blog</a></h2>
+  
+  <p class="subtitle">May you rest in a deep and restless slumber.</p>
+  <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
+    <span class="icon icon-menu" aria-hidden="true"></span>
+  </button>
+
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+        <li class="menu-item
+          
+          
+           is-active">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list"><li class="social-item">
+          <a href="mailto:qsx753698@outlook.com" title="Email" aria-label="Email">
+            <span class="icon icon-email" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//github.com/vozhuo" rel="me" title="GitHub" aria-label="GitHub">
+	    <span class="icon icon-github" aria-hidden="true"></span>
+          </a>
+        </li></ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">一周LeetCode习题精选——树</h1>
+      <p class="post-meta">@Vozhuo · Oct 21, 2018 · 2 min read</p>
+    </header>
+    <article class="post-content"><h2 id="leetcode-226">LeetCode 226</h2>
+
+<p>链接：<a href="https://leetcode.com/problems/invert-binary-tree/description/">Invert Binary Tree</a></p>
+
+<blockquote>
+<p>Google: 90% of our engineers use the software you wrote (Homebrew), but you can’t invert a binary tree on a whiteboard so fuck off.</p>
+</blockquote>
+
+<p>难倒大神的反转二叉树问题，其实这道题并不难，用递归和遍历都可解决。</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span>:
+    <span style="color:#75715e"># 递归</span>
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">invertTree</span>(self, root):
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> root:
+            <span style="color:#66d9ef">return</span> None
+        root<span style="color:#f92672">.</span>left, root<span style="color:#f92672">.</span>right <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>invertTree(root<span style="color:#f92672">.</span>right), self<span style="color:#f92672">.</span>invertTree(root<span style="color:#f92672">.</span>left)
+        <span style="color:#66d9ef">return</span> root
+    <span style="color:#75715e"># DFS</span>
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">invertTree2</span>(self, root):
+        stack <span style="color:#f92672">=</span> [root]
+        <span style="color:#66d9ef">while</span> stack:
+            node <span style="color:#f92672">=</span> stack<span style="color:#f92672">.</span>pop()
+            <span style="color:#66d9ef">if</span> node:
+                node<span style="color:#f92672">.</span>left, node<span style="color:#f92672">.</span>right <span style="color:#f92672">=</span> node<span style="color:#f92672">.</span>right, node<span style="color:#f92672">.</span>left
+                stack<span style="color:#f92672">.</span>extend([node<span style="color:#f92672">.</span>right, node<span style="color:#f92672">.</span>left])
+        <span style="color:#66d9ef">return</span> root</code></pre></div>
+<h2 id="leetcode-572">LeetCode 572</h2>
+
+<p>链接：<a href="https://leetcode.com/problems/subtree-of-another-tree/description/">Subtree of Another Tree</a></p>
+
+<p>本题判断二叉树是否为另一个数的子树。一种方法是使用递归，采用先序遍历的方法，先判断根节点，再判断左子树和右子树。对于每个节点，使用sameTree方法判断是否为相同的树。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span>:
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">isSubtree</span>(self, s, t):
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> s:
+            <span style="color:#66d9ef">return</span> False
+        <span style="color:#66d9ef">if</span> self<span style="color:#f92672">.</span>sameTree(s, t):
+            <span style="color:#66d9ef">return</span> True
+        <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>isSubtree(s<span style="color:#f92672">.</span>left, t) <span style="color:#f92672">or</span> self<span style="color:#f92672">.</span>isSubtree(s<span style="color:#f92672">.</span>right, t)
+
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">sameTree</span>(self, s, t):
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> s <span style="color:#f92672">and</span> <span style="color:#f92672">not</span> t:
+            <span style="color:#66d9ef">return</span> True
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> s <span style="color:#f92672">or</span> <span style="color:#f92672">not</span> t:
+            <span style="color:#66d9ef">return</span> False
+        <span style="color:#66d9ef">return</span> s<span style="color:#f92672">.</span>val <span style="color:#f92672">==</span> t<span style="color:#f92672">.</span>val <span style="color:#f92672">and</span> self<span style="color:#f92672">.</span>sameTree(s<span style="color:#f92672">.</span>left, t<span style="color:#f92672">.</span>left) <span style="color:#f92672">and</span> self<span style="color:#f92672">.</span>sameTree(s<span style="color:#f92672">.</span>right, t<span style="color:#f92672">.</span>right)</code></pre></div>
+<p>另一种方法是将树形结构转化为字符串，变成判断字符串是否含子字符串的问题。要注意两点：空节点也要进行标识，每个节点的值转化后要添加一个标识符，例如下文的“#”，如果不这样做的话，例如转化后的两个字符串分别为(&ldquo;23 4 None None 5 None None&rdquo;)和(&ldquo;3 4 None None 5 None None&rdquo;)，后面的字符串会被判断为前面字符串的子字符串，然而实际的树结构并非如此，设置标识符可以避免这个问题。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span>:
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">isSubtree</span>(self, s, t):
+        <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>convert(t) <span style="color:#f92672">in</span> self<span style="color:#f92672">.</span>convert(s)
+
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">convert</span>(self, p):
+            <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;#&#34;</span> <span style="color:#f92672">+</span> str(p<span style="color:#f92672">.</span>val) <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34; &#34;</span> <span style="color:#f92672">+</span> self<span style="color:#f92672">.</span>convert(p<span style="color:#f92672">.</span>left) <span style="color:#f92672">+</span> self<span style="color:#f92672">.</span>convert(p<span style="color:#f92672">.</span>right) <span style="color:#66d9ef">if</span> p <span style="color:#66d9ef">else</span> <span style="color:#e6db74">&#34;None&#34;</span></code></pre></div>
+<h2 id="leetcode-437">LeetCode 437</h2>
+
+<p>链接：<a href="https://leetcode.com/problems/path-sum-iii/description/">Path Sum III</a></p>
+
+<p>路径总和问题，使用DFS遍历。每次调用dfs方法，sum的值会减去当前节点的值，遍历中当节点的值等于最新的sum值时，意味者当前路径总和即为最初的sum值。使用先序遍历，先调用dfs方法计算根节点路径，再递归左子树和右子树，最终输出结果。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span>:
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">pathSum</span>(self, root, sum):
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> root:
+            <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>
+        <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>dfs(root, sum) <span style="color:#f92672">+</span> self<span style="color:#f92672">.</span>pathSum(root<span style="color:#f92672">.</span>left, sum) <span style="color:#f92672">+</span> self<span style="color:#f92672">.</span>pathSum(root<span style="color:#f92672">.</span>right, sum)
+
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">dfs</span>(self, root, sum):
+        res <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> root:
+            <span style="color:#66d9ef">return</span> res
+        <span style="color:#66d9ef">if</span> root<span style="color:#f92672">.</span>val <span style="color:#f92672">==</span> sum:
+            res <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>
+        res <span style="color:#f92672">+=</span> self<span style="color:#f92672">.</span>dfs(root<span style="color:#f92672">.</span>left, sum <span style="color:#f92672">-</span> root<span style="color:#f92672">.</span>val)
+        res <span style="color:#f92672">+=</span> self<span style="color:#f92672">.</span>dfs(root<span style="color:#f92672">.</span>right, sum <span style="color:#f92672">-</span> root<span style="color:#f92672">.</span>val)
+        <span style="color:#66d9ef">return</span> res</code></pre></div>
+<h2 id="leetcode-102">LeetCode 102</h2>
+
+<p>题目链接：<a href="https://leetcode.com/problems/binary-tree-level-order-traversal/description/">Binary Tree Level Order Traversal</a></p>
+
+<p>本题为二叉树的层次遍历。学数据结构时接触这个遍历比较少，现在来学习一下，使用BFS解决。函数中的level代表当前的层次，默认为1。res代表转化后的数组。如果level大于数组的长度，代表已经遍历到了下一层，数组将在新的项中添加内容。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span>:
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">levelOrder</span>(self, root):
+        res <span style="color:#f92672">=</span> []
+        self<span style="color:#f92672">.</span>bfs(root, <span style="color:#ae81ff">1</span>, res)
+        <span style="color:#66d9ef">return</span> res
+
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">bfs</span>(self, root, level, res):
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> root:
+            <span style="color:#66d9ef">return</span>
+        <span style="color:#66d9ef">if</span> level <span style="color:#f92672">&gt;</span> len(res):
+            res<span style="color:#f92672">.</span>append([root<span style="color:#f92672">.</span>val])
+        <span style="color:#66d9ef">else</span>:
+            res[level <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>]<span style="color:#f92672">.</span>extend([root<span style="color:#f92672">.</span>val])
+        self<span style="color:#f92672">.</span>bfs(root<span style="color:#f92672">.</span>left, level <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, res)
+        self<span style="color:#f92672">.</span>bfs(root<span style="color:#f92672">.</span>right, level <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, res)</code></pre></div>
+<h2 id="leetcode-105">LeetCode 105</h2>
+
+<p>题目链接：<a href="https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/description/">Construct Binary Tree from Preorder and Inorder Traversal</a></p>
+
+<p>本题为根据前序遍历和中序遍历构造二叉树。虽然以前做过一些练习，不过还没有认真考虑过代码的实现方式。首先，树的根结点为前序遍历的第一个节点，而这个节点在中序遍历也一定存在。节点左边就是左子树的中序遍历，右边是右子树的中序遍历。利用分治的思想，分解成为两个较小的问题，然后递归处理，还原左子树和右子树，最后和根节点组成完整的树。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span>:
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">buildTree</span>(self, preorder, inorder):
+        <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> inorder:
+            <span style="color:#66d9ef">return</span> None
+        root <span style="color:#f92672">=</span> inorder<span style="color:#f92672">.</span>index(preorder<span style="color:#f92672">.</span>pop(<span style="color:#ae81ff">0</span>))
+        tree <span style="color:#f92672">=</span> TreeNode(inorder[root])
+        tree<span style="color:#f92672">.</span>left <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>buildTree(preorder, inorder[:root])
+        tree<span style="color:#f92672">.</span>right <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>buildTree(preorder, inorder[root<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>:])
+        <span style="color:#66d9ef">return</span> tree</code></pre></div>
+<p>参考资料：
+<a href="https://www.bilibili.com/video/av17129370/">每日一题：小Fu讲解</a>
+<a href="https://zxi.mytechroad.com/blog/leetcode/leetcode-102-binary-tree-level-order-traversal/">花花酱 LeetCode 102.</a>
+<a href="https://www.tianmaying.com/tutorial/LC105">LeetCode题解 #105</a></p></article>
+    <footer class="post-footer">
+      
+      <ul class="post-tags">
+        
+          <li><a href="/tags/leetcode"><span class="tag">LeetCode</span></a></li>
+        
+          <li><a href="/tags/%E6%A0%91"><span class="tag">树</span></a></li>
+        
+          <li><a href="/tags/python"><span class="tag">Python</span></a></li>
+        
+      </ul>
+      
+      <p class="post-copyright">
+        © 2019 VozhuoThis post was published <strong>272</strong> days ago, content in the post may be inaccurate, even wrong now, please take risk yourself.
+      </p>
+    </footer>
+    
+      
+      <div id="cyReward" role="cylabs" data-use="reward"></div>
+      <script src="//changyan.itc.cn/js/lib/jquery.js"></script>
+      <script src="//changyan.sohu.com/js/changyan.labs.https.js?appid=cyu1JCtWI"></script>
+      <div id="SOHUCS" sid="/post/leetcode-weekend-featured-tree/" ></div>
+      <script>
+      (function(){
+      var appid = 'cyu1JCtWI';
+      var conf = 'prod_87a280f2532c26d97430235e5cb8bd2f';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
+      
+    
+  </section>
+  
+<footer class="site-footer">
+  <p>© 2017-2019 Vozhuo&#39;s Blog</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank" rel="noopener">Nuo</a>.</p>
+  
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@15.0.0/dist/smooth-scroll.min.js"></script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video.min.js"></script>
+
+
+
+
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    },
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+
+
+<script src="/scripts/index.min.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('\/service-worker.js').then(function() {
+      console.log('[ServiceWorker] Registered');
+    });
+  }
+</script>
+
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-74583706-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?4cfb60f6b668e48d81b6f4b916461bd7";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+  </body>
+</html>

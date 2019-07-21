@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>MXNet深度学习笔记</title>
+
+  
+  
+  <link href="//cdn.jsdelivr.net" rel="dns-prefetch">
+  <link href="//cdnjs.cloudflare.com" rel="dns-prefetch">
+  
+  <link href="//at.alicdn.com" rel="dns-prefetch">
+  
+  <link href="//fonts.googleapis.com" rel="dns-prefetch">
+  <link href="//fonts.gstatic.com" rel="dns-prefetch">
+  
+  
+  
+  <link href="//www.google-analytics.com" rel="dns-prefetch">
+  <link href="//hm.baidu.com" rel="dns-prefetch">
+
+  
+
+  
+  
+  <meta name="description" content="本文以线性回归为例，展示MXNet以及Gluon的实现。
+首先构造一个简单的数据集，其中features是训练数据特征，labels是标签。
+">
+
+  
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@gohugoio">
+    <meta name="twitter:title" content="MXNet深度学习笔记">
+    <meta name="twitter:description" content="本文以线性回归为例，展示MXNet以及Gluon的实现。
+首先构造一个简单的数据集，其中features是训练数据特征，labels是标签。
+">
+    <meta name="twitter:image" content="/images/avatar.png">
+  
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="MXNet深度学习笔记">
+  <meta property="og:description" content="本文以线性回归为例，展示MXNet以及Gluon的实现。
+首先构造一个简单的数据集，其中features是训练数据特征，labels是标签。
+">
+  <meta property="og:url" content="/post/mxnet-study/">
+  <meta property="og:image" content="/images/avatar.png">
+
+
+
+
+<meta name="generator" content="Hugo 0.55.6">
+
+
+<link rel="canonical" href="/post/mxnet-study/">
+
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="format-detection" content="telephone=no,email=no,adress=no">
+<meta http-equiv="Cache-Control" content="no-transform">
+
+
+<meta name="robots" content="index,follow">
+<meta name="referrer" content="origin-when-cross-origin">
+
+
+
+
+
+
+
+<meta name="theme-color" content="#02b875">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Vozhuo&#39;s Blog">
+<meta name="msapplication-tooltip" content="Vozhuo&#39;s Blog">
+<meta name='msapplication-navbutton-color' content="#02b875">
+<meta name="msapplication-TileColor" content="#02b875">
+<meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png">
+<link rel="icon" sizes="192x192" href="/icons/icon-192x192.png">
+<link rel="apple-touch-icon" href="/icons/icon-152x152.png">
+<link rel="manifest" href="/manifest.json">
+
+
+<link rel="preload" href="/styles/main-rendered.min.css" as="style">
+
+<link rel="preload" href="/styles/custom.min.css" as="style">
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Lobster" as="style">
+<link rel="preload" href="/images/avatar.png" as="image">
+<link rel="preload" href="/images/grey-prism.svg" as="image">
+
+
+<style>
+  body {
+    background: rgb(244, 243, 241) url('/images/grey-prism.svg') repeat fixed;
+  }
+</style>
+<link rel="stylesheet" href="/styles/main-rendered.min.css">
+
+<link rel="stylesheet" href="/styles/custom.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.2/dist/medium-zoom.min.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video-js.min.css">
+
+
+
+  
+  
+<!--[if lte IE 8]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ie8@1.1.2/dist/videojs-ie8.min.js"></script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20180112/classList.min.js"></script>
+<![endif]-->
+
+
+</head>
+  <body>
+    <div class="suspension">
+      <a role="button" aria-label="Go to top" title="Go to top" class="to-top is-hide"><span class="icon icon-up" aria-hidden="true"></span></a>
+      
+        
+	<a role="button" aria-label="Go to comments" title="Go to comments" class="to-comment" href="#SOHUCS"><span class="icon icon-comment" aria-hidden="true"></span></a>
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <a href=""><img class="avatar" src="/images/avatar.png" alt="Avatar"></a>
+  
+  <h2 class="title"><a href="">Vozhuo&#39;s Blog</a></h2>
+  
+  <p class="subtitle">May you rest in a deep and restless slumber.</p>
+  <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
+    <span class="icon icon-menu" aria-hidden="true"></span>
+  </button>
+
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+        <li class="menu-item
+          
+          
+           is-active">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list"><li class="social-item">
+          <a href="mailto:qsx753698@outlook.com" title="Email" aria-label="Email">
+            <span class="icon icon-email" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//github.com/vozhuo" rel="me" title="GitHub" aria-label="GitHub">
+	    <span class="icon icon-github" aria-hidden="true"></span>
+          </a>
+        </li></ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">MXNet深度学习笔记</h1>
+      <p class="post-meta">@Vozhuo · Feb 22, 2019 · 2 min read</p>
+    </header>
+    <article class="post-content"><p>本文以线性回归为例，展示MXNet以及Gluon的实现。</p>
+
+<p>首先构造一个简单的数据集，其中features是训练数据特征，labels是标签。</p>
+
+<h2 id="读取数据">读取数据</h2>
+
+<p>本例使用小批量随机梯度下降法，所以一次读取小批量数据样本。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">data_iter</span>(batch_size, features, labels):
+    num_examples <span style="color:#f92672">=</span> len(features)
+    indices <span style="color:#f92672">=</span> list(range(num_examples))
+    random<span style="color:#f92672">.</span>shuffle(indices)  <span style="color:#75715e"># 样本的读取顺序是随机的</span>
+    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">0</span>, num_examples, batch_size):
+        j <span style="color:#f92672">=</span> nd<span style="color:#f92672">.</span>array(indices[i: min(i <span style="color:#f92672">+</span> batch_size, num_examples)])
+        <span style="color:#66d9ef">yield</span> features<span style="color:#f92672">.</span>take(j), labels<span style="color:#f92672">.</span>take(j)  <span style="color:#75715e"># take函数根据索引返回对应元素</span></code></pre></div>
+<p>Gluon提供了data包来读取数据。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># 将训练数据的特征和标签组合</span>
+dataset <span style="color:#f92672">=</span> gdata<span style="color:#f92672">.</span>ArrayDataset(features, labels)
+<span style="color:#75715e"># 随机读取小批量</span>
+data_iter <span style="color:#f92672">=</span> gdata<span style="color:#f92672">.</span>DataLoader(dataset, batch_size, shuffle<span style="color:#f92672">=</span>True)</code></pre></div>
+<h2 id="定义模型">定义模型</h2>
+
+<p>以下是线性回归的矢量计算表达式的实现。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">linreg</span>(X, w, b):
+    <span style="color:#66d9ef">return</span> nd<span style="color:#f92672">.</span>dot(X, w) <span style="color:#f92672">+</span> b</code></pre></div>
+<p>Gluon引入了Sequential实例，它是一个容器，串联各个层。线性回归的输出层又叫全连接层。Dense即为全连接层，输出个数为1。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">net <span style="color:#f92672">=</span> nn<span style="color:#f92672">.</span>Sequential()
+net<span style="color:#f92672">.</span>add(nn<span style="color:#f92672">.</span>Dense(<span style="color:#ae81ff">1</span>))</code></pre></div>
+<h2 id="初始化参数">初始化参数</h2>
+
+<p>将权重初始化成均值为0、标准差为0.01的正态随机数，偏差则初始化成0。另外还需要创建它们的梯度。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">w <span style="color:#f92672">=</span> nd<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>normal(scale<span style="color:#f92672">=</span><span style="color:#ae81ff">0.01</span>, shape<span style="color:#f92672">=</span>(num_inputs, <span style="color:#ae81ff">1</span>))
+b <span style="color:#f92672">=</span> nd<span style="color:#f92672">.</span>zeros(shape<span style="color:#f92672">=</span>(<span style="color:#ae81ff">1</span>,))
+
+w<span style="color:#f92672">.</span>attach_grad()
+b<span style="color:#f92672">.</span>attach_grad()</code></pre></div>
+<p>Gluon中的初始化方法十分简单，将上一步的net初始化即可。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">net<span style="color:#f92672">.</span>initialize(init<span style="color:#f92672">.</span>Normal(sigma<span style="color:#f92672">=</span><span style="color:#ae81ff">0.01</span>))</code></pre></div>
+<h2 id="定义损失函数">定义损失函数</h2>
+
+<p>用平方损失定义线性回归的损失函数。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">squared_loss</span>(y_hat, y):
+    <span style="color:#66d9ef">return</span> (y_hat <span style="color:#f92672">-</span> y<span style="color:#f92672">.</span>reshape(y_hat<span style="color:#f92672">.</span>shape)) <span style="color:#f92672">**</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span></code></pre></div>
+<p>Gluon有内置的损失函数，平方损失又称L2范数损失。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> mxnet.gluon <span style="color:#f92672">import</span> loss <span style="color:#66d9ef">as</span> gloss
+loss <span style="color:#f92672">=</span> gloss<span style="color:#f92672">.</span>L2Loss()</code></pre></div>
+<h2 id="定义优化算法">定义优化算法</h2>
+
+<p>实现随机梯度下降算法。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">sgd</span>(params, lr, batch_size):
+    <span style="color:#66d9ef">for</span> param <span style="color:#f92672">in</span> params:
+        param[:] <span style="color:#f92672">=</span> param <span style="color:#f92672">-</span> lr <span style="color:#f92672">*</span> param<span style="color:#f92672">.</span>grad <span style="color:#f92672">/</span> batch_size</code></pre></div>
+<p>Gluon创建一个Trainer实例，并指定学习率。“sgd”为随机梯度下降法，参数通过collect_params函数获取。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">trainer <span style="color:#f92672">=</span> gluon<span style="color:#f92672">.</span>Trainer(net<span style="color:#f92672">.</span>collect_params(), <span style="color:#e6db74">&#39;sgd&#39;</span>, {<span style="color:#e6db74">&#39;learning_rate&#39;</span>: <span style="color:#ae81ff">0.03</span>})</code></pre></div>
+<h2 id="训练模型">训练模型</h2>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">lr <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.03</span>
+num_epochs <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>
+net <span style="color:#f92672">=</span> linreg
+loss <span style="color:#f92672">=</span> squared_loss
+
+<span style="color:#66d9ef">for</span> epoch <span style="color:#f92672">in</span> range(num_epochs):  <span style="color:#75715e"># 训练模型一共需要num_epochs个迭代周期</span>
+    <span style="color:#75715e"># 在每一个迭代周期中，会使用训练数据集中所有样本一次（假设样本数能够被批量大小整除）。X</span>
+    <span style="color:#75715e"># 和y分别是小批量样本的特征和标签</span>
+    <span style="color:#66d9ef">for</span> X, y <span style="color:#f92672">in</span> data_iter(batch_size, features, labels):
+        <span style="color:#66d9ef">with</span> autograd<span style="color:#f92672">.</span>record():
+            l <span style="color:#f92672">=</span> loss(net(X, w, b), y)  <span style="color:#75715e"># l是有关小批量X和y的损失</span>
+        l<span style="color:#f92672">.</span>backward()  <span style="color:#75715e"># 小批量的损失对模型参数求梯度</span>
+        sgd([w, b], lr, batch_size)  <span style="color:#75715e"># 使用小批量随机梯度下降迭代模型参数</span>
+    train_l <span style="color:#f92672">=</span> loss(net(features, w, b), labels)
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;epoch </span><span style="color:#e6db74">%d</span><span style="color:#e6db74">, loss </span><span style="color:#e6db74">%f</span><span style="color:#e6db74">&#39;</span> <span style="color:#f92672">%</span> (epoch <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, train_l<span style="color:#f92672">.</span>mean()<span style="color:#f92672">.</span>asnumpy()))</code></pre></div>
+<p>Gluon训练模型时，通过调用Trainer实例的step函数来迭代模型参数。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">num_epochs <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>
+<span style="color:#66d9ef">for</span> epoch <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">1</span>, num_epochs <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>):
+    <span style="color:#66d9ef">for</span> X, y <span style="color:#f92672">in</span> data_iter:
+        <span style="color:#66d9ef">with</span> autograd<span style="color:#f92672">.</span>record():
+            l <span style="color:#f92672">=</span> loss(net(X), y)
+        l<span style="color:#f92672">.</span>backward()
+        trainer<span style="color:#f92672">.</span>step(batch_size)
+    l <span style="color:#f92672">=</span> loss(net(features), labels)
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;epoch </span><span style="color:#e6db74">%d</span><span style="color:#e6db74">, loss: </span><span style="color:#e6db74">%f</span><span style="color:#e6db74">&#39;</span> <span style="color:#f92672">%</span> (epoch, l<span style="color:#f92672">.</span>mean()<span style="color:#f92672">.</span>asnumpy()))</code></pre></div></article>
+    <footer class="post-footer">
+      
+      <ul class="post-tags">
+        
+          <li><a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0"><span class="tag">深度学习</span></a></li>
+        
+          <li><a href="/tags/mxnet"><span class="tag">MXNet</span></a></li>
+        
+      </ul>
+      
+      <p class="post-copyright">
+        © 2019 VozhuoThis post was published <strong>148</strong> days ago, content in the post may be inaccurate, even wrong now, please take risk yourself.
+      </p>
+    </footer>
+    
+      
+      <div id="cyReward" role="cylabs" data-use="reward"></div>
+      <script src="//changyan.itc.cn/js/lib/jquery.js"></script>
+      <script src="//changyan.sohu.com/js/changyan.labs.https.js?appid=cyu1JCtWI"></script>
+      <div id="SOHUCS" sid="/post/mxnet-study/" ></div>
+      <script>
+      (function(){
+      var appid = 'cyu1JCtWI';
+      var conf = 'prod_87a280f2532c26d97430235e5cb8bd2f';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
+      
+    
+  </section>
+  
+<footer class="site-footer">
+  <p>© 2017-2019 Vozhuo&#39;s Blog</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank" rel="noopener">Nuo</a>.</p>
+  
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@15.0.0/dist/smooth-scroll.min.js"></script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video.min.js"></script>
+
+
+
+
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    },
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+
+
+<script src="/scripts/index.min.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('\/service-worker.js').then(function() {
+      console.log('[ServiceWorker] Registered');
+    });
+  }
+</script>
+
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-74583706-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?4cfb60f6b668e48d81b6f4b916461bd7";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+  </body>
+</html>

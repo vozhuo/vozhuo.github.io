@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>循环神经网络</title>
+
+  
+  
+  <link href="//cdn.jsdelivr.net" rel="dns-prefetch">
+  <link href="//cdnjs.cloudflare.com" rel="dns-prefetch">
+  
+  <link href="//at.alicdn.com" rel="dns-prefetch">
+  
+  <link href="//fonts.googleapis.com" rel="dns-prefetch">
+  <link href="//fonts.gstatic.com" rel="dns-prefetch">
+  
+  
+  
+  <link href="//www.google-analytics.com" rel="dns-prefetch">
+  <link href="//hm.baidu.com" rel="dns-prefetch">
+
+  
+
+  
+  
+  <meta name="description" content="对于序列模型，使用传统的神经网络效果并不好。原因是输入输出数据的长度可能不同，另外这种神经网络结果不能共享从文本不同位置所学习到的特征。循环神经则不存在这两个缺点。在每一个时间步中，循环神经网络会传递一个激活值到下一个时间步中，用于下一时间步的计算。
+">
+
+  
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@gohugoio">
+    <meta name="twitter:title" content="循环神经网络">
+    <meta name="twitter:description" content="对于序列模型，使用传统的神经网络效果并不好。原因是输入输出数据的长度可能不同，另外这种神经网络结果不能共享从文本不同位置所学习到的特征。循环神经则不存在这两个缺点。在每一个时间步中，循环神经网络会传递一个激活值到下一个时间步中，用于下一时间步的计算。
+">
+    <meta name="twitter:image" content="/images/avatar.png">
+  
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="循环神经网络">
+  <meta property="og:description" content="对于序列模型，使用传统的神经网络效果并不好。原因是输入输出数据的长度可能不同，另外这种神经网络结果不能共享从文本不同位置所学习到的特征。循环神经则不存在这两个缺点。在每一个时间步中，循环神经网络会传递一个激活值到下一个时间步中，用于下一时间步的计算。
+">
+  <meta property="og:url" content="/post/deep-learning-rnn/">
+  <meta property="og:image" content="/images/avatar.png">
+
+
+
+
+<meta name="generator" content="Hugo 0.55.6">
+
+
+<link rel="canonical" href="/post/deep-learning-rnn/">
+
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="format-detection" content="telephone=no,email=no,adress=no">
+<meta http-equiv="Cache-Control" content="no-transform">
+
+
+<meta name="robots" content="index,follow">
+<meta name="referrer" content="origin-when-cross-origin">
+
+
+
+
+
+
+
+<meta name="theme-color" content="#02b875">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Vozhuo&#39;s Blog">
+<meta name="msapplication-tooltip" content="Vozhuo&#39;s Blog">
+<meta name='msapplication-navbutton-color' content="#02b875">
+<meta name="msapplication-TileColor" content="#02b875">
+<meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png">
+<link rel="icon" sizes="192x192" href="/icons/icon-192x192.png">
+<link rel="apple-touch-icon" href="/icons/icon-152x152.png">
+<link rel="manifest" href="/manifest.json">
+
+
+<link rel="preload" href="/styles/main-rendered.min.css" as="style">
+
+<link rel="preload" href="/styles/custom.min.css" as="style">
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Lobster" as="style">
+<link rel="preload" href="/images/avatar.png" as="image">
+<link rel="preload" href="/images/grey-prism.svg" as="image">
+
+
+<style>
+  body {
+    background: rgb(244, 243, 241) url('/images/grey-prism.svg') repeat fixed;
+  }
+</style>
+<link rel="stylesheet" href="/styles/main-rendered.min.css">
+
+<link rel="stylesheet" href="/styles/custom.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.2/dist/medium-zoom.min.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video-js.min.css">
+
+
+
+  
+  
+<!--[if lte IE 8]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ie8@1.1.2/dist/videojs-ie8.min.js"></script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20180112/classList.min.js"></script>
+<![endif]-->
+
+
+</head>
+  <body>
+    <div class="suspension">
+      <a role="button" aria-label="Go to top" title="Go to top" class="to-top is-hide"><span class="icon icon-up" aria-hidden="true"></span></a>
+      
+        
+	<a role="button" aria-label="Go to comments" title="Go to comments" class="to-comment" href="#SOHUCS"><span class="icon icon-comment" aria-hidden="true"></span></a>
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <a href=""><img class="avatar" src="/images/avatar.png" alt="Avatar"></a>
+  
+  <h2 class="title"><a href="">Vozhuo&#39;s Blog</a></h2>
+  
+  <p class="subtitle">May you rest in a deep and restless slumber.</p>
+  <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
+    <span class="icon icon-menu" aria-hidden="true"></span>
+  </button>
+
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+        <li class="menu-item
+          
+          
+           is-active">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list"><li class="social-item">
+          <a href="mailto:qsx753698@outlook.com" title="Email" aria-label="Email">
+            <span class="icon icon-email" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//github.com/vozhuo" rel="me" title="GitHub" aria-label="GitHub">
+	    <span class="icon icon-github" aria-hidden="true"></span>
+          </a>
+        </li></ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">循环神经网络</h1>
+      <p class="post-meta">@Vozhuo · Jan 29, 2019 · 2 min read</p>
+    </header>
+    <article class="post-content"><p>对于序列模型，使用传统的神经网络效果并不好。原因是输入输出数据的长度可能不同，另外这种神经网络结果不能共享从文本不同位置所学习到的特征。循环神经则不存在这两个缺点。在每一个时间步中，循环神经网络会传递一个激活值到下一个时间步中，用于下一时间步的计算。</p>
+
+<p>对于RNN，不同的问题需要不同的输入输出结构。各个RNN结构如下所示：</p>
+
+<p><img src="/img/rnn-1.jpg" width="30%" height="30%">
+<img src="/img/rnn-2.jpg" width="30%" height="30%">
+<img src="/img/rnn-3.jpg" width="30%" height="30%">
+<img src="/img/rnn-4.jpg" width="30%" height="30%"></p>
+
+<h2 id="语言模型">语言模型</h2>
+
+<p>使用RNN构建语言模型：</p>
+
+<ul>
+<li>训练集：语言文本语料库；</li>
+<li>Tokenize：将句子使用字典库标记化，未出现在字典库中的词用“UNK”表示；</li>
+<li>第一步：使用零向量预测第一个单词是某个单词的可能性；</li>
+<li>第二步：通过前面的输入，逐步预测后面单词出现的概率；</li>
+<li>训练网络：使用Softmax损失函数计算损失，进行参数更新。</li>
+</ul>
+
+<h2 id="新序列采样">新序列采样</h2>
+
+<p>在完成一个序列模型的训练之后，如果我们想要了解这个模型学到了什么，其中一种方法就是进行新序列采样。我们需要进行以下几个步骤：</p>
+
+<ul>
+<li>输入$ x^{<1>} = 0$，$a^{<0>} = 0 $，在第一个时间步，经过Softmax得到所有可能的概率，根据分布进行随机采样，获取第一个单词 $ \hat y^{<1>} $；</li>
+<li>继续下一个时间步，以刚刚的 $ \hat y^{<1>}$ 作为下一个时间步的输入，进而预测下一个输出$ \hat y^{<2>} $，依次类推；</li>
+<li>如果字典中有结束标志如“EOS”，那么输出该符号时表示结束；若没有这种标志，可自行设置结束时间步。</li>
+</ul>
+
+<h2 id="梯度消失">梯度消失</h2>
+
+<p>RNN存在一个很大的缺陷，就是梯度消失问题。普通的深度神经网络结构类似，梯度很难通过反向传播再传播回去，RNN也存在同样的问题，并更难解决。梯度爆炸虽然也可能会出现，但这一问题很容易被发现，并可以用梯度修剪解决。</p>
+
+<h2 id="gru">GRU</h2>
+
+<p>门控循环单元（Gated Recurrent Unit, GRU）改变了RNN的隐藏层，使其能够更好地捕捉深层次连接，并改善了梯度消失的问题。以时间步从左到右计算时，GRU单元存在一个新的变量c，作为“记忆细胞”，其提供了长期的记忆能力。</p>
+
+<ul>
+<li>$ c^{t} = a^{t} $ ，t时间步上的激活值a和记忆细胞输出值相等；</li>
+<li>$\widetilde c^{t} = \tanh (W<em>{c}[c^{t-1}, x^{t}] + b</em>{c})$，每个时间步的候选值$\widetilde c^{t}$，用以替代原本的记忆细胞值$c^{t}$；</li>
+<li>更新门的值在0-1之间，用以决定是否更新记忆细胞值；</li>
+<li>记忆细胞的更新公式能够有效缓解梯度消失问题。</li>
+</ul>
+
+<h2 id="lstm">LSTM</h2>
+
+<p>长短期记忆（long short-term memory, LSTM）对捕捉序列中更深层次的联系要比GRU更加有效。</p>
+
+<p>LSTM中使用更新门${\Gamma _u}$ 、遗忘门${\Gamma _f}$以及输出门${\Gamma _o}$ ，以下以LSTM的向前传播代码展示RNN迭代过程：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">lstm_forward</span>(x, a0, parameters):
+    caches <span style="color:#f92672">=</span> []
+    n_x, m, T_x <span style="color:#f92672">=</span> x<span style="color:#f92672">.</span>shape
+    n_y, n_a <span style="color:#f92672">=</span> parameters[<span style="color:#e6db74">&#39;Wy&#39;</span>]<span style="color:#f92672">.</span>shape
+    <span style="color:#75715e"># 初始化</span>
+    a <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>zeros((n_a, m, T_x))
+    c <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>zeros((n_a, m, T_x))
+    y <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>zeros((n_y, m, T_x))
+    a_next <span style="color:#f92672">=</span> a0
+    c_next <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>zeros(a_next<span style="color:#f92672">.</span>shape)
+    <span style="color:#75715e"># 遍历所有时间步</span>
+    <span style="color:#66d9ef">for</span> t <span style="color:#f92672">in</span> range(T_x):
+        <span style="color:#75715e"># 计算下一个隐藏层、记忆值、预测值</span>
+        a_next, c_next, yt, cache <span style="color:#f92672">=</span> lstm_cell_forward(x[:,:,t], a_next, c_next, parameters)
+        <span style="color:#75715e"># 保存数据</span>
+        a[:,:,t] <span style="color:#f92672">=</span> a_next
+        y[:,:,t] <span style="color:#f92672">=</span> yt
+        c[:,:,t]  <span style="color:#f92672">=</span> c_next
+        caches<span style="color:#f92672">.</span>append(cache)
+    <span style="color:#75715e"># 保存以便反向传输计算</span>
+    caches <span style="color:#f92672">=</span> (caches, x)
+    <span style="color:#66d9ef">return</span> a, y, c, caches</code></pre></div>
+<h2 id="双向rnn">双向RNN</h2>
+
+<p>一般的循环神经网络，每个预测输出仅使用了前面的输入信息，而没有使用后面的信息。双向RNN（bidirectional RNNs）模型可以解决这种缺点。BRNN不仅有从左向右的前向连接层，还存在从右向左的反向连接层。</p>
+
+<h2 id="实例">实例</h2>
+
+<p>以下展示一个生成恐龙名称的模型的核心代码，以字符为基础，使用LSTM模型：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">model</span>(data, ix_to_char, char_to_ix, num_iterations <span style="color:#f92672">=</span> <span style="color:#ae81ff">35000</span>, n_a <span style="color:#f92672">=</span> <span style="color:#ae81ff">50</span>, dino_names <span style="color:#f92672">=</span> <span style="color:#ae81ff">7</span>, vocab_size <span style="color:#f92672">=</span> <span style="color:#ae81ff">27</span>):
+    n_x, n_y <span style="color:#f92672">=</span> vocab_size, vocab_size
+    <span style="color:#75715e"># 初始化</span>
+    parameters <span style="color:#f92672">=</span> initialize_parameters(n_a, n_x, n_y)
+    loss <span style="color:#f92672">=</span> get_initial_loss(vocab_size, dino_names)
+    <span style="color:#75715e"># dinos.txt中包含各种已有的恐龙名称单词，转成列表作为训练数据</span>
+    <span style="color:#66d9ef">with</span> open(<span style="color:#e6db74">&#34;dinos.txt&#34;</span>) <span style="color:#66d9ef">as</span> f:
+        examples <span style="color:#f92672">=</span> f<span style="color:#f92672">.</span>readlines()
+    examples <span style="color:#f92672">=</span> [x<span style="color:#f92672">.</span>lower()<span style="color:#f92672">.</span>strip() <span style="color:#66d9ef">for</span> x <span style="color:#f92672">in</span> examples]
+    <span style="color:#75715e"># 将数据随机打乱</span>
+    np<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>seed(<span style="color:#ae81ff">0</span>)
+    np<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>shuffle(examples)
+    <span style="color:#75715e"># 初始化LSTM隐藏层</span>
+    a_prev <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>zeros((n_a, <span style="color:#ae81ff">1</span>))
+    <span style="color:#75715e"># 迭代优化</span>
+    <span style="color:#66d9ef">for</span> j <span style="color:#f92672">in</span> range(num_iterations):        
+        <span style="color:#75715e"># 每个单词为一个训练数据，将单词分解为字符，建立从字符到索引和索引到字符的对应</span>
+        index <span style="color:#f92672">=</span> j <span style="color:#f92672">%</span> len(examples)
+        X <span style="color:#f92672">=</span> [None] <span style="color:#f92672">+</span> [char_to_ix[ch] <span style="color:#66d9ef">for</span> ch <span style="color:#f92672">in</span> examples[index]]  <span style="color:#75715e"># 整数列表，映射字符</span>
+        Y <span style="color:#f92672">=</span> X[<span style="color:#ae81ff">1</span>:] <span style="color:#f92672">+</span> [char_to_ix[<span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>]]  <span style="color:#75715e"># 整数列表，与X完全相同但向左移动一个索引</span>
+        
+        <span style="color:#75715e"># 优化：前向传播 -&gt; 反向传播 -&gt; 梯度修剪 -&gt; 更新参数</span>
+        curr_loss, gradients, a_prev <span style="color:#f92672">=</span> optimize(X, Y, a_prev, parameters)
+        <span style="color:#75715e"># 平滑损失，加速训练</span>
+        loss <span style="color:#f92672">=</span> smooth(loss, curr_loss)
+        <span style="color:#75715e"># …… 略去输出内容</span>
+    <span style="color:#66d9ef">return</span> parameters</code></pre></div>
+<p>以下展示一个音乐生成模型的核心代码：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">music_inference_model</span>(LSTM_cell, densor, n_values <span style="color:#f92672">=</span> <span style="color:#ae81ff">78</span>, n_a <span style="color:#f92672">=</span> <span style="color:#ae81ff">64</span>, Ty <span style="color:#f92672">=</span> <span style="color:#ae81ff">100</span>):
+    <span style="color:#75715e"># 定义输入</span>
+    x0 <span style="color:#f92672">=</span> Input(shape<span style="color:#f92672">=</span>(<span style="color:#ae81ff">1</span>, n_values))
+    <span style="color:#75715e"># 定义s0, 解码器LSTM的初始状态</span>
+    a0 <span style="color:#f92672">=</span> Input(shape<span style="color:#f92672">=</span>(n_a,), name<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;a0&#39;</span>)
+    c0 <span style="color:#f92672">=</span> Input(shape<span style="color:#f92672">=</span>(n_a,), name<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;c0&#39;</span>)
+    a <span style="color:#f92672">=</span> a0
+    c <span style="color:#f92672">=</span> c0
+    x <span style="color:#f92672">=</span> x0
+    
+    outputs <span style="color:#f92672">=</span> []
+    <span style="color:#75715e"># 迭代，于每个时间步生成一个值</span>
+    <span style="color:#66d9ef">for</span> t <span style="color:#f92672">in</span> range(Ty):
+        <span style="color:#75715e"># 执行LSTM模块</span>
+        a, _, c <span style="color:#f92672">=</span> LSTM_cell(x, initial_state<span style="color:#f92672">=</span>[a, c])
+        out <span style="color:#f92672">=</span> densor(a)
+        outputs<span style="color:#f92672">.</span>append(out)
+        <span style="color:#75715e"># 根据“out”选择下一次迭代的x值，在下一次迭代作为输入传递给LSTM模块。</span>
+        x <span style="color:#f92672">=</span> Lambda(one_hot)(out)   
+    <span style="color:#75715e"># 使用正确的“输入”和“输出”创建模型实例</span>
+    inference_model <span style="color:#f92672">=</span> Model(inputs<span style="color:#f92672">=</span>[x0, a0, c0], outputs<span style="color:#f92672">=</span>outputs)
+    <span style="color:#66d9ef">return</span> inference_model</code></pre></div></article>
+    <footer class="post-footer">
+      
+      <ul class="post-tags">
+        
+          <li><a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0"><span class="tag">深度学习</span></a></li>
+        
+          <li><a href="/tags/python"><span class="tag">Python</span></a></li>
+        
+      </ul>
+      
+      <p class="post-copyright">
+        © 2019 VozhuoThis post was published <strong>173</strong> days ago, content in the post may be inaccurate, even wrong now, please take risk yourself.
+      </p>
+    </footer>
+    
+      
+      <div id="cyReward" role="cylabs" data-use="reward"></div>
+      <script src="//changyan.itc.cn/js/lib/jquery.js"></script>
+      <script src="//changyan.sohu.com/js/changyan.labs.https.js?appid=cyu1JCtWI"></script>
+      <div id="SOHUCS" sid="/post/deep-learning-rnn/" ></div>
+      <script>
+      (function(){
+      var appid = 'cyu1JCtWI';
+      var conf = 'prod_87a280f2532c26d97430235e5cb8bd2f';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
+      
+    
+  </section>
+  
+<footer class="site-footer">
+  <p>© 2017-2019 Vozhuo&#39;s Blog</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank" rel="noopener">Nuo</a>.</p>
+  
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@15.0.0/dist/smooth-scroll.min.js"></script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video.min.js"></script>
+
+
+
+
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    },
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+
+
+<script src="/scripts/index.min.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('\/service-worker.js').then(function() {
+      console.log('[ServiceWorker] Registered');
+    });
+  }
+</script>
+
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-74583706-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?4cfb60f6b668e48d81b6f4b916461bd7";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+  </body>
+</html>

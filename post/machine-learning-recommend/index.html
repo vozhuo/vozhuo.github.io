@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>机器学习之推荐系统</title>
+
+  
+  
+  <link href="//cdn.jsdelivr.net" rel="dns-prefetch">
+  <link href="//cdnjs.cloudflare.com" rel="dns-prefetch">
+  
+  <link href="//at.alicdn.com" rel="dns-prefetch">
+  
+  <link href="//fonts.googleapis.com" rel="dns-prefetch">
+  <link href="//fonts.gstatic.com" rel="dns-prefetch">
+  
+  
+  
+  <link href="//www.google-analytics.com" rel="dns-prefetch">
+  <link href="//hm.baidu.com" rel="dns-prefetch">
+
+  
+
+  
+  
+  <meta name="description" content="概念 很多网站都使用推荐系统预测用户喜欢的内容。以电影资讯网站为例，假设电影有多个特征，那么根据用户对电影的打分，我们可以预测用户可能喜欢那些类型的电影，这就是基于内容的推荐系统。这种优化过程和线性回归类似。
+">
+
+  
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@gohugoio">
+    <meta name="twitter:title" content="机器学习之推荐系统">
+    <meta name="twitter:description" content="概念 很多网站都使用推荐系统预测用户喜欢的内容。以电影资讯网站为例，假设电影有多个特征，那么根据用户对电影的打分，我们可以预测用户可能喜欢那些类型的电影，这就是基于内容的推荐系统。这种优化过程和线性回归类似。
+">
+    <meta name="twitter:image" content="/images/avatar.png">
+  
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="机器学习之推荐系统">
+  <meta property="og:description" content="概念 很多网站都使用推荐系统预测用户喜欢的内容。以电影资讯网站为例，假设电影有多个特征，那么根据用户对电影的打分，我们可以预测用户可能喜欢那些类型的电影，这就是基于内容的推荐系统。这种优化过程和线性回归类似。
+">
+  <meta property="og:url" content="/post/machine-learning-recommend/">
+  <meta property="og:image" content="/images/avatar.png">
+
+
+
+
+<meta name="generator" content="Hugo 0.55.6">
+
+
+<link rel="canonical" href="/post/machine-learning-recommend/">
+
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="format-detection" content="telephone=no,email=no,adress=no">
+<meta http-equiv="Cache-Control" content="no-transform">
+
+
+<meta name="robots" content="index,follow">
+<meta name="referrer" content="origin-when-cross-origin">
+
+
+
+
+
+
+
+<meta name="theme-color" content="#02b875">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Vozhuo&#39;s Blog">
+<meta name="msapplication-tooltip" content="Vozhuo&#39;s Blog">
+<meta name='msapplication-navbutton-color' content="#02b875">
+<meta name="msapplication-TileColor" content="#02b875">
+<meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png">
+<link rel="icon" sizes="192x192" href="/icons/icon-192x192.png">
+<link rel="apple-touch-icon" href="/icons/icon-152x152.png">
+<link rel="manifest" href="/manifest.json">
+
+
+<link rel="preload" href="/styles/main-rendered.min.css" as="style">
+
+<link rel="preload" href="/styles/custom.min.css" as="style">
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Lobster" as="style">
+<link rel="preload" href="/images/avatar.png" as="image">
+<link rel="preload" href="/images/grey-prism.svg" as="image">
+
+
+<style>
+  body {
+    background: rgb(244, 243, 241) url('/images/grey-prism.svg') repeat fixed;
+  }
+</style>
+<link rel="stylesheet" href="/styles/main-rendered.min.css">
+
+<link rel="stylesheet" href="/styles/custom.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.2/dist/medium-zoom.min.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video-js.min.css">
+
+
+
+  
+  
+<!--[if lte IE 8]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ie8@1.1.2/dist/videojs-ie8.min.js"></script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20180112/classList.min.js"></script>
+<![endif]-->
+
+
+</head>
+  <body>
+    <div class="suspension">
+      <a role="button" aria-label="Go to top" title="Go to top" class="to-top is-hide"><span class="icon icon-up" aria-hidden="true"></span></a>
+      
+        
+	<a role="button" aria-label="Go to comments" title="Go to comments" class="to-comment" href="#SOHUCS"><span class="icon icon-comment" aria-hidden="true"></span></a>
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <a href=""><img class="avatar" src="/images/avatar.png" alt="Avatar"></a>
+  
+  <h2 class="title"><a href="">Vozhuo&#39;s Blog</a></h2>
+  
+  <p class="subtitle">May you rest in a deep and restless slumber.</p>
+  <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
+    <span class="icon icon-menu" aria-hidden="true"></span>
+  </button>
+
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+        <li class="menu-item
+          
+          
+           is-active">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list"><li class="social-item">
+          <a href="mailto:qsx753698@outlook.com" title="Email" aria-label="Email">
+            <span class="icon icon-email" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//github.com/vozhuo" rel="me" title="GitHub" aria-label="GitHub">
+	    <span class="icon icon-github" aria-hidden="true"></span>
+          </a>
+        </li></ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">机器学习之推荐系统</h1>
+      <p class="post-meta">@Vozhuo · Nov 22, 2018 · 2 min read</p>
+    </header>
+    <article class="post-content"><h2 id="概念">概念</h2>
+
+<p>很多网站都使用推荐系统预测用户喜欢的内容。以电影资讯网站为例，假设电影有多个特征，那么根据用户对电影的打分，我们可以预测用户可能喜欢那些类型的电影，这就是基于内容的推荐系统。这种优化过程和线性回归类似。</p>
+
+<p>但是，在网站建设初期，我们没有精力为所有的电影设定特征或分类，没有内容就无法进行推荐，这时需要使用协同过滤算法进行目标优化，同时优化电影特征和用户喜好。</p>
+
+<p>使用协同过滤算法的流程为：</p>
+
+<ol>
+<li>随机初始化特征值矩阵和权值矩阵（或者称用户偏好）。</li>
+<li>使用梯度下降法优化损失函数。</li>
+<li>使用偏好向量和特征向量预测用户评价。</li>
+</ol>
+
+<p>当获得电影的特征向量后，可以通过计算差值来比较两个电影的相似度，从而用于推荐系统。</p>
+
+<h2 id="tensorflow实现">TensorFlow实现</h2>
+
+<p>首先从文件读入数据，其中Y数组包含用户从一到五的评分，R数组包含二进制值指示器，表明用户是否对电影进行了评分。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">data <span style="color:#f92672">=</span> scio<span style="color:#f92672">.</span>loadmat(<span style="color:#e6db74">&#39;ex8_movies.mat&#39;</span>)
+Y <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>Variable(data[<span style="color:#e6db74">&#39;Y&#39;</span>], dtype<span style="color:#f92672">=</span>np<span style="color:#f92672">.</span>float64)
+R <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>Variable(data[<span style="color:#e6db74">&#39;R&#39;</span>], dtype<span style="color:#f92672">=</span>np<span style="color:#f92672">.</span>float64)</code></pre></div>
+<p>带正则化的损失函数计算方法如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">learning_rate <span style="color:#f92672">=</span> <span style="color:#ae81ff">1.5</span> <span style="color:#75715e"># 自定义</span>
+error <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>multiply((tf<span style="color:#f92672">.</span>matmul(X, tf<span style="color:#f92672">.</span>transpose(Theta))) <span style="color:#f92672">-</span> Y, R) <span style="color:#75715e"># 计算误差</span>
+basic <span style="color:#f92672">=</span> (<span style="color:#ae81ff">1.</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>) <span style="color:#f92672">*</span> tf<span style="color:#f92672">.</span>reduce_sum(tf<span style="color:#f92672">.</span>square(error))
+<span style="color:#75715e"># 正则化</span>
+regular_theta <span style="color:#f92672">=</span> ((learning_rate <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>) <span style="color:#f92672">*</span> tf<span style="color:#f92672">.</span>reduce_sum(tf<span style="color:#f92672">.</span>square(Theta)))
+regular_x <span style="color:#f92672">=</span> ((learning_rate <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>) <span style="color:#f92672">*</span> tf<span style="color:#f92672">.</span>reduce_sum(tf<span style="color:#f92672">.</span>square(X)))
+
+j <span style="color:#f92672">=</span> basic <span style="color:#f92672">+</span> regular_theta <span style="color:#f92672">+</span> regular_x <span style="color:#75715e"># 最终的损失函数</span></code></pre></div>
+<p>接下来，我们需要创建自己的电影评分模型，用这个模型生成个性化建议。“movie_ids.txt”文件存有一些电影名称和序号。把文件加载到字典中，加入一些样本评分。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">movie_idx <span style="color:#f92672">=</span> {}
+f <span style="color:#f92672">=</span> open(<span style="color:#e6db74">&#39;movie_ids.txt&#39;</span>, encoding<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;UTF-8&#39;</span>, errors<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;ignore&#39;</span>) <span style="color:#75715e"># 加入“ignore”防止读取时报错</span>
+
+<span style="color:#66d9ef">for</span> line <span style="color:#f92672">in</span> f:
+    info <span style="color:#f92672">=</span> line<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#39; &#39;</span>)
+    info[<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> info[<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>][:<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]  <span style="color:#75715e"># 去掉分离字符串时遗留在最后的“\n”</span>
+    movie_idx[int(info[<span style="color:#ae81ff">0</span>]) <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39; &#39;</span><span style="color:#f92672">.</span>join(info[<span style="color:#ae81ff">1</span>:]) <span style="color:#75715e"># 从0开始计数</span>
+
+ratings <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>zeros((<span style="color:#ae81ff">1682</span>, <span style="color:#ae81ff">1</span>))  <span style="color:#75715e"># 使用NumPy方便赋值</span>
+<span style="color:#75715e"># 添加评分</span>
+ratings[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>
+ratings[<span style="color:#ae81ff">6</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>
+ratings[<span style="color:#ae81ff">11</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>
+ratings[<span style="color:#ae81ff">53</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>
+ratings[<span style="color:#ae81ff">63</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>
+ratings[<span style="color:#ae81ff">65</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>
+ratings[<span style="color:#ae81ff">68</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>
+ratings[<span style="color:#ae81ff">97</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>
+ratings[<span style="color:#ae81ff">182</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>
+ratings[<span style="color:#ae81ff">225</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>
+ratings[<span style="color:#ae81ff">354</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span></code></pre></div>
+<p>然后在数据集中添加自定义的评分向量。这里需要注意的一点是，“ratings != 0”这一句会将ratings转换为布尔型向量，而TensorFlow的concat方法无法拼接不同类型的向量,需要进行类型转换，NumPy的append方法会将布尔型(True, Flase)转为数字(1,0)，所以没有这个问题。代码中也写了相应的NumPy实现。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">Y <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>concat([Y, ratings], axis<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>)
+R <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>concat([R, (ratings <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>)<span style="color:#f92672">.</span>astype(float)], axis<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>)
+<span style="color:#75715e"># R = np.append(R, ratings != 0, axis=1)</span></code></pre></div>
+<p>最后训练协同过滤模型。为方便计算，均值标准化方面使用NumPy实现。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">Y_mean <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>zeros([movies, <span style="color:#ae81ff">1</span>]) <span style="color:#75715e"># 电影评分均值矩阵</span>
+Y_norm <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>zeros([movies, users]) <span style="color:#75715e"># 电影均值标准化矩阵</span>
+
+<span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(movies):
+    idx <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>where(R[i, :] <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>)[<span style="color:#ae81ff">0</span>]  <span style="color:#75715e"># 为电影i评分的用户index</span>
+    Y_mean[i] <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>mean(Y[i, idx])  <span style="color:#75715e"># 电影i所有用户评分均值</span>
+    Y_norm[i, idx] <span style="color:#f92672">=</span> Y[i, idx] <span style="color:#f92672">-</span> Y_mean[i]  <span style="color:#75715e"># 均值标准化</span>
+<span style="color:#75715e"># 随机初始化X和Theta</span>
+X <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>Variable(tf<span style="color:#f92672">.</span>random_uniform([movies, features], minval<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, maxval<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, dtype<span style="color:#f92672">=</span>np<span style="color:#f92672">.</span>float64))
+Theta <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>Variable(tf<span style="color:#f92672">.</span>random_uniform([users, features], minval<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>, maxval<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, dtype<span style="color:#f92672">=</span>np<span style="color:#f92672">.</span>float64))
+
+loss <span style="color:#f92672">=</span> cost(X, Theta, Y_norm, R, learning_rate)
+train <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>train<span style="color:#f92672">.</span>GradientDescentOptimizer(learning_rate)<span style="color:#f92672">.</span>minimize(loss)</code></pre></div>
+<p>参数X和Theta经过训练后，计算并输出最高评分前10组。
+因为数据是随机的，所以结果不定，其中一次运行的结果如下：</p>
+
+<pre><code>[[6.8931457 ]
+[6.55168005]
+[6.54106849]
+[6.5401813 ]
+[6.44245844]
+[6.31349962]
+[6.31135961]
+[6.28386337]
+[6.2115253 ]
+[6.20582227]]
+</code></pre>
+
+<p>参考资料：
+<a href="http://www.atyun.com/4563.html">Python机器学习的练习八：异常检测和推荐系统</a></p></article>
+    <footer class="post-footer">
+      
+      <ul class="post-tags">
+        
+          <li><a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0"><span class="tag">机器学习</span></a></li>
+        
+          <li><a href="/tags/tensorflow"><span class="tag">TensorFlow</span></a></li>
+        
+          <li><a href="/tags/python"><span class="tag">Python</span></a></li>
+        
+      </ul>
+      
+      <p class="post-copyright">
+        © 2019 VozhuoThis post was published <strong>240</strong> days ago, content in the post may be inaccurate, even wrong now, please take risk yourself.
+      </p>
+    </footer>
+    
+      
+      <div id="cyReward" role="cylabs" data-use="reward"></div>
+      <script src="//changyan.itc.cn/js/lib/jquery.js"></script>
+      <script src="//changyan.sohu.com/js/changyan.labs.https.js?appid=cyu1JCtWI"></script>
+      <div id="SOHUCS" sid="/post/machine-learning-recommend/" ></div>
+      <script>
+      (function(){
+      var appid = 'cyu1JCtWI';
+      var conf = 'prod_87a280f2532c26d97430235e5cb8bd2f';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
+      
+    
+  </section>
+  
+<footer class="site-footer">
+  <p>© 2017-2019 Vozhuo&#39;s Blog</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank" rel="noopener">Nuo</a>.</p>
+  
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@15.0.0/dist/smooth-scroll.min.js"></script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video.min.js"></script>
+
+
+
+
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    },
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+
+
+<script src="/scripts/index.min.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('\/service-worker.js').then(function() {
+      console.log('[ServiceWorker] Registered');
+    });
+  }
+</script>
+
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-74583706-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?4cfb60f6b668e48d81b6f4b916461bd7";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+  </body>
+</html>

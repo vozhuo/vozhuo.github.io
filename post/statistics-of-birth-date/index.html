@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>数据统计——研究生出生日期</title>
+
+  
+  
+  <link href="//cdn.jsdelivr.net" rel="dns-prefetch">
+  <link href="//cdnjs.cloudflare.com" rel="dns-prefetch">
+  
+  <link href="//at.alicdn.com" rel="dns-prefetch">
+  
+  <link href="//fonts.googleapis.com" rel="dns-prefetch">
+  <link href="//fonts.gstatic.com" rel="dns-prefetch">
+  
+  
+  
+  <link href="//www.google-analytics.com" rel="dns-prefetch">
+  <link href="//hm.baidu.com" rel="dns-prefetch">
+
+  
+
+  
+  
+  <meta name="description" content="最近得到了一份带有班里所有学生身份证号的Excel文件，于是想要统计一下所有同学的出生信息。这里选用xlrd模块读取Excel文件，文件中三个工作表（Sheet）只有第一个有数据，所以读取第一个Sheet的内容。
+">
+
+  
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@gohugoio">
+    <meta name="twitter:title" content="数据统计——研究生出生日期">
+    <meta name="twitter:description" content="最近得到了一份带有班里所有学生身份证号的Excel文件，于是想要统计一下所有同学的出生信息。这里选用xlrd模块读取Excel文件，文件中三个工作表（Sheet）只有第一个有数据，所以读取第一个Sheet的内容。
+">
+    <meta name="twitter:image" content="/images/avatar.png">
+  
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="数据统计——研究生出生日期">
+  <meta property="og:description" content="最近得到了一份带有班里所有学生身份证号的Excel文件，于是想要统计一下所有同学的出生信息。这里选用xlrd模块读取Excel文件，文件中三个工作表（Sheet）只有第一个有数据，所以读取第一个Sheet的内容。
+">
+  <meta property="og:url" content="/post/statistics-of-birth-date/">
+  <meta property="og:image" content="/images/avatar.png">
+
+
+
+
+<meta name="generator" content="Hugo 0.55.6">
+
+
+<link rel="canonical" href="/post/statistics-of-birth-date/">
+
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="format-detection" content="telephone=no,email=no,adress=no">
+<meta http-equiv="Cache-Control" content="no-transform">
+
+
+<meta name="robots" content="index,follow">
+<meta name="referrer" content="origin-when-cross-origin">
+
+
+
+
+
+
+
+<meta name="theme-color" content="#02b875">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Vozhuo&#39;s Blog">
+<meta name="msapplication-tooltip" content="Vozhuo&#39;s Blog">
+<meta name='msapplication-navbutton-color' content="#02b875">
+<meta name="msapplication-TileColor" content="#02b875">
+<meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png">
+<link rel="icon" sizes="192x192" href="/icons/icon-192x192.png">
+<link rel="apple-touch-icon" href="/icons/icon-152x152.png">
+<link rel="manifest" href="/manifest.json">
+
+
+<link rel="preload" href="/styles/main-rendered.min.css" as="style">
+
+<link rel="preload" href="/styles/custom.min.css" as="style">
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Lobster" as="style">
+<link rel="preload" href="/images/avatar.png" as="image">
+<link rel="preload" href="/images/grey-prism.svg" as="image">
+
+
+<style>
+  body {
+    background: rgb(244, 243, 241) url('/images/grey-prism.svg') repeat fixed;
+  }
+</style>
+<link rel="stylesheet" href="/styles/main-rendered.min.css">
+
+<link rel="stylesheet" href="/styles/custom.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.2/dist/medium-zoom.min.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video-js.min.css">
+
+
+
+  
+  
+<!--[if lte IE 8]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ie8@1.1.2/dist/videojs-ie8.min.js"></script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20180112/classList.min.js"></script>
+<![endif]-->
+
+
+</head>
+  <body>
+    <div class="suspension">
+      <a role="button" aria-label="Go to top" title="Go to top" class="to-top is-hide"><span class="icon icon-up" aria-hidden="true"></span></a>
+      
+        
+	<a role="button" aria-label="Go to comments" title="Go to comments" class="to-comment" href="#SOHUCS"><span class="icon icon-comment" aria-hidden="true"></span></a>
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <a href=""><img class="avatar" src="/images/avatar.png" alt="Avatar"></a>
+  
+  <h2 class="title"><a href="">Vozhuo&#39;s Blog</a></h2>
+  
+  <p class="subtitle">May you rest in a deep and restless slumber.</p>
+  <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
+    <span class="icon icon-menu" aria-hidden="true"></span>
+  </button>
+
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+        <li class="menu-item
+          
+          
+           is-active">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list"><li class="social-item">
+          <a href="mailto:qsx753698@outlook.com" title="Email" aria-label="Email">
+            <span class="icon icon-email" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//github.com/vozhuo" rel="me" title="GitHub" aria-label="GitHub">
+	    <span class="icon icon-github" aria-hidden="true"></span>
+          </a>
+        </li></ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">数据统计——研究生出生日期</h1>
+      <p class="post-meta">@Vozhuo · Jan 20, 2019 · 1 min read</p>
+    </header>
+    <article class="post-content"><p>最近得到了一份带有班里所有学生身份证号的Excel文件，于是想要统计一下所有同学的出生信息。这里选用xlrd模块读取Excel文件，文件中三个工作表（Sheet）只有第一个有数据，所以读取第一个Sheet的内容。</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">data <span style="color:#f92672">=</span> xlrd<span style="color:#f92672">.</span>open_workbook(<span style="color:#e6db74">&#39;data.xls&#39;</span>)
+table <span style="color:#f92672">=</span> data<span style="color:#f92672">.</span>sheets()[<span style="color:#ae81ff">0</span>]</code></pre></div>
+<p>出生信息隐含在身份证号中，所以需要获取身份证号特定位数（7-14位）的信息。然后将姓名和六位出生日期建立一一对应关系，并保存到文件中。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">col_id <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>  <span style="color:#75715e"># 表中证件号码所在列</span>
+col_name <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>  <span style="color:#75715e"># 表中姓名所在列</span>
+start <span style="color:#f92672">=</span> <span style="color:#ae81ff">6</span>  <span style="color:#75715e"># 身份证号截取开始序号</span>
+end <span style="color:#f92672">=</span> <span style="color:#ae81ff">14</span>  <span style="color:#75715e"># 身份证号截取结束序号</span>
+
+id_list <span style="color:#f92672">=</span> table<span style="color:#f92672">.</span>col_values(col_id)[<span style="color:#ae81ff">1</span>:]  <span style="color:#75715e"># 获取身份证号列表</span>
+bd_list <span style="color:#f92672">=</span> list(map(<span style="color:#66d9ef">lambda</span> x: x[start: end], id_list))  <span style="color:#75715e"># 获取出生日期列表</span>
+name_list <span style="color:#f92672">=</span> table<span style="color:#f92672">.</span>col_values(col_name)[<span style="color:#ae81ff">1</span>:] <span style="color:#75715e"># 获取姓名列表</span>
+d <span style="color:#f92672">=</span> dict(zip(name_list, bd_list))  <span style="color:#75715e"># 将姓名和出生日期组合成字典</span>
+d_s <span style="color:#f92672">=</span> sorted(d<span style="color:#f92672">.</span>items(), key<span style="color:#f92672">=</span><span style="color:#66d9ef">lambda</span> i: i[<span style="color:#ae81ff">1</span>])  <span style="color:#75715e"># 字典按出生日期排序</span>
+
+jsObj <span style="color:#f92672">=</span> json<span style="color:#f92672">.</span>dumps(d_s, ensure_ascii<span style="color:#f92672">=</span>False) <span style="color:#75715e"># 文件保存</span>
+<span style="color:#66d9ef">with</span> open(<span style="color:#e6db74">&#39;out.json&#39;</span>, <span style="color:#e6db74">&#39;w&#39;</span>, encoding<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;utf-8&#39;</span>) <span style="color:#66d9ef">as</span> f:
+    f<span style="color:#f92672">.</span>write(jsObj)</code></pre></div>
+<p>为了让数据更加清晰，我使用出生年份制作了一张柱状图。x轴为所有的出生年份，y轴为各个出生年份的人数。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">by_list <span style="color:#f92672">=</span> list(map(<span style="color:#66d9ef">lambda</span> x: x[: <span style="color:#ae81ff">4</span>], bd_list))  <span style="color:#75715e"># 依据出生日期列表获取出生年份列表</span>
+c <span style="color:#f92672">=</span> Counter(sorted(by_list))  <span style="color:#75715e"># 用排序后的列表计数</span>
+x <span style="color:#f92672">=</span> list(c<span style="color:#f92672">.</span>keys())
+y <span style="color:#f92672">=</span> list(c<span style="color:#f92672">.</span>values())
+
+plt<span style="color:#f92672">.</span>bar(x, y)  <span style="color:#75715e"># 画柱状图</span>
+<span style="color:#66d9ef">for</span> a, b <span style="color:#f92672">in</span> zip(x, y):  <span style="color:#75715e"># 柱状图中标注数据</span>
+    plt<span style="color:#f92672">.</span>text(a, b <span style="color:#f92672">+</span> <span style="color:#ae81ff">0.05</span>, <span style="color:#e6db74">&#39;</span><span style="color:#e6db74">%.0f</span><span style="color:#e6db74">&#39;</span> <span style="color:#f92672">%</span> b, ha<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;center&#39;</span>, va<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;bottom&#39;</span>, fontsize<span style="color:#f92672">=</span><span style="color:#ae81ff">11</span>)
+
+plt<span style="color:#f92672">.</span>xlabel(<span style="color:#e6db74">&#39;年份&#39;</span>)
+plt<span style="color:#f92672">.</span>ylabel(<span style="color:#e6db74">&#39;人数&#39;</span>)
+plt<span style="color:#f92672">.</span>title(<span style="color:#e6db74">&#39;2018届研究生生年统计&#39;</span>)
+plt<span style="color:#f92672">.</span>show()</code></pre></div>
+<p>需要注意的一点是，用于画图的matplotlib模块显示中文会出现乱码，Windows系统下可添加以下代码解决：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> pylab <span style="color:#f92672">import</span> mpl
+mpl<span style="color:#f92672">.</span>rcParams[<span style="color:#e6db74">&#39;font.sans-serif&#39;</span>] <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#39;SimHei&#39;</span>]</code></pre></div>
+<p>最后生成的柱状图如下：</p>
+
+<p><img src="/img/by_bar_chart.png" alt="" /></p>
+
+<p>参考资料：
+<a href="https://www.cnblogs.com/puresoul/p/7520198.html">python读取excel(xlrd)</a>
+<a href="https://blog.csdn.net/sinat_29699167/article/details/80029898">最简单方式解决python matplotlib中文乱码问题</a></p></article>
+    <footer class="post-footer">
+      
+      <ul class="post-tags">
+        
+          <li><a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%9F%E8%AE%A1"><span class="tag">数据统计</span></a></li>
+        
+          <li><a href="/tags/python"><span class="tag">Python</span></a></li>
+        
+      </ul>
+      
+      <p class="post-copyright">
+        © 2019 VozhuoThis post was published <strong>181</strong> days ago, content in the post may be inaccurate, even wrong now, please take risk yourself.
+      </p>
+    </footer>
+    
+      
+      <div id="cyReward" role="cylabs" data-use="reward"></div>
+      <script src="//changyan.itc.cn/js/lib/jquery.js"></script>
+      <script src="//changyan.sohu.com/js/changyan.labs.https.js?appid=cyu1JCtWI"></script>
+      <div id="SOHUCS" sid="/post/statistics-of-birth-date/" ></div>
+      <script>
+      (function(){
+      var appid = 'cyu1JCtWI';
+      var conf = 'prod_87a280f2532c26d97430235e5cb8bd2f';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
+      
+    
+  </section>
+  
+<footer class="site-footer">
+  <p>© 2017-2019 Vozhuo&#39;s Blog</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank" rel="noopener">Nuo</a>.</p>
+  
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@15.0.0/dist/smooth-scroll.min.js"></script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video.min.js"></script>
+
+
+
+
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    },
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+
+
+<script src="/scripts/index.min.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('\/service-worker.js').then(function() {
+      console.log('[ServiceWorker] Registered');
+    });
+  }
+</script>
+
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-74583706-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?4cfb60f6b668e48d81b6f4b916461bd7";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+  </body>
+</html>

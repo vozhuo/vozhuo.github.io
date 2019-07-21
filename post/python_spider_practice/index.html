@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>Python爬虫初学</title>
+
+  
+  
+  <link href="//cdn.jsdelivr.net" rel="dns-prefetch">
+  <link href="//cdnjs.cloudflare.com" rel="dns-prefetch">
+  
+  <link href="//at.alicdn.com" rel="dns-prefetch">
+  
+  <link href="//fonts.googleapis.com" rel="dns-prefetch">
+  <link href="//fonts.gstatic.com" rel="dns-prefetch">
+  
+  
+  
+  <link href="//www.google-analytics.com" rel="dns-prefetch">
+  <link href="//hm.baidu.com" rel="dns-prefetch">
+
+  
+
+  
+  
+  <meta name="description" content="这几天学习了Python爬虫有关的知识，自己做了一个简单的实例：爬取熊猫直播某板块的主播信息。本实例使用Requests &#43;BeautifulSoup和爬虫框架Scrapy两种方法。
+BeautifulSoup可以从HTML或XML文件中提取数据，Requests则用于读取网络资源。虽然Python内置的urllib模块也可以读取网页，但Requests使用起来要更方便。首先需要确定要爬取的URL，这里我选择了熊猫直播的“守望先锋”板块，网址为https://www.panda.tv/cate/overwatch。先来看一下网页的源码：
+">
+
+  
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@gohugoio">
+    <meta name="twitter:title" content="Python爬虫初学">
+    <meta name="twitter:description" content="这几天学习了Python爬虫有关的知识，自己做了一个简单的实例：爬取熊猫直播某板块的主播信息。本实例使用Requests &#43;BeautifulSoup和爬虫框架Scrapy两种方法。
+BeautifulSoup可以从HTML或XML文件中提取数据，Requests则用于读取网络资源。虽然Python内置的urllib模块也可以读取网页，但Requests使用起来要更方便。首先需要确定要爬取的URL，这里我选择了熊猫直播的“守望先锋”板块，网址为https://www.panda.tv/cate/overwatch。先来看一下网页的源码：
+">
+    <meta name="twitter:image" content="/images/avatar.png">
+  
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Python爬虫初学">
+  <meta property="og:description" content="这几天学习了Python爬虫有关的知识，自己做了一个简单的实例：爬取熊猫直播某板块的主播信息。本实例使用Requests &#43;BeautifulSoup和爬虫框架Scrapy两种方法。
+BeautifulSoup可以从HTML或XML文件中提取数据，Requests则用于读取网络资源。虽然Python内置的urllib模块也可以读取网页，但Requests使用起来要更方便。首先需要确定要爬取的URL，这里我选择了熊猫直播的“守望先锋”板块，网址为https://www.panda.tv/cate/overwatch。先来看一下网页的源码：
+">
+  <meta property="og:url" content="/post/python_spider_practice/">
+  <meta property="og:image" content="/images/avatar.png">
+
+
+
+
+<meta name="generator" content="Hugo 0.55.6">
+
+
+<link rel="canonical" href="/post/python_spider_practice/">
+
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="format-detection" content="telephone=no,email=no,adress=no">
+<meta http-equiv="Cache-Control" content="no-transform">
+
+
+<meta name="robots" content="index,follow">
+<meta name="referrer" content="origin-when-cross-origin">
+
+
+
+
+
+
+
+<meta name="theme-color" content="#02b875">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Vozhuo&#39;s Blog">
+<meta name="msapplication-tooltip" content="Vozhuo&#39;s Blog">
+<meta name='msapplication-navbutton-color' content="#02b875">
+<meta name="msapplication-TileColor" content="#02b875">
+<meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png">
+<link rel="icon" sizes="192x192" href="/icons/icon-192x192.png">
+<link rel="apple-touch-icon" href="/icons/icon-152x152.png">
+<link rel="manifest" href="/manifest.json">
+
+
+<link rel="preload" href="/styles/main-rendered.min.css" as="style">
+
+<link rel="preload" href="/styles/custom.min.css" as="style">
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Lobster" as="style">
+<link rel="preload" href="/images/avatar.png" as="image">
+<link rel="preload" href="/images/grey-prism.svg" as="image">
+
+
+<style>
+  body {
+    background: rgb(244, 243, 241) url('/images/grey-prism.svg') repeat fixed;
+  }
+</style>
+<link rel="stylesheet" href="/styles/main-rendered.min.css">
+
+<link rel="stylesheet" href="/styles/custom.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.2/dist/medium-zoom.min.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video-js.min.css">
+
+
+
+  
+  
+<!--[if lte IE 8]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ie8@1.1.2/dist/videojs-ie8.min.js"></script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20180112/classList.min.js"></script>
+<![endif]-->
+
+
+</head>
+  <body>
+    <div class="suspension">
+      <a role="button" aria-label="Go to top" title="Go to top" class="to-top is-hide"><span class="icon icon-up" aria-hidden="true"></span></a>
+      
+        
+	<a role="button" aria-label="Go to comments" title="Go to comments" class="to-comment" href="#SOHUCS"><span class="icon icon-comment" aria-hidden="true"></span></a>
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <a href=""><img class="avatar" src="/images/avatar.png" alt="Avatar"></a>
+  
+  <h2 class="title"><a href="">Vozhuo&#39;s Blog</a></h2>
+  
+  <p class="subtitle">May you rest in a deep and restless slumber.</p>
+  <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
+    <span class="icon icon-menu" aria-hidden="true"></span>
+  </button>
+
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+        <li class="menu-item
+          
+          
+           is-active">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list"><li class="social-item">
+          <a href="mailto:qsx753698@outlook.com" title="Email" aria-label="Email">
+            <span class="icon icon-email" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//github.com/vozhuo" rel="me" title="GitHub" aria-label="GitHub">
+	    <span class="icon icon-github" aria-hidden="true"></span>
+          </a>
+        </li></ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">Python爬虫初学</h1>
+      <p class="post-meta">@Vozhuo · Sep 16, 2018 · 2 min read</p>
+    </header>
+    <article class="post-content"><p>这几天学习了Python爬虫有关的知识，自己做了一个简单的实例：爬取熊猫直播某板块的主播信息。本实例使用Requests +BeautifulSoup和爬虫框架Scrapy两种方法。</p>
+
+<p>BeautifulSoup可以从HTML或XML文件中提取数据，Requests则用于读取网络资源。虽然Python内置的urllib模块也可以读取网页，但Requests使用起来要更方便。首先需要确定要爬取的URL，这里我选择了熊猫直播的“守望先锋”板块，网址为<a href="https://www.panda.tv/cate/overwatch">https://www.panda.tv/cate/overwatch</a>。先来看一下网页的源码：</p>
+
+<p><img src="/img/pandatv.PNG" alt="源码" />
+可以看出主播信息都在<code>&lt;li&gt;</code>标签下，再具体些，我们想要的内容在<code>&lt;a&gt;</code>标签下，其href属性显示了主播的房间号，和熊猫直播的基础URL <a href="https://www.panda.tv">https://www.panda.tv</a>结合就可得出直播间的URL。<code>&lt;span&gt;</code>标签的“video-nickname”和“video-number”两个class则是我们需要的另外两个信息。HTML分析完后就可以编写代码了：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">    <span style="color:#f92672">from</span> bs4 <span style="color:#f92672">import</span> BeautifulSoup
+    <span style="color:#f92672">import</span> requests
+
+    base_url <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;https://www.panda.tv&#39;</span>
+    URL <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;https://www.panda.tv/cate/overwatch&#39;</span>
+    r <span style="color:#f92672">=</span> requests<span style="color:#f92672">.</span>get(URL)
+    r<span style="color:#f92672">.</span>encoding <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;utf-8&#34;</span>
+    html <span style="color:#f92672">=</span> r<span style="color:#f92672">.</span>text
+
+    soup <span style="color:#f92672">=</span> BeautifulSoup(html, <span style="color:#e6db74">&#39;lxml&#39;</span>)
+    info <span style="color:#f92672">=</span> soup<span style="color:#f92672">.</span>findAll(<span style="color:#e6db74">&#39;a&#39;</span>, {<span style="color:#e6db74">&#34;class&#34;</span>: <span style="color:#e6db74">&#34;video-list-item-wrap&#34;</span>})
+
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;主播人数:&#39;</span>, len(info))
+    <span style="color:#66d9ef">for</span> streamer <span style="color:#f92672">in</span> info:
+        room <span style="color:#f92672">=</span> streamer[<span style="color:#e6db74">&#39;href&#39;</span>]
+        nickname <span style="color:#f92672">=</span> streamer<span style="color:#f92672">.</span>find(<span style="color:#e6db74">&#39;span&#39;</span>, {<span style="color:#e6db74">&#39;class&#39;</span>: <span style="color:#e6db74">&#39;video-nickname&#39;</span>})[<span style="color:#e6db74">&#39;title&#39;</span>]
+        popularity <span style="color:#f92672">=</span> streamer<span style="color:#f92672">.</span>find(<span style="color:#e6db74">&#39;span&#39;</span>, {<span style="color:#e6db74">&#39;class&#39;</span>: <span style="color:#e6db74">&#39;video-number&#39;</span>})<span style="color:#f92672">.</span>string
+        <span style="color:#66d9ef">print</span>(base_url <span style="color:#f92672">+</span> room, nickname, popularity)</code></pre></div>
+<p>有几个需要注意的点。网页的字符编码是“UTF-8”，所以需要用将requests的encoding属性设定为“UTF-8”，否则提取的HTML中中文会出现乱码。我在BeautifulSoup中使用了第三方的lxml解析器，与Python内置标准库相比，它的解析效率比较高。输出结果如下：</p>
+
+<pre><code>主播人数: 21
+https://www.panda.tv/683603 Kr丶智妍 1735
+https://www.panda.tv/1546645 昕星ya 575
+https://www.panda.tv/1219209 世界杯官方直播间 13.1万
+https://www.panda.tv/1192964 叶秋Decadent 2707
+https://www.panda.tv/619462 熊猫丶刑天 1947
+https://www.panda.tv/1817064 Ink2k 1355
+https://www.panda.tv/469332 熊猫小金猪 1071
+https://www.panda.tv/1153106 勺绿YA 746
+https://www.panda.tv/1043517 亲亲小陆童鞋 650
+https://www.panda.tv/1702668 困兽欸儿 177
+https://www.panda.tv/291657 熊猫丶2喵 109
+https://www.panda.tv/1859008 伤感蜘蛛侠 79
+https://www.panda.tv/628904 放牛班的小黑 55
+https://www.panda.tv/795973 熊猫丶三岁萌萌哒 36
+https://www.panda.tv/734027 妙喵不可言 36
+https://www.panda.tv/1990546 _最咸的鱼 21
+https://www.panda.tv/2060694 Mujiplaygame 10
+https://www.panda.tv/639004 超级大叔志 3
+https://www.panda.tv/1243928 梦槡 3
+https://www.panda.tv/2181623 伊森丶King 2
+https://www.panda.tv/992169 YourSugarDaddy1 1
+</code></pre>
+
+<p>第二种方法是使用Scrapy。Scrapy是一个高效的爬虫框架，整合了爬取、处理数据、存储数据等多种功能。一般来说，爬取之前要创建一个新的Scrapy项目：<code>scrapy startproject scrapyspider</code>。然后在文件夹spiders下建立新文件编写代码：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">    <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">StreamersSpider</span>(scrapy<span style="color:#f92672">.</span>Spider):
+        name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;streamers&#34;</span>
+        start_urls <span style="color:#f92672">=</span> [
+            <span style="color:#e6db74">&#39;https://www.panda.tv/cate/overwatch&#39;</span>,
+        ]
+
+        <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">parse</span>(self, response):
+            base <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;https://www.panda.tv&#39;</span>
+            <span style="color:#66d9ef">for</span> streamer <span style="color:#f92672">in</span> response<span style="color:#f92672">.</span>css(<span style="color:#e6db74">&#39;a.video-list-item-wrap&#39;</span>):
+                <span style="color:#66d9ef">yield</span> {
+                    <span style="color:#e6db74">&#39;url&#39;</span>: base <span style="color:#f92672">+</span> streamer<span style="color:#f92672">.</span>css(<span style="color:#e6db74">&#39;a::attr(&#34;href&#34;)&#39;</span>)<span style="color:#f92672">.</span>extract_first(),
+                    <span style="color:#75715e"># &#39;name&#39;: streamer.css(&#39;div.video-info span.video-nickname::attr(&#34;title&#34;)&#39;).extract_first(),</span>
+                    <span style="color:#e6db74">&#39;name&#39;</span>: streamer<span style="color:#f92672">.</span>xpath(<span style="color:#e6db74">&#39;div[@class=&#34;video-info&#34;]/span[@class=&#34;video-nickname&#34;]/@title&#39;</span>)<span style="color:#f92672">.</span>extract_first(),
+                    <span style="color:#e6db74">&#39;pop&#39;</span>: streamer<span style="color:#f92672">.</span>xpath(<span style="color:#e6db74">&#39;div[@class=&#34;video-info&#34;]/span[@class=&#34;video-number&#34;]/text()&#39;</span>)<span style="color:#f92672">.</span>extract_first(),
+                }</code></pre></div>
+<p>创建Spider必须继承scrapy.Spider类， 定义name、start_urls两个参数和parse方法，调用时，生成的Response对象会传递给该函数。提取数据需要用到选择器，Scrapy使用了基于XPath和CSS表达式机制。代码中对两种表达式都有所体现。另外，XPath也可由工具获取，如在Chrome浏览器中，可以右键元素，高亮这段HTML，再次右击，选择 &lsquo;Copy XPath&rsquo;。“url”代表直播间网址，“name”代表主播名，“pop”则代表人气。</p>
+
+<p>Scrapy项目和普通Python项目运行时有点不同，本项目使用以下代码运行：<code>scrapy crawl streamers -o res.json</code>。“streamers”是代码中的name参数，res.json则保存爬取的数据，这里我在运行时，中文是以Unicode表示，需要在项目中的setting.py中添加代码：<code>FEED_EXPORT_ENCODING = 'utf-8'</code>，方能正常显示。</p>
+
+<pre><code>[
+{&quot;url&quot;: &quot;https://www.panda.tv/683603&quot;, &quot;name&quot;: &quot;Kr丶智妍&quot;, &quot;pop&quot;: &quot;1735&quot;},
+{&quot;url&quot;: &quot;https://www.panda.tv/1546645&quot;, &quot;name&quot;: &quot;昕星ya&quot;, &quot;pop&quot;: &quot;575&quot;},
+{&quot;url&quot;: &quot;https://www.panda.tv/1219209&quot;, &quot;name&quot;: &quot;世界杯官方直播间&quot;, &quot;pop&quot;: &quot;13.1万&quot;},
+{&quot;url&quot;: &quot;https://www.panda.tv/1192964&quot;, &quot;name&quot;: &quot;叶秋Decadent&quot;, &quot;pop&quot;: &quot;2707&quot;},
+{&quot;url&quot;: &quot;https://www.panda.tv/619462&quot;, &quot;name&quot;: &quot;熊猫丶刑天&quot;, &quot;pop&quot;: &quot;1947&quot;},
+{&quot;url&quot;: &quot;https://www.panda.tv/1817064&quot;, &quot;name&quot;: &quot;Ink2k&quot;, &quot;pop&quot;: &quot;1355&quot;},
+{&quot;url&quot;: &quot;https://www.panda.tv/469332&quot;, &quot;name&quot;: &quot;熊猫小金猪&quot;, &quot;pop&quot;: &quot;1071&quot;},
+{&quot;url&quot;: &quot;https://www.panda.tv/1153106&quot;, &quot;name&quot;: &quot;勺绿YA&quot;, &quot;pop&quot;: &quot;746&quot;},
+{&quot;url&quot;: &quot;https://www.panda.tv/1043517&quot;, &quot;name&quot;: &quot;亲亲小陆童鞋&quot;, &quot;pop&quot;: &quot;650&quot;},
+{&quot;url&quot;: &quot;https://www.panda.tv/1702668&quot;, &quot;name&quot;: &quot;困兽欸儿&quot;, &quot;pop&quot;: &quot;177&quot;},
+{&quot;url&quot;: &quot;https://www.panda.tv/291657&quot;, &quot;name&quot;: &quot;熊猫丶2喵&quot;, &quot;pop&quot;: &quot;109&quot;},
+{&quot;url&quot;: &quot;https://www.panda.tv/1859008&quot;, &quot;name&quot;: &quot;伤感蜘蛛侠&quot;, &quot;pop&quot;: &quot;79&quot;},
+{&quot;url&quot;: &quot;https://www.panda.tv/628904&quot;, &quot;name&quot;: &quot;放牛班的小黑&quot;, &quot;pop&quot;: &quot;55&quot;},
+{&quot;url&quot;: &quot;https://www.panda.tv/795973&quot;, &quot;name&quot;: &quot;熊猫丶三岁萌萌哒&quot;, &quot;pop&quot;: &quot;36&quot;},
+{&quot;url&quot;: &quot;https://www.panda.tv/734027&quot;, &quot;name&quot;: &quot;妙喵不可言&quot;, &quot;pop&quot;: &quot;36&quot;},
+{&quot;url&quot;: &quot;https://www.panda.tv/1990546&quot;, &quot;name&quot;: &quot;_最咸的鱼&quot;, &quot;pop&quot;: &quot;21&quot;},
+{&quot;url&quot;: &quot;https://www.panda.tv/2060694&quot;, &quot;name&quot;: &quot;Mujiplaygame&quot;, &quot;pop&quot;: &quot;10&quot;},
+{&quot;url&quot;: &quot;https://www.panda.tv/639004&quot;, &quot;name&quot;: &quot;超级大叔志&quot;, &quot;pop&quot;: &quot;3&quot;},
+{&quot;url&quot;: &quot;https://www.panda.tv/1243928&quot;, &quot;name&quot;: &quot;梦槡&quot;, &quot;pop&quot;: &quot;3&quot;},
+{&quot;url&quot;: &quot;https://www.panda.tv/2181623&quot;, &quot;name&quot;: &quot;伊森丶King&quot;, &quot;pop&quot;: &quot;2&quot;},
+{&quot;url&quot;: &quot;https://www.panda.tv/992169&quot;, &quot;name&quot;: &quot;YourSugarDaddy1&quot;, &quot;pop&quot;: &quot;1&quot;}
+]
+</code></pre>
+
+<p>参考资料：
+<a href="https://morvanzhou.github.io/tutorials/data-manipulation/scraping/">网页爬虫教程系列| 莫烦Python</a>
+<a href="https://doc.scrapy.org/en/latest/">Scrapy 1.5 documentation</a></p></article>
+    <footer class="post-footer">
+      
+      <ul class="post-tags">
+        
+          <li><a href="/tags/python"><span class="tag">Python</span></a></li>
+        
+          <li><a href="/tags/%E7%88%AC%E8%99%AB"><span class="tag">爬虫</span></a></li>
+        
+      </ul>
+      
+      <p class="post-copyright">
+        © 2019 VozhuoThis post was published <strong>308</strong> days ago, content in the post may be inaccurate, even wrong now, please take risk yourself.
+      </p>
+    </footer>
+    
+      
+      <div id="cyReward" role="cylabs" data-use="reward"></div>
+      <script src="//changyan.itc.cn/js/lib/jquery.js"></script>
+      <script src="//changyan.sohu.com/js/changyan.labs.https.js?appid=cyu1JCtWI"></script>
+      <div id="SOHUCS" sid="/post/python_spider_practice/" ></div>
+      <script>
+      (function(){
+      var appid = 'cyu1JCtWI';
+      var conf = 'prod_87a280f2532c26d97430235e5cb8bd2f';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
+      
+    
+  </section>
+  
+<footer class="site-footer">
+  <p>© 2017-2019 Vozhuo&#39;s Blog</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank" rel="noopener">Nuo</a>.</p>
+  
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@15.0.0/dist/smooth-scroll.min.js"></script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video.min.js"></script>
+
+
+
+
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    },
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+
+
+<script src="/scripts/index.min.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('\/service-worker.js').then(function() {
+      console.log('[ServiceWorker] Registered');
+    });
+  }
+</script>
+
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-74583706-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?4cfb60f6b668e48d81b6f4b916461bd7";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+  </body>
+</html>

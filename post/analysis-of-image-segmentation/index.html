@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>图像分割方法可行性分析</title>
+
+  
+  
+  <link href="//cdn.jsdelivr.net" rel="dns-prefetch">
+  <link href="//cdnjs.cloudflare.com" rel="dns-prefetch">
+  
+  <link href="//at.alicdn.com" rel="dns-prefetch">
+  
+  <link href="//fonts.googleapis.com" rel="dns-prefetch">
+  <link href="//fonts.gstatic.com" rel="dns-prefetch">
+  
+  
+  
+  <link href="//www.google-analytics.com" rel="dns-prefetch">
+  <link href="//hm.baidu.com" rel="dns-prefetch">
+
+  
+
+  
+  
+  <meta name="description" content="本文列出传统图像分割的主要方法，并针对目标图像进行可行性分析。
+基于阈值的分割 基于图像灰度图的特征划分图像，其核心是找出最优灰度阈值。主要有固定阈值和自适应阈值两种阈值选择方法。
+">
+
+  
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@gohugoio">
+    <meta name="twitter:title" content="图像分割方法可行性分析">
+    <meta name="twitter:description" content="本文列出传统图像分割的主要方法，并针对目标图像进行可行性分析。
+基于阈值的分割 基于图像灰度图的特征划分图像，其核心是找出最优灰度阈值。主要有固定阈值和自适应阈值两种阈值选择方法。
+">
+    <meta name="twitter:image" content="/images/avatar.png">
+  
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="图像分割方法可行性分析">
+  <meta property="og:description" content="本文列出传统图像分割的主要方法，并针对目标图像进行可行性分析。
+基于阈值的分割 基于图像灰度图的特征划分图像，其核心是找出最优灰度阈值。主要有固定阈值和自适应阈值两种阈值选择方法。
+">
+  <meta property="og:url" content="/post/analysis-of-image-segmentation/">
+  <meta property="og:image" content="/images/avatar.png">
+
+
+
+
+<meta name="generator" content="Hugo 0.55.6">
+
+
+<link rel="canonical" href="/post/analysis-of-image-segmentation/">
+
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="format-detection" content="telephone=no,email=no,adress=no">
+<meta http-equiv="Cache-Control" content="no-transform">
+
+
+<meta name="robots" content="index,follow">
+<meta name="referrer" content="origin-when-cross-origin">
+
+
+
+
+
+
+
+<meta name="theme-color" content="#02b875">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Vozhuo&#39;s Blog">
+<meta name="msapplication-tooltip" content="Vozhuo&#39;s Blog">
+<meta name='msapplication-navbutton-color' content="#02b875">
+<meta name="msapplication-TileColor" content="#02b875">
+<meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png">
+<link rel="icon" sizes="192x192" href="/icons/icon-192x192.png">
+<link rel="apple-touch-icon" href="/icons/icon-152x152.png">
+<link rel="manifest" href="/manifest.json">
+
+
+<link rel="preload" href="/styles/main-rendered.min.css" as="style">
+
+<link rel="preload" href="/styles/custom.min.css" as="style">
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Lobster" as="style">
+<link rel="preload" href="/images/avatar.png" as="image">
+<link rel="preload" href="/images/grey-prism.svg" as="image">
+
+
+<style>
+  body {
+    background: rgb(244, 243, 241) url('/images/grey-prism.svg') repeat fixed;
+  }
+</style>
+<link rel="stylesheet" href="/styles/main-rendered.min.css">
+
+<link rel="stylesheet" href="/styles/custom.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.2/dist/medium-zoom.min.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video-js.min.css">
+
+
+
+  
+  
+<!--[if lte IE 8]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ie8@1.1.2/dist/videojs-ie8.min.js"></script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20180112/classList.min.js"></script>
+<![endif]-->
+
+
+</head>
+  <body>
+    <div class="suspension">
+      <a role="button" aria-label="Go to top" title="Go to top" class="to-top is-hide"><span class="icon icon-up" aria-hidden="true"></span></a>
+      
+        
+	<a role="button" aria-label="Go to comments" title="Go to comments" class="to-comment" href="#SOHUCS"><span class="icon icon-comment" aria-hidden="true"></span></a>
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <a href=""><img class="avatar" src="/images/avatar.png" alt="Avatar"></a>
+  
+  <h2 class="title"><a href="">Vozhuo&#39;s Blog</a></h2>
+  
+  <p class="subtitle">May you rest in a deep and restless slumber.</p>
+  <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
+    <span class="icon icon-menu" aria-hidden="true"></span>
+  </button>
+
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+        <li class="menu-item
+          
+          
+           is-active">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list"><li class="social-item">
+          <a href="mailto:qsx753698@outlook.com" title="Email" aria-label="Email">
+            <span class="icon icon-email" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//github.com/vozhuo" rel="me" title="GitHub" aria-label="GitHub">
+	    <span class="icon icon-github" aria-hidden="true"></span>
+          </a>
+        </li></ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">图像分割方法可行性分析</h1>
+      <p class="post-meta">@Vozhuo · Mar 28, 2019 · 1 min read</p>
+    </header>
+    <article class="post-content"><p>本文列出传统图像分割的主要方法，并针对目标图像进行可行性分析。</p>
+
+<h2 id="基于阈值的分割">基于阈值的分割</h2>
+
+<p>基于图像灰度图的特征划分图像，其核心是找出最优灰度阈值。主要有固定阈值和自适应阈值两种阈值选择方法。</p>
+
+<h3 id="固定阈值">固定阈值</h3>
+
+<p>固定阈值法使用某一固定像素值作为分割点。</p>
+
+<h4 id="直方图双峰法">直方图双峰法</h4>
+
+<p>直方图双峰法是一种全局单阈值分割方法。如果图像有明显的目标和背景，则其灰度直方图会呈双峰分布，那么可选取双峰之间的波谷对应的灰度值作为阈值。</p>
+
+<p><img src="/img/Histogram.png" alt="" /></p>
+
+<h4 id="迭代法">迭代法</h4>
+
+<p>迭代法是对双峰法的改进，基于逼近的思想。</p>
+
+<ol>
+<li>设置初始阈值T0为图像最大灰度值和最小灰度值的平均。</li>
+<li>根据阈值T将图像分割为前景和背景，分别求出二者的平均灰度值ZO和ZB</li>
+<li>设置新阈值T为ZO和ZB的平均</li>
+<li>若T不再变化或变化小于一个预定义的值时，则T即为最终阈值，否则跳转2计算。</li>
+</ol>
+
+<p><strong>因目标图片噪点较多，且不同区域的亮度不一，所以无法准确地分割前景和背景。另外目标图片的灰度直方图基本为单峰，所以不适用于固定阈值。</strong></p>
+
+<h3 id="自适应阈值">自适应阈值</h3>
+
+<p>根据图像的局部特征分别采用不同的阈值进行分割。将图像分为几个区域，分别选择阈值，或动态地根据一定邻域范围选择每点处的阈值，从而进行图像分割。</p>
+
+<h4 id="大津法">大津法</h4>
+
+<p>按照图像的灰度特性，将图像分为背景和目标两部分。背景和目标之间的类间方差越大，说明构成图像两部分的差别越大。因此，使类间方差最大的分割意味着错分概率最小。<strong>本方法对于非双峰图像的效果不明显。</strong></p>
+
+<h4 id="均值-高斯">均值/高斯</h4>
+
+<p>OpenCV给出了两种自适应方法，一种方法阈值取自相邻区域的平均值，另一种方法阈值取自相邻区域的加权和，权重为一个高斯窗口。<strong>针对目标图片，两种方法能够大体描绘出目标边缘，后一种方法能够排除更多的噪点。</strong></p>
+
+<h2 id="基于区域的分割">基于区域的分割</h2>
+
+<h3 id="区域生长">区域生长</h3>
+
+<p>区域生长算法的基本思想是将有相似性质的像素点合并到一起。从某个或者某些像素点出发，最后得到整个区域，进而实现目标提取。这种方法的缺点是需要人为确定种子点，对噪声敏感，并且当目标较大时，分割速度较慢。<strong>此方法的效果略逊于自适应阈值法，参数对目标图像集的泛化程度不明。</strong></p>
+
+<h3 id="区域分裂合并">区域分裂合并</h3>
+
+<p>区域分裂合并基本上是区域生长的逆过程：从整个图像出发，不断分裂得到各个子区域，然后再把前景区域合并，实现目标提取，无需预先指定种子点。<strong>暂未找到合适的实现代码。</strong></p>
+
+<h3 id="分水岭算法">分水岭算法</h3>
+
+<p>一种基于拓扑理论的数学形态学的分割方法。本算法可与下文提及的斑点检测方法结合。</p>
+
+<h2 id="基于边缘的分割">基于边缘的分割</h2>
+
+<p>检测边缘处的特征点，从而分割图像。基础算法有Canny边缘检测、Harris角点检测、SIFT检测等。</p>
+
+<h3 id="圆形检测">圆形检测</h3>
+
+<p>运用霍夫变换检测图像中的圆形，需要人工规定检测到的圆形大小。<strong>此方法在目标图像使用的效果较好，但因霍夫变换对圆形大小十分敏感，所以对其参数的泛化能力存疑。</strong>另外有少量非目标区域被识别为圆形，应为目标图像的结构所致。</p>
+
+<h3 id="斑点检测">斑点检测</h3>
+
+<p>斑点通常是指与周围有着颜色和灰度差别的区域。目标图像比较符合圆形斑点的特征，检测条件较圆形检测严格。<strong>本方法实际效果略优于圆形检测。</strong></p>
+
+<p>OpenCV中的斑点检测算法SimpleBlobDetector即是基于局部极值的分水岭算法。</p>
+
+<h2 id="总结">总结</h2>
+
+<p>当前可行的图像分割方法，效果由高至低：</p>
+
+<ol>
+<li><strong>斑点检测</strong></li>
+<li><strong>圆形检测</strong></li>
+<li><strong>自适应阈值法</strong></li>
+<li><strong>区域生长</strong></li>
+</ol>
+
+<!-- ## 图像预处理
+
+对目标图像进行预处理可使图像分割的
+
+图像平滑：高斯模糊、中值模糊、双边滤波。三种方法差距不大，但目标图像噪音较多，使用双边滤波方法更胜一筹。
+
+形态学转换：腐蚀、膨胀、开运算、闭运算、形态学梯度等。经测试，单独使用腐蚀方法的效果最佳。 --></article>
+    <footer class="post-footer">
+      
+      <ul class="post-tags">
+        
+          <li><a href="/tags/%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2"><span class="tag">图像分割</span></a></li>
+        
+      </ul>
+      
+      <p class="post-copyright">
+        © 2019 VozhuoThis post was published <strong>115</strong> days ago, content in the post may be inaccurate, even wrong now, please take risk yourself.
+      </p>
+    </footer>
+    
+      
+      <div id="cyReward" role="cylabs" data-use="reward"></div>
+      <script src="//changyan.itc.cn/js/lib/jquery.js"></script>
+      <script src="//changyan.sohu.com/js/changyan.labs.https.js?appid=cyu1JCtWI"></script>
+      <div id="SOHUCS" sid="/post/analysis-of-image-segmentation/" ></div>
+      <script>
+      (function(){
+      var appid = 'cyu1JCtWI';
+      var conf = 'prod_87a280f2532c26d97430235e5cb8bd2f';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
+      
+    
+  </section>
+  
+<footer class="site-footer">
+  <p>© 2017-2019 Vozhuo&#39;s Blog</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank" rel="noopener">Nuo</a>.</p>
+  
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@15.0.0/dist/smooth-scroll.min.js"></script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video.min.js"></script>
+
+
+
+
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    },
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+
+
+<script src="/scripts/index.min.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('\/service-worker.js').then(function() {
+      console.log('[ServiceWorker] Registered');
+    });
+  }
+</script>
+
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-74583706-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?4cfb60f6b668e48d81b6f4b916461bd7";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+  </body>
+</html>

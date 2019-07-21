@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>机器学习之线性回归</title>
+
+  
+  
+  <link href="//cdn.jsdelivr.net" rel="dns-prefetch">
+  <link href="//cdnjs.cloudflare.com" rel="dns-prefetch">
+  
+  <link href="//at.alicdn.com" rel="dns-prefetch">
+  
+  <link href="//fonts.googleapis.com" rel="dns-prefetch">
+  <link href="//fonts.gstatic.com" rel="dns-prefetch">
+  
+  
+  
+  <link href="//www.google-analytics.com" rel="dns-prefetch">
+  <link href="//hm.baidu.com" rel="dns-prefetch">
+
+  
+
+  
+  
+  <meta name="description" content="概念 梯度下降法是一种寻找函数最小值的一阶最优化算法，为找到函数的局部最小值，需要采用与当前点处函数的梯度（或者是近似梯度）的反方向成比例的步长进行迭代搜索。直观地来看，假如我们处于一座山的顶端，想要寻找最快的下山方法。从几何意义上讲，梯度的方向是函数值增加最快的方向，所以梯度的反方向就是函数值下降最快的方向。我们在每一点反复求取梯度，最后到达局部的最小值，就可以下山了。
+">
+
+  
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@gohugoio">
+    <meta name="twitter:title" content="机器学习之线性回归">
+    <meta name="twitter:description" content="概念 梯度下降法是一种寻找函数最小值的一阶最优化算法，为找到函数的局部最小值，需要采用与当前点处函数的梯度（或者是近似梯度）的反方向成比例的步长进行迭代搜索。直观地来看，假如我们处于一座山的顶端，想要寻找最快的下山方法。从几何意义上讲，梯度的方向是函数值增加最快的方向，所以梯度的反方向就是函数值下降最快的方向。我们在每一点反复求取梯度，最后到达局部的最小值，就可以下山了。
+">
+    <meta name="twitter:image" content="/images/avatar.png">
+  
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="机器学习之线性回归">
+  <meta property="og:description" content="概念 梯度下降法是一种寻找函数最小值的一阶最优化算法，为找到函数的局部最小值，需要采用与当前点处函数的梯度（或者是近似梯度）的反方向成比例的步长进行迭代搜索。直观地来看，假如我们处于一座山的顶端，想要寻找最快的下山方法。从几何意义上讲，梯度的方向是函数值增加最快的方向，所以梯度的反方向就是函数值下降最快的方向。我们在每一点反复求取梯度，最后到达局部的最小值，就可以下山了。
+">
+  <meta property="og:url" content="/post/machine-learning-gradient-descent/">
+  <meta property="og:image" content="/images/avatar.png">
+
+
+
+
+<meta name="generator" content="Hugo 0.55.6">
+
+
+<link rel="canonical" href="/post/machine-learning-gradient-descent/">
+
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="format-detection" content="telephone=no,email=no,adress=no">
+<meta http-equiv="Cache-Control" content="no-transform">
+
+
+<meta name="robots" content="index,follow">
+<meta name="referrer" content="origin-when-cross-origin">
+
+
+
+
+
+
+
+<meta name="theme-color" content="#02b875">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Vozhuo&#39;s Blog">
+<meta name="msapplication-tooltip" content="Vozhuo&#39;s Blog">
+<meta name='msapplication-navbutton-color' content="#02b875">
+<meta name="msapplication-TileColor" content="#02b875">
+<meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png">
+<link rel="icon" sizes="192x192" href="/icons/icon-192x192.png">
+<link rel="apple-touch-icon" href="/icons/icon-152x152.png">
+<link rel="manifest" href="/manifest.json">
+
+
+<link rel="preload" href="/styles/main-rendered.min.css" as="style">
+
+<link rel="preload" href="/styles/custom.min.css" as="style">
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Lobster" as="style">
+<link rel="preload" href="/images/avatar.png" as="image">
+<link rel="preload" href="/images/grey-prism.svg" as="image">
+
+
+<style>
+  body {
+    background: rgb(244, 243, 241) url('/images/grey-prism.svg') repeat fixed;
+  }
+</style>
+<link rel="stylesheet" href="/styles/main-rendered.min.css">
+
+<link rel="stylesheet" href="/styles/custom.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.2/dist/medium-zoom.min.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video-js.min.css">
+
+
+
+  
+  
+<!--[if lte IE 8]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ie8@1.1.2/dist/videojs-ie8.min.js"></script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20180112/classList.min.js"></script>
+<![endif]-->
+
+
+</head>
+  <body>
+    <div class="suspension">
+      <a role="button" aria-label="Go to top" title="Go to top" class="to-top is-hide"><span class="icon icon-up" aria-hidden="true"></span></a>
+      
+        
+	<a role="button" aria-label="Go to comments" title="Go to comments" class="to-comment" href="#SOHUCS"><span class="icon icon-comment" aria-hidden="true"></span></a>
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <a href=""><img class="avatar" src="/images/avatar.png" alt="Avatar"></a>
+  
+  <h2 class="title"><a href="">Vozhuo&#39;s Blog</a></h2>
+  
+  <p class="subtitle">May you rest in a deep and restless slumber.</p>
+  <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
+    <span class="icon icon-menu" aria-hidden="true"></span>
+  </button>
+
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+        <li class="menu-item
+          
+          
+           is-active">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list"><li class="social-item">
+          <a href="mailto:qsx753698@outlook.com" title="Email" aria-label="Email">
+            <span class="icon icon-email" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//github.com/vozhuo" rel="me" title="GitHub" aria-label="GitHub">
+	    <span class="icon icon-github" aria-hidden="true"></span>
+          </a>
+        </li></ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">机器学习之线性回归</h1>
+      <p class="post-meta">@Vozhuo · Oct 27, 2018 · 1 min read</p>
+    </header>
+    <article class="post-content"><h2 id="概念">概念</h2>
+
+<p>梯度下降法是一种寻找函数最小值的一阶最优化算法，为找到函数的局部最小值，需要采用与当前点处函数的梯度（或者是近似梯度）的反方向成比例的步长进行迭代搜索。直观地来看，假如我们处于一座山的顶端，想要寻找最快的下山方法。从几何意义上讲，梯度的方向是函数值增加最快的方向，所以梯度的反方向就是函数值下降最快的方向。我们在每一点反复求取梯度，最后到达局部的最小值，就可以下山了。</p>
+
+<p><img src="/img/Gradient Descent.png" alt="" /></p>
+
+<h2 id="算法">算法</h2>
+
+<p>我们首先需要确认模型的假设函数和代价函数。以线性回归为例，假设函数表示为：
+$$ h_{\theta}(x_0, x_1, …, x_n) = \theta_0 + \theta_1x_1 + … +\theta_nx_n $$
+代价函数为，这里选用均方误差，其中m指的是模型的样本容量：
+$$ J(\theta_0, \theta_1, …, \theta<em>n) = \frac{1}{2m}\sum</em>{j=0}^{m}(h_{\theta}(x_0^{(j)}, x_1^{(j)}, …, x_n^{(j)}) - y_j)^2 $$</p>
+
+<p>我们的目标就是找出一个最佳的假设函数，使得这个函数对于给定数据集的预测产生的误差最小。具体来说，就是找出这些假设函数中的$\theta$，寻找使函数误差最小的$\theta$， 就需要用到梯度下降法，公式如下：
+$$ \theta_i = \theta_i - \alpha\frac{\partial}{\partial\theta_i}J(\theta_0, \theta_1, …, \theta_n) $$
+其中$\alpha$是步长或称学习率，我们可以通过$\alpha$来控制每一步走的距离，$\alpha$不能太大也不能太小，太小的话，可能一直走不到最低点，太大的话，会导致越过最低点。每一次计算，同时更新所有的$\theta$，重复迭代，最终求得结果。</p>
+
+<h2 id="tensorflow实现">TensorFlow实现</h2>
+
+<p>接下来，我们用TensorFlow来模拟一下梯度下降算法的过程。首先初始化需要的参数：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">fun</span>(a, b): <span style="color:#75715e"># 假设函数y=a*x+b</span>
+    <span style="color:#66d9ef">return</span> a <span style="color:#f92672">*</span> x <span style="color:#f92672">+</span> b
+
+LR <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.1</span>  <span style="color:#75715e"># 学习率</span>
+REAL_PARAMS <span style="color:#f92672">=</span> [<span style="color:#ae81ff">1.2</span>, <span style="color:#ae81ff">2.5</span>]  <span style="color:#75715e"># 需要拟合的真实参数</span>
+INIT_PARAMS <span style="color:#f92672">=</span> [<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">4.5</span>]  <span style="color:#75715e"># 初始化参数</span>
+
+x <span style="color:#f92672">=</span> np<span style="color:#f92672">.</span>linspace(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">100</span>, dtype<span style="color:#f92672">=</span>np<span style="color:#f92672">.</span>float32)   <span style="color:#75715e"># 从0到5的100组浮点数据</span>
+y <span style="color:#f92672">=</span> fun(<span style="color:#f92672">*</span>REAL_PARAMS) <span style="color:#f92672">+</span> np<span style="color:#f92672">.</span>random<span style="color:#f92672">.</span>randn(<span style="color:#ae81ff">100</span>)   <span style="color:#75715e"># 构建(x,y)离散数据</span></code></pre></div>
+<p>接下来初始化a、b两个参数，然后进行预测，计算误差，最后优化。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">a, b <span style="color:#f92672">=</span> [tf<span style="color:#f92672">.</span>Variable(initial_value<span style="color:#f92672">=</span>p, dtype<span style="color:#f92672">=</span>tf<span style="color:#f92672">.</span>float32) <span style="color:#66d9ef">for</span> p <span style="color:#f92672">in</span> INIT_PARAMS] <span style="color:#75715e"># 使用Variable方法初始化</span>
+predict <span style="color:#f92672">=</span> fun(a, b)  <span style="color:#75715e"># 根据参数预测y值</span>
+mse <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>reduce_mean(tf<span style="color:#f92672">.</span>square(y <span style="color:#f92672">-</span> predict))  <span style="color:#75715e"># 均方误差，预测值与真实值相比较</span>
+train_op <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>train<span style="color:#f92672">.</span>GradientDescentOptimizer(LR)<span style="color:#f92672">.</span>minimize(mse)  <span style="color:#75715e"># 载入学习率和代价函数训练</span></code></pre></div>
+<p>下一步开始训练，记录两个参数和误差的变化。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">a_pram, b_pram, cost <span style="color:#f92672">=</span> [], [], []
+<span style="color:#66d9ef">with</span> tf<span style="color:#f92672">.</span>Session() <span style="color:#66d9ef">as</span> sess:  <span style="color:#75715e"># 开启TensorFlow会话</span>
+    sess<span style="color:#f92672">.</span>run(tf<span style="color:#f92672">.</span>global_variables_initializer())  <span style="color:#75715e"># 初始化参数</span>
+    <span style="color:#66d9ef">for</span> _ <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">1000</span>):  <span style="color:#75715e"># 进行1000次训练</span>
+        a_, b_, mse_ <span style="color:#f92672">=</span> sess<span style="color:#f92672">.</span>run([a, b, mse])  <span style="color:#75715e"># 计算a，b和误差</span>
+        a_pram<span style="color:#f92672">.</span>append(a_)
+        b_pram<span style="color:#f92672">.</span>append(b_)
+        cost<span style="color:#f92672">.</span>append(mse_)  
+        result, _ <span style="color:#f92672">=</span> sess<span style="color:#f92672">.</span>run([predict, train_op])  <span style="color:#75715e"># 记录</span></code></pre></div>
+<p>最后一步进行可视化，最终训练出来的预测线见下图：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">plt<span style="color:#f92672">.</span>figure(<span style="color:#ae81ff">1</span>)
+plt<span style="color:#f92672">.</span>scatter(x, y, c<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;b&#39;</span>)    <span style="color:#75715e"># 离散数据，颜色为蓝色</span>
+plt<span style="color:#f92672">.</span>plot(x, result, <span style="color:#e6db74">&#39;r-&#39;</span>, lw<span style="color:#f92672">=</span><span style="color:#ae81ff">2</span>)   <span style="color:#75715e"># 最终拟合线，红色直线</span>
+plt<span style="color:#f92672">.</span>show()</code></pre></div>
+<p><img src="/img/Gradient Descent_plot.png" alt="" />
+输出的两个参数为：a = 1.1968814, b = 2.532204，与真实参数1.2和2.5已经很接近了。</p>
+
+<p>参考资料：
+<a href="https://zhuanlan.zhihu.com/p/38525412">梯度的方向为什么是函数值增加最快的方向？</a>
+<a href="https://www.cnblogs.com/pinard/p/5970503.html">梯度下降（Gradient Descent）小结</a>
+<a href="https://morvanzhou.github.io/tutorials/machine-learning/tensorflow/5-15-tf-gradient-descent/">用 Tensorflow 可视化梯度下降</a></p></article>
+    <footer class="post-footer">
+      
+      <ul class="post-tags">
+        
+          <li><a href="/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0"><span class="tag">机器学习</span></a></li>
+        
+          <li><a href="/tags/tensorflow"><span class="tag">TensorFlow</span></a></li>
+        
+          <li><a href="/tags/python"><span class="tag">Python</span></a></li>
+        
+      </ul>
+      
+      <p class="post-copyright">
+        © 2019 VozhuoThis post was published <strong>266</strong> days ago, content in the post may be inaccurate, even wrong now, please take risk yourself.
+      </p>
+    </footer>
+    
+      
+      <div id="cyReward" role="cylabs" data-use="reward"></div>
+      <script src="//changyan.itc.cn/js/lib/jquery.js"></script>
+      <script src="//changyan.sohu.com/js/changyan.labs.https.js?appid=cyu1JCtWI"></script>
+      <div id="SOHUCS" sid="/post/machine-learning-gradient-descent/" ></div>
+      <script>
+      (function(){
+      var appid = 'cyu1JCtWI';
+      var conf = 'prod_87a280f2532c26d97430235e5cb8bd2f';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
+      
+    
+  </section>
+  
+<footer class="site-footer">
+  <p>© 2017-2019 Vozhuo&#39;s Blog</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank" rel="noopener">Nuo</a>.</p>
+  
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@15.0.0/dist/smooth-scroll.min.js"></script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video.min.js"></script>
+
+
+
+
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    },
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+
+
+<script src="/scripts/index.min.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('\/service-worker.js').then(function() {
+      console.log('[ServiceWorker] Registered');
+    });
+  }
+</script>
+
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-74583706-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?4cfb60f6b668e48d81b6f4b916461bd7";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+  </body>
+</html>

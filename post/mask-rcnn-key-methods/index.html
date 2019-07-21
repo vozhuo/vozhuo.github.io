@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>Mask R-CNN关键技术分析</title>
+
+  
+  
+  <link href="//cdn.jsdelivr.net" rel="dns-prefetch">
+  <link href="//cdnjs.cloudflare.com" rel="dns-prefetch">
+  
+  <link href="//at.alicdn.com" rel="dns-prefetch">
+  
+  <link href="//fonts.googleapis.com" rel="dns-prefetch">
+  <link href="//fonts.gstatic.com" rel="dns-prefetch">
+  
+  
+  
+  <link href="//www.google-analytics.com" rel="dns-prefetch">
+  <link href="//hm.baidu.com" rel="dns-prefetch">
+
+  
+
+  
+  
+  <meta name="description" content="骨干架构（FPN） 特征金字塔网络是一种多维度特征表达，主要解决物体检测中的多尺度问题，可大幅提升小物体检测的性能。网络由浅至深，低层的特征语义信息比较少，但是目标位置准确；高层的特征语义信息比较丰富，但是目标位置比较粗略。特征图金字塔分成三个部分，一个自底向上的路径（左边），一个自顶向下的路径（右边）和横向连接部分。
+">
+
+  
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@gohugoio">
+    <meta name="twitter:title" content="Mask R-CNN关键技术分析">
+    <meta name="twitter:description" content="骨干架构（FPN） 特征金字塔网络是一种多维度特征表达，主要解决物体检测中的多尺度问题，可大幅提升小物体检测的性能。网络由浅至深，低层的特征语义信息比较少，但是目标位置准确；高层的特征语义信息比较丰富，但是目标位置比较粗略。特征图金字塔分成三个部分，一个自底向上的路径（左边），一个自顶向下的路径（右边）和横向连接部分。
+">
+    <meta name="twitter:image" content="/images/avatar.png">
+  
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Mask R-CNN关键技术分析">
+  <meta property="og:description" content="骨干架构（FPN） 特征金字塔网络是一种多维度特征表达，主要解决物体检测中的多尺度问题，可大幅提升小物体检测的性能。网络由浅至深，低层的特征语义信息比较少，但是目标位置准确；高层的特征语义信息比较丰富，但是目标位置比较粗略。特征图金字塔分成三个部分，一个自底向上的路径（左边），一个自顶向下的路径（右边）和横向连接部分。
+">
+  <meta property="og:url" content="/post/mask-rcnn-key-methods/">
+  <meta property="og:image" content="/images/avatar.png">
+
+
+
+
+<meta name="generator" content="Hugo 0.55.6">
+
+
+<link rel="canonical" href="/post/mask-rcnn-key-methods/">
+
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="format-detection" content="telephone=no,email=no,adress=no">
+<meta http-equiv="Cache-Control" content="no-transform">
+
+
+<meta name="robots" content="index,follow">
+<meta name="referrer" content="origin-when-cross-origin">
+
+
+
+
+
+
+
+<meta name="theme-color" content="#02b875">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Vozhuo&#39;s Blog">
+<meta name="msapplication-tooltip" content="Vozhuo&#39;s Blog">
+<meta name='msapplication-navbutton-color' content="#02b875">
+<meta name="msapplication-TileColor" content="#02b875">
+<meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png">
+<link rel="icon" sizes="192x192" href="/icons/icon-192x192.png">
+<link rel="apple-touch-icon" href="/icons/icon-152x152.png">
+<link rel="manifest" href="/manifest.json">
+
+
+<link rel="preload" href="/styles/main-rendered.min.css" as="style">
+
+<link rel="preload" href="/styles/custom.min.css" as="style">
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Lobster" as="style">
+<link rel="preload" href="/images/avatar.png" as="image">
+<link rel="preload" href="/images/grey-prism.svg" as="image">
+
+
+<style>
+  body {
+    background: rgb(244, 243, 241) url('/images/grey-prism.svg') repeat fixed;
+  }
+</style>
+<link rel="stylesheet" href="/styles/main-rendered.min.css">
+
+<link rel="stylesheet" href="/styles/custom.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.2/dist/medium-zoom.min.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video-js.min.css">
+
+
+
+  
+  
+<!--[if lte IE 8]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ie8@1.1.2/dist/videojs-ie8.min.js"></script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20180112/classList.min.js"></script>
+<![endif]-->
+
+
+</head>
+  <body>
+    <div class="suspension">
+      <a role="button" aria-label="Go to top" title="Go to top" class="to-top is-hide"><span class="icon icon-up" aria-hidden="true"></span></a>
+      
+        
+	<a role="button" aria-label="Go to comments" title="Go to comments" class="to-comment" href="#SOHUCS"><span class="icon icon-comment" aria-hidden="true"></span></a>
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <a href=""><img class="avatar" src="/images/avatar.png" alt="Avatar"></a>
+  
+  <h2 class="title"><a href="">Vozhuo&#39;s Blog</a></h2>
+  
+  <p class="subtitle">May you rest in a deep and restless slumber.</p>
+  <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
+    <span class="icon icon-menu" aria-hidden="true"></span>
+  </button>
+
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+        <li class="menu-item
+          
+          
+           is-active">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list"><li class="social-item">
+          <a href="mailto:qsx753698@outlook.com" title="Email" aria-label="Email">
+            <span class="icon icon-email" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//github.com/vozhuo" rel="me" title="GitHub" aria-label="GitHub">
+	    <span class="icon icon-github" aria-hidden="true"></span>
+          </a>
+        </li></ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">Mask R-CNN关键技术分析</h1>
+      <p class="post-meta">@Vozhuo · May 10, 2019 · 1 min read</p>
+    </header>
+    <article class="post-content"><h2 id="骨干架构-fpn">骨干架构（FPN）</h2>
+
+<p>特征金字塔网络是一种多维度特征表达，主要解决物体检测中的多尺度问题，可大幅提升小物体检测的性能。网络由浅至深，低层的特征语义信息比较少，但是目标位置准确；高层的特征语义信息比较丰富，但是目标位置比较粗略。特征图金字塔分成三个部分，一个自底向上的路径（左边），一个自顶向下的路径（右边）和横向连接部分。</p>
+
+<p><img src="/img/fpn.jpg" width="30%" height="30%"></p>
+
+<h3 id="自底向上路径">自底向上路径</h3>
+
+<p>卷积网络的前馈计算，特征图经过卷积核计算后大小会有所改变，也有一些层不会改变，称为“相同网络阶段”。每个相同网络阶段定义一个金字塔级别，选择最后一层的输出作为特征图。对于ResNet，论文使用每个阶段的最后一个残差结构的特征激活输出，分别表示为C2、C3、C4、C5，共四个特征图，其中C5为最后一层也就是金字塔最顶层的输出。</p>
+
+<h3 id="自顶向下路径和横向连接">自顶向下路径和横向连接</h3>
+
+<p>Resnet最顶层输出C5，通过一个1 * 1的卷积层降低通道维度，即得到本路径最上层的P5。P4为上采样后的P5与1 * 1卷积后的C4进行横向连接而来，连接方式是做像素间加法。向下的P3和P2也用相同方法得出。这些自顶向下得到的特征图最后会做一次3 * 3的卷积，作用是消除上采样带来的混叠效应，最终得到4个融合不同层级的特征图。在RPN的嵌入中，另有第五个特征图P6，由P5经最大池化层后得来。</p>
+
+<h2 id="rpn">RPN</h2>
+
+<p><img src="/img/RPN_Maskrcnn.png" width="70%" height="70%"></p>
+
+<p>RPN网络部分输出三组数据：Anchors类别的原始分数（做Softmax之前的值）、Anchors类别的概率和Anchor偏移值。</p>
+
+<h3 id="region-proposal">Region Proposal</h3>
+
+<p>依据上部分的Anchor偏移值（dy, dx, log(dh), log(dw)），对原始的Anchor（y1, x1, y2, x2）坐标进行调整，最终输出修正后的坐标。再经过非最大值抑制的筛选，得到1000个感兴趣区域（ROI）。</p>
+
+<h2 id="rcnn部分">RCNN部分</h2>
+
+<p>输入特征图和ROI数据，首先进行ROI Align，再对ROI做类别预测和边框回归，根据概率进一步筛选，最终输出检测到的ROI（y1, x1, y2, x2, class_id, score）。</p>
+
+<p><img src="/img/RCNN.png" width="70%" height="70%"></p>
+
+<h3 id="roi-pooling和roi-align">ROI Pooling和ROI Align</h3>
+
+<p>ROI Align是于Mask-RCNN中提出的区域特征聚集方式，用于代替ROI Pooling。在之前的目标检测框架中（如Fast-RCNN、Faster-RCNN等），ROI Pooling的作用将尺寸不同的ROI池化为固定尺寸，以便后续的分类和边界框回归操作。</p>
+
+<p>由于ROI的位置通常由模型回归得到，一般来说是浮点数，而池化后的ROI要求尺寸固定。所以ROI Pooling存在两次量化过程：</p>
+
+<ol>
+<li>将ROI边界坐标量化为整数坐标值。</li>
+<li>将量化后的边界区域平均分割成 k x k 个单元，对每一个单元的边界进行量化。</li>
+</ol>
+
+<p>比如，665 * 665的矩形框经主干网络后的缩放步长为32，框的大小变为665/32=20.78，此时ROI Pooling将其量化为20。池化层的输出大小为7*7，等分后的子区域大小为20/7=2.86，此时将子区域大小量化为2。经过两次量化，此时的ROI位置已经和开始回归出来的位置有一定的偏差，这个偏差会影响检测或分割的准确度，尤其是对于小目标的检测。ROI Align取消了量化操作，使用双线性插值的方法，获得坐标为浮点数的像素点上的图像数值。</p>
+
+<p>虚线部分表示feature map，实线表示ROI，这里将ROI切分成2x2的单元格。如果采样点数是4，那我们首先将每个单元格子均分成四个小方格（如红色线所示），每个小方格中心就是采样点。这些采样点的坐标通常是浮点数，所以需要对采样点像素进行双线性插值（如四个箭头所示，核心思想是在两个方向分别进行一次线性插值），就可以得到该像素点的值了。然后对每个单元格内的四个采样点进行最大池化，就可以得到最终的ROIAlign的结果。</p>
+
+<p><img src="/img/roialign.png" width="30%" height="30%"></p>
+
+<p>在ROI Align中，不同大小的ROI，使用不同特征层映射作为本层的输入，面积大的ROI使用靠上的金字塔层，面积小的ROI使用靠下的金字塔层，然后送入同一个分类和回归网络得到最终结果。</p>
+
+<h2 id="mask分支-fcn">Mask分支（FCN）</h2>
+
+<p>Mask预测分支使用小型的全卷积网络（FCN），对每个ROI，应用一个全卷积网络做分割，求出目标所在区域。实际操作中，对ROI区域调用ROI Align生成固定大小的特征图，再经过4个卷积操作后，生成14 * 14大小的特征图，然后经过上采样生成 28 * 28 大小的特征图（对目标形状的描述）。假设一共有K个类别，则输出维度是 K * 28 * 28，也就是说对于 28 * 28 中的每个点，都会输出K个二值Mask（每个类别使用sigmoid输出）</p>
+
+<p>将原图各分类的Mask区域映射成 28 * 28 大小的mask特征图，最后计算预测区域和真实区域的平均二值交叉损失熵。需要注意的是，计算损失的时候，并不是每个类别的sigmoid输出都计算二值交叉熵损失，而是该像素属于哪个类，哪个类的sigmoid输出才要计算损失。这与FCN原本的方法不同，FCN是对每个像素进行多类别softmax分类，然后计算交叉熵损失，很明显，这种做法是会造成类间竞争的，而每个类别使用sigmoid输出并计算二值损失，可以避免类间竞争。</p>
+
+<p>下图为Mask R-CNN整个流程的图示，请放大后查看：</p>
+
+<p><img src="/img/mask-rcnn-graph.png" alt="" /></p>
+
+<p>参考资料：</p>
+
+<ul>
+<li><a href="https://blog.csdn.net/hzhj2007/article/details/79476145">ROI Align 解析</a></li>
+<li><a href="https://blog.csdn.net/hnshahao/article/details/81231211">Mask RCNN 源代码解析 (1) - 整体思路</a></li>
+</ul></article>
+    <footer class="post-footer">
+      
+      <ul class="post-tags">
+        
+          <li><a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0"><span class="tag">深度学习</span></a></li>
+        
+          <li><a href="/tags/mask-r-cnn"><span class="tag">Mask R-CNN</span></a></li>
+        
+      </ul>
+      
+      <p class="post-copyright">
+        © 2019 Vozhuo
+      </p>
+    </footer>
+    
+      
+      <div id="cyReward" role="cylabs" data-use="reward"></div>
+      <script src="//changyan.itc.cn/js/lib/jquery.js"></script>
+      <script src="//changyan.sohu.com/js/changyan.labs.https.js?appid=cyu1JCtWI"></script>
+      <div id="SOHUCS" sid="/post/mask-rcnn-key-methods/" ></div>
+      <script>
+      (function(){
+      var appid = 'cyu1JCtWI';
+      var conf = 'prod_87a280f2532c26d97430235e5cb8bd2f';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
+      
+    
+  </section>
+  
+<footer class="site-footer">
+  <p>© 2017-2019 Vozhuo&#39;s Blog</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank" rel="noopener">Nuo</a>.</p>
+  
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@15.0.0/dist/smooth-scroll.min.js"></script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video.min.js"></script>
+
+
+
+
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    },
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+
+
+<script src="/scripts/index.min.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('\/service-worker.js').then(function() {
+      console.log('[ServiceWorker] Registered');
+    });
+  }
+</script>
+
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-74583706-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?4cfb60f6b668e48d81b6f4b916461bd7";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+  </body>
+</html>

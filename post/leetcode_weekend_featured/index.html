@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>一周LeetCode习题精选</title>
+
+  
+  
+  <link href="//cdn.jsdelivr.net" rel="dns-prefetch">
+  <link href="//cdnjs.cloudflare.com" rel="dns-prefetch">
+  
+  <link href="//at.alicdn.com" rel="dns-prefetch">
+  
+  <link href="//fonts.googleapis.com" rel="dns-prefetch">
+  <link href="//fonts.gstatic.com" rel="dns-prefetch">
+  
+  
+  
+  <link href="//www.google-analytics.com" rel="dns-prefetch">
+  <link href="//hm.baidu.com" rel="dns-prefetch">
+
+  
+
+  
+  
+  <meta name="description" content="LeetCode 208 链接：Implement Trie (Prefix Tree)
+本题要求构造一个前缀树。前缀树是数据结构中树的一种，用于检索字符串数据集中的值，在自动完成、拼写检查、IP路由等方面都有应用。前缀树节点有两个字段：一个链接到字符串的下一个字符节点child，另一个为布尔值is_end，判断指定节点是否已到末尾。这里需要说一下Python的collections.defaultdict()这个方法，此方法构建了一个类似字典的对象，与普通字典不同的是，在查找字典中不存在key时，普通字典会报错，而defaultdict不会返回错误，而是返回一个默认值。本例会返回一个TrieNode节点，这样省去了在功能方法中新建节点的步骤。本题要求实现三个前缀树的三个功能：插入单词、搜索给定单词是否存在于前缀树以及搜索给定单词是否是前缀树中单词的前缀。
+">
+
+  
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@gohugoio">
+    <meta name="twitter:title" content="一周LeetCode习题精选">
+    <meta name="twitter:description" content="LeetCode 208 链接：Implement Trie (Prefix Tree)
+本题要求构造一个前缀树。前缀树是数据结构中树的一种，用于检索字符串数据集中的值，在自动完成、拼写检查、IP路由等方面都有应用。前缀树节点有两个字段：一个链接到字符串的下一个字符节点child，另一个为布尔值is_end，判断指定节点是否已到末尾。这里需要说一下Python的collections.defaultdict()这个方法，此方法构建了一个类似字典的对象，与普通字典不同的是，在查找字典中不存在key时，普通字典会报错，而defaultdict不会返回错误，而是返回一个默认值。本例会返回一个TrieNode节点，这样省去了在功能方法中新建节点的步骤。本题要求实现三个前缀树的三个功能：插入单词、搜索给定单词是否存在于前缀树以及搜索给定单词是否是前缀树中单词的前缀。
+">
+    <meta name="twitter:image" content="/images/avatar.png">
+  
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="一周LeetCode习题精选">
+  <meta property="og:description" content="LeetCode 208 链接：Implement Trie (Prefix Tree)
+本题要求构造一个前缀树。前缀树是数据结构中树的一种，用于检索字符串数据集中的值，在自动完成、拼写检查、IP路由等方面都有应用。前缀树节点有两个字段：一个链接到字符串的下一个字符节点child，另一个为布尔值is_end，判断指定节点是否已到末尾。这里需要说一下Python的collections.defaultdict()这个方法，此方法构建了一个类似字典的对象，与普通字典不同的是，在查找字典中不存在key时，普通字典会报错，而defaultdict不会返回错误，而是返回一个默认值。本例会返回一个TrieNode节点，这样省去了在功能方法中新建节点的步骤。本题要求实现三个前缀树的三个功能：插入单词、搜索给定单词是否存在于前缀树以及搜索给定单词是否是前缀树中单词的前缀。
+">
+  <meta property="og:url" content="/post/leetcode_weekend_featured/">
+  <meta property="og:image" content="/images/avatar.png">
+
+
+
+
+<meta name="generator" content="Hugo 0.55.6">
+
+
+<link rel="canonical" href="/post/leetcode_weekend_featured/">
+
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="format-detection" content="telephone=no,email=no,adress=no">
+<meta http-equiv="Cache-Control" content="no-transform">
+
+
+<meta name="robots" content="index,follow">
+<meta name="referrer" content="origin-when-cross-origin">
+
+
+
+
+
+
+
+<meta name="theme-color" content="#02b875">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Vozhuo&#39;s Blog">
+<meta name="msapplication-tooltip" content="Vozhuo&#39;s Blog">
+<meta name='msapplication-navbutton-color' content="#02b875">
+<meta name="msapplication-TileColor" content="#02b875">
+<meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png">
+<link rel="icon" sizes="192x192" href="/icons/icon-192x192.png">
+<link rel="apple-touch-icon" href="/icons/icon-152x152.png">
+<link rel="manifest" href="/manifest.json">
+
+
+<link rel="preload" href="/styles/main-rendered.min.css" as="style">
+
+<link rel="preload" href="/styles/custom.min.css" as="style">
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Lobster" as="style">
+<link rel="preload" href="/images/avatar.png" as="image">
+<link rel="preload" href="/images/grey-prism.svg" as="image">
+
+
+<style>
+  body {
+    background: rgb(244, 243, 241) url('/images/grey-prism.svg') repeat fixed;
+  }
+</style>
+<link rel="stylesheet" href="/styles/main-rendered.min.css">
+
+<link rel="stylesheet" href="/styles/custom.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.2/dist/medium-zoom.min.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video-js.min.css">
+
+
+
+  
+  
+<!--[if lte IE 8]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ie8@1.1.2/dist/videojs-ie8.min.js"></script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20180112/classList.min.js"></script>
+<![endif]-->
+
+
+</head>
+  <body>
+    <div class="suspension">
+      <a role="button" aria-label="Go to top" title="Go to top" class="to-top is-hide"><span class="icon icon-up" aria-hidden="true"></span></a>
+      
+        
+	<a role="button" aria-label="Go to comments" title="Go to comments" class="to-comment" href="#SOHUCS"><span class="icon icon-comment" aria-hidden="true"></span></a>
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <a href=""><img class="avatar" src="/images/avatar.png" alt="Avatar"></a>
+  
+  <h2 class="title"><a href="">Vozhuo&#39;s Blog</a></h2>
+  
+  <p class="subtitle">May you rest in a deep and restless slumber.</p>
+  <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
+    <span class="icon icon-menu" aria-hidden="true"></span>
+  </button>
+
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+        <li class="menu-item
+          
+          
+           is-active">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list"><li class="social-item">
+          <a href="mailto:qsx753698@outlook.com" title="Email" aria-label="Email">
+            <span class="icon icon-email" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//github.com/vozhuo" rel="me" title="GitHub" aria-label="GitHub">
+	    <span class="icon icon-github" aria-hidden="true"></span>
+          </a>
+        </li></ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">一周LeetCode习题精选</h1>
+      <p class="post-meta">@Vozhuo · Sep 23, 2018 · 1 min read</p>
+    </header>
+    <article class="post-content"><h2 id="leetcode-208">LeetCode 208</h2>
+
+<p>链接：<a href="https://leetcode.com/problems/implement-trie-prefix-tree/description/">Implement Trie (Prefix Tree)</a></p>
+
+<p>本题要求构造一个前缀树。前缀树是数据结构中树的一种，用于检索字符串数据集中的值，在自动完成、拼写检查、IP路由等方面都有应用。前缀树节点有两个字段：一个链接到字符串的下一个字符节点child，另一个为布尔值is_end，判断指定节点是否已到末尾。这里需要说一下Python的collections.defaultdict()这个方法，此方法构建了一个类似字典的对象，与普通字典不同的是，在查找字典中不存在key时，普通字典会报错，而defaultdict不会返回错误，而是返回一个默认值。本例会返回一个TrieNode节点，这样省去了在功能方法中新建节点的步骤。本题要求实现三个前缀树的三个功能：插入单词、搜索给定单词是否存在于前缀树以及搜索给定单词是否是前缀树中单词的前缀。</p>
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">    <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">TrieNode</span>:
+        <span style="color:#66d9ef">def</span> __init__(self):
+            self<span style="color:#f92672">.</span>child <span style="color:#f92672">=</span> collections<span style="color:#f92672">.</span>defaultdict(TrieNode)
+            self<span style="color:#f92672">.</span>is_end <span style="color:#f92672">=</span> False
+
+    <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Trie</span>(object):
+        <span style="color:#66d9ef">def</span> __init__(self):
+            self<span style="color:#f92672">.</span>root <span style="color:#f92672">=</span> TrieNode()</code></pre></div>
+<p>对于插入单词功能，需要从前缀树的根节点开始，遍历单词的每个字母，依次添加。例如，当前的字母为“e”，则直接转到key为“e”的节点，上文已经说过，如果查找不到节点，则会返回新节点。遍历完成后，将is_end值设为True。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">insert</span>(self, word):
+        cur <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>root
+        <span style="color:#66d9ef">for</span> w <span style="color:#f92672">in</span> word:
+            cur <span style="color:#f92672">=</span> cur<span style="color:#f92672">.</span>child[w]
+        cur<span style="color:#f92672">.</span>is_end <span style="color:#f92672">=</span> True</code></pre></div>
+<p>对应搜索单词功能，还是从根节点开始遍历，此时使用defaultdict的get方法取值，如果取到的值为空，说明到此为止已经匹配不到了，会出现两种情况，如果单词还剩余字母未匹配，那么搜索失败。如果单词匹配完毕，is_end值为True时，表示匹配成功，is_end值为False，表示仅匹配了前缀树中单词的前缀，搜索仍失败。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">search</span>(self, word):
+        cur <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>root
+        <span style="color:#66d9ef">for</span> w <span style="color:#f92672">in</span> word:
+            cur <span style="color:#f92672">=</span> cur<span style="color:#f92672">.</span>child<span style="color:#f92672">.</span>get(w)
+            <span style="color:#66d9ef">if</span> cur <span style="color:#f92672">is</span> None:
+                <span style="color:#66d9ef">return</span> False
+        <span style="color:#66d9ef">return</span> cur<span style="color:#f92672">.</span>is_end</code></pre></div>
+<p>对应搜索单词前缀功能，与搜索完整单词的方法一致，因为前缀比完整单词要短，所以如果get方法取到的值为空，意味者匹配失败，其他情况均匹配成功。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">startsWith</span>(self, prefix):
+        cur <span style="color:#f92672">=</span> self<span style="color:#f92672">.</span>root
+        <span style="color:#66d9ef">for</span> w <span style="color:#f92672">in</span> prefix:
+            cur <span style="color:#f92672">=</span> cur<span style="color:#f92672">.</span>child<span style="color:#f92672">.</span>get(w)
+            <span style="color:#66d9ef">if</span> cur <span style="color:#f92672">is</span> None:
+                <span style="color:#66d9ef">return</span> False
+        <span style="color:#66d9ef">return</span> True</code></pre></div>
+<h2 id="leetcode-287">LeetCode 287</h2>
+
+<p>链接：<a href="https://leetcode.com/problems/find-the-duplicate-number/description/">Find the Duplicate Number</a>
+找出数组中的重复数字。这道题可用多种方法解决，这里介绍两种方法。第一种是使用排序，数组排序后，重复数字一定是排在一起的，只要检测相邻数字是否重复即可，代码也比较简单。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">    <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span>:
+        <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">findDuplicate</span>(self, nums):
+            nums<span style="color:#f92672">.</span>sort()
+            <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">1</span>, len(nums)):
+                <span style="color:#66d9ef">if</span> nums[i] <span style="color:#f92672">==</span> nums[i<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]:
+                    <span style="color:#66d9ef">return</span> nums[i]</code></pre></div>
+<p>第二种方法是龟兔赛跑算法，也称为弗洛伊德判圈算法，这个算法原本用来检测单链表是否有环，这里是此用法的一个变型。使用兔子和乌龟两个值，开始时均在数组头。乌龟一次向后移动一步，兔子一次向后移动两步。若存在环，则兔子和乌龟必能相遇。在本题，兔子和乌龟走的步数要跟据数组的值来定，比如nums[0]=1，nums[1]=4，乌龟要在索引0要走到索引1，而兔子在索引0要先走到索引1，索引1的值为4，所以要再走到索引4。因为兔子和乌龟走的都是索引，所以可能出现兔子和乌龟最终在同一个索引相遇的情况，而数组中重复的值索引不同，这样就需要第二次循环。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">    <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span>:
+        <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">findDuplicate</span>(self, nums):
+            tortoise <span style="color:#f92672">=</span> nums[<span style="color:#ae81ff">0</span>]
+            hare <span style="color:#f92672">=</span> nums[<span style="color:#ae81ff">0</span>]
+            <span style="color:#66d9ef">while</span> True:
+                tortoise <span style="color:#f92672">=</span> nums[tortoise]
+                hare <span style="color:#f92672">=</span> nums[nums[hare]]
+                <span style="color:#66d9ef">if</span> tortoise <span style="color:#f92672">==</span> hare:
+                    <span style="color:#66d9ef">break</span>
+
+            ptr1 <span style="color:#f92672">=</span> nums[<span style="color:#ae81ff">0</span>]
+            ptr2 <span style="color:#f92672">=</span> tortoise
+            <span style="color:#66d9ef">while</span> ptr1 <span style="color:#f92672">!=</span> ptr2:
+                ptr1 <span style="color:#f92672">=</span> nums[ptr1]
+                ptr2 <span style="color:#f92672">=</span> nums[ptr2]
+            <span style="color:#66d9ef">return</span> ptr1</code></pre></div>
+<p>参考资料：
+<a href="https://blog.csdn.net/dpengwang/article/details/79308064">Python中defaultdict的用法详解</a>
+<a href="https://leetcode.com/problems/implement-trie-prefix-tree/solution/">LeetCode 208题解</a>
+<a href="https://blog.csdn.net/gdymind/article/details/70544153">Floyd判圈算法</a>
+<a href="https://leetcode.com/problems/find-the-duplicate-number/solution/">LeetCode 287题解</a></p></article>
+    <footer class="post-footer">
+      
+      <ul class="post-tags">
+        
+          <li><a href="/tags/leetcode"><span class="tag">LeetCode</span></a></li>
+        
+          <li><a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="tag">数据结构</span></a></li>
+        
+          <li><a href="/tags/python"><span class="tag">Python</span></a></li>
+        
+      </ul>
+      
+      <p class="post-copyright">
+        © 2019 VozhuoThis post was published <strong>300</strong> days ago, content in the post may be inaccurate, even wrong now, please take risk yourself.
+      </p>
+    </footer>
+    
+      
+      <div id="cyReward" role="cylabs" data-use="reward"></div>
+      <script src="//changyan.itc.cn/js/lib/jquery.js"></script>
+      <script src="//changyan.sohu.com/js/changyan.labs.https.js?appid=cyu1JCtWI"></script>
+      <div id="SOHUCS" sid="/post/leetcode_weekend_featured/" ></div>
+      <script>
+      (function(){
+      var appid = 'cyu1JCtWI';
+      var conf = 'prod_87a280f2532c26d97430235e5cb8bd2f';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
+      
+    
+  </section>
+  
+<footer class="site-footer">
+  <p>© 2017-2019 Vozhuo&#39;s Blog</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank" rel="noopener">Nuo</a>.</p>
+  
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@15.0.0/dist/smooth-scroll.min.js"></script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video.min.js"></script>
+
+
+
+
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    },
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+
+
+<script src="/scripts/index.min.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('\/service-worker.js').then(function() {
+      console.log('[ServiceWorker] Registered');
+    });
+  }
+</script>
+
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-74583706-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?4cfb60f6b668e48d81b6f4b916461bd7";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+  </body>
+</html>

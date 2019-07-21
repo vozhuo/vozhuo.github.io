@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>Relation Networks for Object Detection阅读笔记</title>
+
+  
+  
+  <link href="//cdn.jsdelivr.net" rel="dns-prefetch">
+  <link href="//cdnjs.cloudflare.com" rel="dns-prefetch">
+  
+  <link href="//at.alicdn.com" rel="dns-prefetch">
+  
+  <link href="//fonts.googleapis.com" rel="dns-prefetch">
+  <link href="//fonts.gstatic.com" rel="dns-prefetch">
+  
+  
+  
+  <link href="//www.google-analytics.com" rel="dns-prefetch">
+  <link href="//hm.baidu.com" rel="dns-prefetch">
+
+  
+
+  
+  
+  <meta name="description" content="来源：https://arxiv.org/abs/1711.11575
+会议： CVPR 2018 ORAL
+作者： Han Hu / Jiayuan Gu / Zheng Zhang / Jifeng Dai / Yichen Wei /
+机构： Microsoft Research Asia / Department of Machine Intelligence, School of EECS, Peking University
+">
+
+  
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@gohugoio">
+    <meta name="twitter:title" content="Relation Networks for Object Detection阅读笔记">
+    <meta name="twitter:description" content="来源：https://arxiv.org/abs/1711.11575
+会议： CVPR 2018 ORAL
+作者： Han Hu / Jiayuan Gu / Zheng Zhang / Jifeng Dai / Yichen Wei /
+机构： Microsoft Research Asia / Department of Machine Intelligence, School of EECS, Peking University
+">
+    <meta name="twitter:image" content="/images/avatar.png">
+  
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Relation Networks for Object Detection阅读笔记">
+  <meta property="og:description" content="来源：https://arxiv.org/abs/1711.11575
+会议： CVPR 2018 ORAL
+作者： Han Hu / Jiayuan Gu / Zheng Zhang / Jifeng Dai / Yichen Wei /
+机构： Microsoft Research Asia / Department of Machine Intelligence, School of EECS, Peking University
+">
+  <meta property="og:url" content="/post/rn-for-object-dection-note/">
+  <meta property="og:image" content="/images/avatar.png">
+
+
+
+
+<meta name="generator" content="Hugo 0.55.6">
+
+
+<link rel="canonical" href="/post/rn-for-object-dection-note/">
+
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="format-detection" content="telephone=no,email=no,adress=no">
+<meta http-equiv="Cache-Control" content="no-transform">
+
+
+<meta name="robots" content="index,follow">
+<meta name="referrer" content="origin-when-cross-origin">
+
+
+
+
+
+
+
+<meta name="theme-color" content="#02b875">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Vozhuo&#39;s Blog">
+<meta name="msapplication-tooltip" content="Vozhuo&#39;s Blog">
+<meta name='msapplication-navbutton-color' content="#02b875">
+<meta name="msapplication-TileColor" content="#02b875">
+<meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png">
+<link rel="icon" sizes="192x192" href="/icons/icon-192x192.png">
+<link rel="apple-touch-icon" href="/icons/icon-152x152.png">
+<link rel="manifest" href="/manifest.json">
+
+
+<link rel="preload" href="/styles/main-rendered.min.css" as="style">
+
+<link rel="preload" href="/styles/custom.min.css" as="style">
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Lobster" as="style">
+<link rel="preload" href="/images/avatar.png" as="image">
+<link rel="preload" href="/images/grey-prism.svg" as="image">
+
+
+<style>
+  body {
+    background: rgb(244, 243, 241) url('/images/grey-prism.svg') repeat fixed;
+  }
+</style>
+<link rel="stylesheet" href="/styles/main-rendered.min.css">
+
+<link rel="stylesheet" href="/styles/custom.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.2/dist/medium-zoom.min.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video-js.min.css">
+
+
+
+  
+  
+<!--[if lte IE 8]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ie8@1.1.2/dist/videojs-ie8.min.js"></script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20180112/classList.min.js"></script>
+<![endif]-->
+
+
+</head>
+  <body>
+    <div class="suspension">
+      <a role="button" aria-label="Go to top" title="Go to top" class="to-top is-hide"><span class="icon icon-up" aria-hidden="true"></span></a>
+      
+        
+	<a role="button" aria-label="Go to comments" title="Go to comments" class="to-comment" href="#SOHUCS"><span class="icon icon-comment" aria-hidden="true"></span></a>
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <a href=""><img class="avatar" src="/images/avatar.png" alt="Avatar"></a>
+  
+  <h2 class="title"><a href="">Vozhuo&#39;s Blog</a></h2>
+  
+  <p class="subtitle">May you rest in a deep and restless slumber.</p>
+  <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
+    <span class="icon icon-menu" aria-hidden="true"></span>
+  </button>
+
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+        <li class="menu-item
+          
+          
+           is-active">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list"><li class="social-item">
+          <a href="mailto:qsx753698@outlook.com" title="Email" aria-label="Email">
+            <span class="icon icon-email" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//github.com/vozhuo" rel="me" title="GitHub" aria-label="GitHub">
+	    <span class="icon icon-github" aria-hidden="true"></span>
+          </a>
+        </li></ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">Relation Networks for Object Detection阅读笔记</h1>
+      <p class="post-meta">@Vozhuo · May 26, 2019 · 1 min read</p>
+    </header>
+    <article class="post-content"><p>来源：<a href="https://arxiv.org/abs/1711.11575">https://arxiv.org/abs/1711.11575</a></p>
+
+<p><strong>会议</strong>：
+CVPR 2018 ORAL</p>
+
+<p><strong>作者</strong>：
+Han Hu /
+Jiayuan Gu /
+Zheng Zhang /
+Jifeng Dai /
+Yichen Wei /</p>
+
+<p><strong>机构</strong>：
+Microsoft Research Asia /
+Department of Machine Intelligence, School of EECS, Peking University</p>
+
+<h2 id="背景">背景</h2>
+
+<p>目前大部分的目标检测算法都是独立地检测图像中的目标，但如果模型能学到目标之间的关系，那么显然对于提升检测效果有帮助。大多数对于此问题的研究都是在深度学习盛行之前。在深度学习时代，利用对象关系进行检测学习并没有取得重大进展。一个原因是目标与目标之间的关系很难建模。目标可以出现在图像的任意位置，大小和类别也会不同，而且目标的数量可能因不同图像而异。</p>
+
+<p>文章借鉴自然语言处理领域中注意力机制的思想，主要是“Attention Is All You Need”论文。注意力模块可以通过聚合来自一组元素的信息或特征来影响单个元素。本文第一次提出了一个适用于物体检测的适应性注意力模块。它建立在一个基本的注意力模块上，一个明显的区别是原始元素是目标（Object）而不是单词。</p>
+
+<h2 id="object-relation-module">Object Relation Module</h2>
+
+<p>令一个目标包含两种特征，$f_A$是外观特征（appearance feature），维度取决于模型，一般为1024维；$f_G$是位置特征（geometric feature），4维的bounding box。这两种特征是后续算法的基础。</p>
+
+<p><img src="/img/formula2.png" width="50%" height="50%"></p>
+
+<p>假设共有N个目标，公式2定义了第n个目标和所有目标之间的关系特征（relation feature）。其中$f_A^m$表示第m个目标的外观特征。$W_V$是一个线性变换操作，在代码中用1*1的卷积层实现。$ω^mn$是用来描述不同目标之间的关系权重（relation weight）。计算得到的关系特征f_R将和原有的外观特征$f_A$融合并传递给下一层网络，这就完成了Attention过程。此公式的设计灵感来源于“Attention Is All You Need”中基本的注意力模块 “Scaled Dot-Product Attention”的公式。</p>
+
+<p><img src="/img/formula3.png" width="50%" height="50%"></p>
+
+<p>公式2中的关系权重$ω^mn$由公式3得来，从公式形式可以看出是一个归一化操作，因此在源码中也是通过Softmax层实现的。其中两个变量ω_G^mn$和ω_A^mn分别表示目标的位置特征权重（geometric weight）和外观特征权重（appearance weight）。</p>
+
+<p><img src="/img/formula4.png" width="50%" height="50%"></p>
+
+<p>外观特征权重ω_A^mn由公式4计算得来。在代码中，W_K和W_Q是全连接层参数。最后再做一个缩放操作。</p>
+
+<p><img src="/img/formula5.png" width="50%" height="50%"></p>
+
+<p>位置特征权重ω_G^mn由公式5计算得来。首先对位置特征做了坐标变换，如下所示，主要进行尺度归一化和log操作，可以增加尺度不变性，避免数值变化范围过大。</p>
+
+<p><img src="/img/formula_convert.png" width="50%" height="50%"></p>
+
+<p>$ε_G$操作主要是将4维的坐标信息嵌入（embedding）到高维表示中。接着，将$W_G$和Embedding特征相乘，这里$W_G$也是通过全连接层实现的。最后的max操作类似ReLU层，主要目的在于对位置特征权重做一定的限制。</p>
+
+<p><img src="/img/formula6.png" width="50%" height="50%"></p>
+
+<p>最后融合多个（$N_r$个，默认16）关系特征后再和外观特征做融合，如公式6所示。</p>
+
+<p><img src="/img/rm-algorithm.png" width="50%" height="50%"></p>
+
+<p>总结目标关系模型的算法：
+1. 分别根据外观特征和位置特征分别计算它们各自的权重
+2. 根据两个特征的权重获得总的关系权重
+3. 按照第m个物体对当前物体的总权重，加权求出各个关系特征，融合所有的关系特征，与原来的外观特征叠加，最终输出通道数不变的新特征。</p>
+
+<p>下图描述算法过程，左图是整体上的注意力模块和外观特征的融合，右图是注意力模块的详细构建过程。</p>
+
+<p><img src="/img/rm_overview.png" width="50%" height="50%"></p>
+
+<h2 id="在目标检测的应用">在目标检测的应用</h2>
+
+<p>作者将当前目标检测算法分为4步：1、特征提取主网络；2、提取候选区域特征；3、基于ROI做边框回归和分类（实例检测）；4、非最大值抑制（NMS）处理，去除重复框。</p>
+
+<p><img src="/img/rm-module.png" width="50%" height="50%"></p>
+
+<h3 id="instance-recognition">Instance recognition</h3>
+
+<p><img src="/img/rm-insert.png" width="50%" height="50%"></p>
+
+<p>目标关系模型插入目标检测算法的示意图如上。左图是插入两个全连接层的情况，目标检测的ROI Pooling步骤之后会有两个全连接层。第一个全连接层之后将特征和ROI的坐标构建Attention，然后将Attention加到特征中传递给下一个全连接层，再重复一次后就开始做边框回归和类别预测。</p>
+
+<p><img src="/img/rm_fc_insert.png" width="50%" height="50%"></p>
+
+<p>每个全连接层后面接关系模块，输出的维度和输入维度一致，因为关系模块不改变输入的维度，所以关系模块的数量可以任意添加。</p>
+
+<h3 id="duplicate-removal">duplicate removal</h3>
+
+<p>右图提出了利用关系模块代替非最大值抑制（NMS）的消除重复框的方法。作者认为尽管NMS十分简单，但其贪婪特性和手动选择的参数使其成为明显的次优选择。  重复删除框可以当成一个二分类问题。对于每个真实目标，只有一个与之匹配的检测目标是正确分类，其他与之匹配的则被归类为重复目标。
+到这一步之前，每个目标都有最终的1024维特征，分类分数s0和边界框。关系网络为每个对象输出二进制分类概率s1∈[0,1]（1表示正确，0表示重复）。两个得分s0、s1的乘积是最终的分类得分。</p>
+
+<p>s1的计算方式：首先按照目标的分数对它们进行排名，然后将分数转化为排名，然后将排名映射成高维向量，同时对该目标的1024维特征也做映射。两个值相加之后作为外观特征。外观特征和边界框（位置特征）输入关系模块，得到关系特征，最后通过线性变换和sigmoid输出概率s1∈[0,1]。</p>
+
+<p>和NMS不同，duplicate removal是一个可以学习的模块，将此模块纳入端到端训练后，整体网络的损失函数不仅包含原来的坐标回归和分类损失函数，还包含NMS的二分类损失函数。</p>
+
+<h2 id="实验">实验</h2>
+
+<p>所有实验均在具有80个对象类别的COCO数据集上进行。CNN模型使用ResNet-50和ResNet-101。作者进行了多组对比实验，包括：
+验证引入位置特征（geometric feature）的有效性
+验证关系特征数量的影响
+验证关系模块在两个全连接层中的数量的影响
+验证关系模块效果提升是否是因为参数量增加带来的。
+验证分阶段训练和端对端训练的效果
+验证不同算法（Faster RCNN、FPN、DCN）上引入关系模块的效果。</p>
+
+<h2 id="结论">结论</h2>
+
+<p>关系模块在对各个对象进行学习时丢失的对象之间学习了信息。然而，目前尚不清楚在关系模块中学到了什么，特别是当多个堆叠模块时。
+关系模块具有相同的输入和输出维度，因此可以成为任何网络架构的基本构建块。</p></article>
+    <footer class="post-footer">
+      
+      <ul class="post-tags">
+        
+          <li><a href="/tags/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B"><span class="tag">目标检测</span></a></li>
+        
+          <li><a href="/tags/%E5%85%B3%E7%B3%BB%E7%BD%91%E7%BB%9C"><span class="tag">关系网络</span></a></li>
+        
+      </ul>
+      
+      <p class="post-copyright">
+        © 2019 Vozhuo
+      </p>
+    </footer>
+    
+      
+      <div id="cyReward" role="cylabs" data-use="reward"></div>
+      <script src="//changyan.itc.cn/js/lib/jquery.js"></script>
+      <script src="//changyan.sohu.com/js/changyan.labs.https.js?appid=cyu1JCtWI"></script>
+      <div id="SOHUCS" sid="/post/rn-for-object-dection-note/" ></div>
+      <script>
+      (function(){
+      var appid = 'cyu1JCtWI';
+      var conf = 'prod_87a280f2532c26d97430235e5cb8bd2f';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
+      
+    
+  </section>
+  
+<footer class="site-footer">
+  <p>© 2017-2019 Vozhuo&#39;s Blog</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank" rel="noopener">Nuo</a>.</p>
+  
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@15.0.0/dist/smooth-scroll.min.js"></script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video.min.js"></script>
+
+
+
+
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    },
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+
+
+<script src="/scripts/index.min.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('\/service-worker.js').then(function() {
+      console.log('[ServiceWorker] Registered');
+    });
+  }
+</script>
+
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-74583706-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?4cfb60f6b668e48d81b6f4b916461bd7";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+  </body>
+</html>
