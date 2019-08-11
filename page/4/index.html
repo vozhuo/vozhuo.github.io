@@ -189,6 +189,30 @@
   
    <article class="post-entry">
   <header class="post-header">
+    <h3 class="post-title"><a href="/post/machine-learning-recommend/" class="post-link">机器学习之推荐系统</a></h3>
+    <p class="post-meta">@Vozhuo · Nov 22, 2018 · 2 min read</p>
+  </header>
+  
+  <p class="post-summary">概念 很多网站都使用推荐系统预测用户喜欢的内容。以电影资讯网站为例，假设电影有多个特征，那么根据用户对电影的打分，我们可以预测用户可能喜欢那些类型的电影，这就是基于内容的推荐系统。这种优化过程和线性回归类似。
+</p>
+  <footer class="post-footer">
+    <a class="read-more" href="/post/machine-learning-recommend/">Read More →</a>
+  </footer>
+</article>
+  <article class="post-entry">
+  <header class="post-header">
+    <h3 class="post-title"><a href="/post/machine-learning-detection/" class="post-link">机器学习之异常检测</a></h3>
+    <p class="post-meta">@Vozhuo · Nov 22, 2018 · 2 min read</p>
+  </header>
+  
+  <p class="post-summary">概念 异常检测是一种识别异常样本的方法，我们需要构建一个概率模型，如果某一样本被认定是正常样本的概率足够小，那么它会被当做异常样本。高斯分布（或称正态分布）模型是异常检测算法最常使用的概率分布模型。
+</p>
+  <footer class="post-footer">
+    <a class="read-more" href="/post/machine-learning-detection/">Read More →</a>
+  </footer>
+</article>
+  <article class="post-entry">
+  <header class="post-header">
     <h3 class="post-title"><a href="/post/machine-learning-pca/" class="post-link">机器学习之主成分分析</a></h3>
     <p class="post-meta">@Vozhuo · Nov 18, 2018 · 1 min read</p>
   </header>
@@ -285,32 +309,6 @@
  使用递归回溯方法 使用备忘录方法优化（自顶向下的动态规划） 消除递归方法（自底向上的动态规划） 使用其他方法优化时间/空间复杂度 </p>
   <footer class="post-footer">
     <a class="read-more" href="/post/leetcode-weekend-featured-dp2/">Read More →</a>
-  </footer>
-</article>
-  <article class="post-entry">
-  <header class="post-header">
-    <h3 class="post-title"><a href="/post/leetcode_weekend_featured_dp/" class="post-link">一周LeetCode习题精选——动态规划</a></h3>
-    <p class="post-meta">@Vozhuo · Sep 30, 2018 · 2 min read</p>
-  </header>
-  
-  <p class="post-summary">LeetCode 198 链接：House Robber
-本题使用动态规划解决。首先需要分析题目的递归关系：当强盗到达第i间房屋时，他可以选择抢，也可以选择不抢。如果抢劫这间房屋，根据题目要求，他必定没有抢劫第i-1间房屋，但他可能抢劫第i-2间房屋。如果不抢劫第i间房屋，那么他可能抢劫第i-1间房屋。这两个选择造成抢劫得来金钱的不同。设rob(i)为前i间房屋抢劫得来金钱的最大值，第一种需要计算前i-2间房屋抢劫金钱的最大值加上第i间房屋抢劫的金钱。第二种只需要计算前i-1间房屋抢劫金钱的最大值。两者需取其中最大值，由此得出递归关系：
-</p>
-  <footer class="post-footer">
-    <a class="read-more" href="/post/leetcode_weekend_featured_dp/">Read More →</a>
-  </footer>
-</article>
-  <article class="post-entry">
-  <header class="post-header">
-    <h3 class="post-title"><a href="/post/leetcode_weekend_featured/" class="post-link">一周LeetCode习题精选</a></h3>
-    <p class="post-meta">@Vozhuo · Sep 23, 2018 · 1 min read</p>
-  </header>
-  
-  <p class="post-summary">LeetCode 208 链接：Implement Trie (Prefix Tree)
-本题要求构造一个前缀树。前缀树是数据结构中树的一种，用于检索字符串数据集中的值，在自动完成、拼写检查、IP路由等方面都有应用。前缀树节点有两个字段：一个链接到字符串的下一个字符节点child，另一个为布尔值is_end，判断指定节点是否已到末尾。这里需要说一下Python的collections.defaultdict()这个方法，此方法构建了一个类似字典的对象，与普通字典不同的是，在查找字典中不存在key时，普通字典会报错，而defaultdict不会返回错误，而是返回一个默认值。本例会返回一个TrieNode节点，这样省去了在功能方法中新建节点的步骤。本题要求实现三个前缀树的三个功能：插入单词、搜索给定单词是否存在于前缀树以及搜索给定单词是否是前缀树中单词的前缀。
-</p>
-  <footer class="post-footer">
-    <a class="read-more" href="/post/leetcode_weekend_featured/">Read More →</a>
   </footer>
 </article>
  

@@ -7,7 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-Hans</language>
     <copyright>© 2019 Vozhuo</copyright>
-    <lastBuildDate>Sun, 21 Jul 2019 21:30:10 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 11 Aug 2019 21:10:37 +0800</lastBuildDate>
     
 	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     
@@ -15,9 +15,18 @@
     <item>
       <title>半监督学习</title>
       <link>/tags/%E5%8D%8A%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0/</link>
-      <pubDate>Sun, 21 Jul 2019 21:30:10 +0800</pubDate>
+      <pubDate>Sun, 11 Aug 2019 21:10:37 +0800</pubDate>
       
       <guid>/tags/%E5%8D%8A%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>深度学习</title>
+      <link>/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/</link>
+      <pubDate>Sun, 11 Aug 2019 21:10:37 +0800</pubDate>
+      
+      <guid>/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/</guid>
       <description></description>
     </item>
     
@@ -108,15 +117,6 @@
       <pubDate>Fri, 10 May 2019 16:24:50 +0800</pubDate>
       
       <guid>/tags/mask-r-cnn/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>深度学习</title>
-      <link>/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/</link>
-      <pubDate>Fri, 10 May 2019 16:24:50 +0800</pubDate>
-      
-      <guid>/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/</guid>
       <description></description>
     </item>
     

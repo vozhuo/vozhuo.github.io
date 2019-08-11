@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>半监督深度学习</title>
+
+  
+  
+  <link href="//cdn.jsdelivr.net" rel="dns-prefetch">
+  <link href="//cdnjs.cloudflare.com" rel="dns-prefetch">
+  
+  <link href="//at.alicdn.com" rel="dns-prefetch">
+  
+  <link href="//fonts.googleapis.com" rel="dns-prefetch">
+  <link href="//fonts.gstatic.com" rel="dns-prefetch">
+  
+  
+  
+  <link href="//www.google-analytics.com" rel="dns-prefetch">
+  <link href="//hm.baidu.com" rel="dns-prefetch">
+
+  
+
+  
+  
+  <meta name="description" content="深度学习发展初期，训练深度的网络比较困难。对神经网络来说，一个好的初始化可以让结果更稳定，迭代次数更少，因此利用无标签数据让网络有一个好的初始化成为一个研究热点。
+">
+
+  
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@gohugoio">
+    <meta name="twitter:title" content="半监督深度学习">
+    <meta name="twitter:description" content="深度学习发展初期，训练深度的网络比较困难。对神经网络来说，一个好的初始化可以让结果更稳定，迭代次数更少，因此利用无标签数据让网络有一个好的初始化成为一个研究热点。
+">
+    <meta name="twitter:image" content="/images/avatar.png">
+  
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="半监督深度学习">
+  <meta property="og:description" content="深度学习发展初期，训练深度的网络比较困难。对神经网络来说，一个好的初始化可以让结果更稳定，迭代次数更少，因此利用无标签数据让网络有一个好的初始化成为一个研究热点。
+">
+  <meta property="og:url" content="/post/deep-ssl/">
+  <meta property="og:image" content="/images/avatar.png">
+
+
+
+
+<meta name="generator" content="Hugo 0.55.6">
+
+
+<link rel="canonical" href="/post/deep-ssl/">
+
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="format-detection" content="telephone=no,email=no,adress=no">
+<meta http-equiv="Cache-Control" content="no-transform">
+
+
+<meta name="robots" content="index,follow">
+<meta name="referrer" content="origin-when-cross-origin">
+
+
+
+
+
+
+
+<meta name="theme-color" content="#02b875">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Vozhuo&#39;s Blog">
+<meta name="msapplication-tooltip" content="Vozhuo&#39;s Blog">
+<meta name='msapplication-navbutton-color' content="#02b875">
+<meta name="msapplication-TileColor" content="#02b875">
+<meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png">
+<link rel="icon" sizes="192x192" href="/icons/icon-192x192.png">
+<link rel="apple-touch-icon" href="/icons/icon-152x152.png">
+<link rel="manifest" href="/manifest.json">
+
+
+<link rel="preload" href="/styles/main-rendered.min.css" as="style">
+
+<link rel="preload" href="/styles/custom.min.css" as="style">
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Lobster" as="style">
+<link rel="preload" href="/images/avatar.png" as="image">
+<link rel="preload" href="/images/grey-prism.svg" as="image">
+
+
+<style>
+  body {
+    background: rgb(244, 243, 241) url('/images/grey-prism.svg') repeat fixed;
+  }
+</style>
+<link rel="stylesheet" href="/styles/main-rendered.min.css">
+
+<link rel="stylesheet" href="/styles/custom.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.2/dist/medium-zoom.min.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video-js.min.css">
+
+
+
+  
+  
+<!--[if lte IE 8]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ie8@1.1.2/dist/videojs-ie8.min.js"></script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20180112/classList.min.js"></script>
+<![endif]-->
+
+
+</head>
+  <body>
+    <div class="suspension">
+      <a role="button" aria-label="Go to top" title="Go to top" class="to-top is-hide"><span class="icon icon-up" aria-hidden="true"></span></a>
+      
+        
+	<a role="button" aria-label="Go to comments" title="Go to comments" class="to-comment" href="#SOHUCS"><span class="icon icon-comment" aria-hidden="true"></span></a>
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <a href=""><img class="avatar" src="/images/avatar.png" alt="Avatar"></a>
+  
+  <h2 class="title"><a href="">Vozhuo&#39;s Blog</a></h2>
+  
+  <p class="subtitle">May you rest in a deep and restless slumber.</p>
+  <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
+    <span class="icon icon-menu" aria-hidden="true"></span>
+  </button>
+
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+        <li class="menu-item
+          
+          
+           is-active">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list"><li class="social-item">
+          <a href="mailto:qsx753698@outlook.com" title="Email" aria-label="Email">
+            <span class="icon icon-email" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//github.com/vozhuo" rel="me" title="GitHub" aria-label="GitHub">
+	    <span class="icon icon-github" aria-hidden="true"></span>
+          </a>
+        </li></ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">半监督深度学习</h1>
+      <p class="post-meta">@Vozhuo · Aug 11, 2019 · 1 min read</p>
+    </header>
+    <article class="post-content"><p>深度学习发展初期，训练深度的网络比较困难。对神经网络来说，一个好的初始化可以让结果更稳定，迭代次数更少，因此利用无标签数据让网络有一个好的初始化成为一个研究热点。</p>
+
+<p>无监督预训练使用所有数据逐层重构预训练，对网络的每一层，都做重构自编码，然后把自编码网络的参数，作为初始参数。最后有标签数据进行微调。这种无监督预训练+有监督微调的确用到了无标签数据，但对于神经网络来说，还是一种有监督的方式。</p>
+
+<blockquote>
+<p>Lee D H. Pseudo-label: The simple and efficient semi-supervised learning method for deep neural networks[C]//Workshop on Challenges in Representation Learning, ICML. 2013, 3: 2.</p>
+</blockquote>
+
+<p>这篇论文将伪标签（Pseudo-Label）用于深度神经网络实现半监督学习，同时训练有标签数据和无标签数据。简单来说，是让网络对无标签数据的预测，作为无标签数据的标签（伪标签）。具体步骤如图所示。</p>
+
+<p><img src="/img/Pseudo-Label.jpg" width="30%" height="30%"></p>
+
+<p>首先使用有标签的数据训练模型，之后用此模型预测无标签数据。对每个无标签数据，选择预测概率最大的类别，当作伪标签。然后使用伪标签数据和有标签数据重新训练模型。</p>
+
+<p>模型的损失函数=监督损失+平衡系数*无监督损失。这里平衡系数是关于训练时间t的函数。最初设为0，因为一开始网络的预测并不准确，生成的伪标签准确率也不高。之后系数开始缓慢增加。这种无监督损失函数达到一种正则化的效果，因为仅训练少量的有标签数据模型很容易过拟合。</p>
+
+<blockquote>
+<p>Rasmus A, Berglund M, Honkala M, et al. Semi-supervised learning with ladder networks[C]//Advances in neural information processing systems. 2015: 3546-3554.</p>
+</blockquote>
+
+<p>本篇论文中，作者提出了一个问题，即无监督学习和监督学习的目的不一致。无监督学习的目标其实是为了学习原始数据X的另外一种表征，同时要保证这个新的表征，尽可能的能够保留原始数据信息。监督学习希望只保留与任务相关的特征，去除不必要的特征。</p>
+
+<p>论文提出的阶梯网络（Ladder Network）有两个分支，把与监督任务相关的信息和无关的信息尽可能的分开，解决上文无监督学习和监督学习不能很好的兼容的问题。阶梯网络基于深度自编码网络，深度自编码网络的网络结构图如下：</p>
+
+<p><img src="/img/deep-encoder.png" width="20%" height="20%"></p>
+
+<p>其中x(t)表示输入数据、h(t)表示隐藏层神经元。编码器前向传导，解码器后向传导。顶层特征hL(t)要尽量的保留原始x(t)所包含的全部信息。如果要用hL(t)做有监督分类，那么高层特征hL(t)就应该尽量只包含与分类任务相关的信息，因此阶梯网络提出了横向连接，缓解最高层特征需要表达X的全部信息压力。</p>
+
+<p><img src="/img/laddernet.jpg" width="70%" height="70%"></p>
+
+<p>阶梯网络由2个编码器（加噪编码器和原始编码器）和1个解码器构成。与深度自编码网络相比，编码部分每一层都有一条横向连接线，连接到解码层。可以看出，ladderNet的降噪解码器的每一层接收了两个信息，一个来自上层解码器的隐变量重构，另一个来自横向连接传过来的加噪隐变量，有了这个加噪隐变量，降噪函数就能很好地恢复编码器（或者说分类器）丢失的信息，而不需要强迫编码器保留所有的信息。</p>
+
+<p>阶梯网络无监督部分的损失函数是每一层的构建误差损失的和（C0、C1……CL）。对于监督部分，阶梯网络在编码最高层接入有监督损失函数。总损失函数是有监督和无监督的损失函数的和。在训练阶段，有监督部分输出采用是噪声通道y’构建损失误差；而在测试阶段，采用的是无噪声通道计算y。</p>
+
+<blockquote>
+<p>Laine S, Aila T. Temporal ensembling for semi-supervised learning[J]. arXiv preprint arXiv:1610.02242, 2016.</p>
+</blockquote>
+
+<p>多个独立训练的网络的集成可取得更好的预测，基于此想法，作者提出一种自集成（self-ensembling）的方法应用于半监督学习，有Π-model和Temporal ensembling两种实现方法。Π-model集成单个网络在不同的正则化和输入增强条件下产生的输出。Temporal ensembling集成训练网络在不同epoch的输出。此方法用于得到更好的target，这里的target和伪标签（Pseudo-Label）的概念类似。</p>
+
+<p>Π-model（双模型）认为对于同一个输入数据，在不同的Dropout和输入增强条件下，网络对其预测结果应该是一致的，鼓励网络学习数据内在的不变性。由于这两者的随机性，网络的输出会有一定的差异。这种差异可以被视为分类中的误差，所以无监督损失旨在减少这种误差。无监督损失面向全部数据（有标签+无标签），有监督损失仅面向有标签数据。</p>
+
+<p><img src="/img/Π-model.png" width="60%" height="60%"></p>
+
+<p>Temporal ensembling（时序组合模型）中，网络输出z的来源与Π-model不同。在Π-model，两个z都是来自同一迭代时间内产生的两次结果。但在Temporal ensembling中，需要比较的一个z来自过去epoch产生的z的指数移动平均值，即 ，另一个z来自当前epoch产生的结果。这样做的好处是能够保留历史信息，衰减长远历史信息和稳定当前值。</p>
+
+<p><img src="/img/Temporal-ensembling.png" width="60%" height="60%"></p>
+
+<p>相较于Π-model，Temporal ensembling有两个好处，一是训练速度快，不需要评估两次网络，二是对标签噪声具有鲁棒性，即使有标签数据的标签有误的，无监督 loss 也可以平滑这种错误标签的影响。</p>
+
+<blockquote>
+<p>Tarvainen A, Valpola H. Mean teachers are better role models: Weight-averaged consistency targets improve semi-supervised deep learning results[C]//Advances in neural information processing systems. 2017: 1195-1204.</p>
+</blockquote>
+
+<p>Temporal ensembling对模型输出做移动平均，但只在每个epoch更新一次，所以在面临大数据集时模型的效率会大大降低。为了克服这个问题，论文提出Mean Teacher，一种平均模型权重而不是标签预测的方法。</p>
+
+<p>类似LadderNet的模型构建使用噪声和不使用噪声的样例的一致性损失。在这种情况下，模型充当教师和学生的双重角色。作为学生学习数据；作为教师，产生target，然后将其用于学习。由于target是模型本身生成的，因此可能存在分类错误。如果对生成的target给予过多的权重，那么不一致的代价会超过错误分类的代价，从而妨碍了对新信息的学习。这种危险可以通过提高target质量来缓解。</p>
+
+<p>提高target的质量有两种方式，一种是精心选择样本噪声，另一种是选一个更好的教师模型，而不是仅复制学生模型。论文采用第二种方法，目标是在没有额外训练的情况下，从学生模型中形成更好的教师模型。由于教师模型是连续的学生模型的平均值，所以称之为Mean Teacher方法。</p>
+
+<p><img src="/img/Mean-Teacher.png" width="70%" height="70%"></p>
+
+<p>在训练时，使用平均模型权重倾向于产生比直接使用最终权重更准确的模型，这里作者未直接说明原因，而是引用了一篇平均随机梯度下降的论文。这和动量梯度下降法的思想类似，动量梯度下降法的核心即对一系列梯度进行指数加权平均，通过减小梯度振荡对算法进行优化。在用梯度下降法更新学生模型的权重之后，将教师模型权重更新为学生权重的指数移动平均值。教师模型可以在每个batch step后而不是每个epoch后更新信息。此外，由于权重平均值改善了所有层输出，而不仅仅是顶部输出，因此目标模型具有更好的中间表示。</p></article>
+    <footer class="post-footer">
+      
+      <ul class="post-tags">
+        
+          <li><a href="/tags/%E5%8D%8A%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0"><span class="tag">半监督学习</span></a></li>
+        
+          <li><a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0"><span class="tag">深度学习</span></a></li>
+        
+      </ul>
+      
+      <p class="post-copyright">
+        © 2019 Vozhuo
+      </p>
+    </footer>
+    
+      
+      <div id="cyReward" role="cylabs" data-use="reward"></div>
+      <script src="//changyan.itc.cn/js/lib/jquery.js"></script>
+      <script src="//changyan.sohu.com/js/changyan.labs.https.js?appid=cyu1JCtWI"></script>
+      <div id="SOHUCS" sid="/post/deep-ssl/" ></div>
+      <script>
+      (function(){
+      var appid = 'cyu1JCtWI';
+      var conf = 'prod_87a280f2532c26d97430235e5cb8bd2f';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
+      
+    
+  </section>
+  
+<footer class="site-footer">
+  <p>© 2017-2019 Vozhuo&#39;s Blog</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank" rel="noopener">Nuo</a>.</p>
+  
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@15.0.0/dist/smooth-scroll.min.js"></script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video.min.js"></script>
+
+
+
+
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    },
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+
+
+<script src="/scripts/index.min.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('\/service-worker.js').then(function() {
+      console.log('[ServiceWorker] Registered');
+    });
+  }
+</script>
+
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-74583706-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?4cfb60f6b668e48d81b6f4b916461bd7";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+  </body>
+</html>

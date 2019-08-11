@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>半监督学习再探</title>
+
+  
+  
+  <link href="//cdn.jsdelivr.net" rel="dns-prefetch">
+  <link href="//cdnjs.cloudflare.com" rel="dns-prefetch">
+  
+  <link href="//at.alicdn.com" rel="dns-prefetch">
+  
+  <link href="//fonts.googleapis.com" rel="dns-prefetch">
+  <link href="//fonts.gstatic.com" rel="dns-prefetch">
+  
+  
+  
+  <link href="//www.google-analytics.com" rel="dns-prefetch">
+  <link href="//hm.baidu.com" rel="dns-prefetch">
+
+  
+
+  
+  
+  <meta name="description" content="概述 传统监督学习通过对大量有标记的训练样例进行学习以建立模型用于预测未知样例的标记。在实际应用中，往往可以容易地收集到大量未标记的样本，而对这些数据赋予标记则往往需要耗费大量的人力物力。例如在进行计算机辅助医学影像分析时, 可以从医院获得大量医学影像, 但如果希望医学专家把影像中的病灶全都标识出来则是不现实的。
+">
+
+  
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@gohugoio">
+    <meta name="twitter:title" content="半监督学习再探">
+    <meta name="twitter:description" content="概述 传统监督学习通过对大量有标记的训练样例进行学习以建立模型用于预测未知样例的标记。在实际应用中，往往可以容易地收集到大量未标记的样本，而对这些数据赋予标记则往往需要耗费大量的人力物力。例如在进行计算机辅助医学影像分析时, 可以从医院获得大量医学影像, 但如果希望医学专家把影像中的病灶全都标识出来则是不现实的。
+">
+    <meta name="twitter:image" content="/images/avatar.png">
+  
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="半监督学习再探">
+  <meta property="og:description" content="概述 传统监督学习通过对大量有标记的训练样例进行学习以建立模型用于预测未知样例的标记。在实际应用中，往往可以容易地收集到大量未标记的样本，而对这些数据赋予标记则往往需要耗费大量的人力物力。例如在进行计算机辅助医学影像分析时, 可以从医院获得大量医学影像, 但如果希望医学专家把影像中的病灶全都标识出来则是不现实的。
+">
+  <meta property="og:url" content="/post/ssl-detailed/">
+  <meta property="og:image" content="/images/avatar.png">
+
+
+
+
+<meta name="generator" content="Hugo 0.55.6">
+
+
+<link rel="canonical" href="/post/ssl-detailed/">
+
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="format-detection" content="telephone=no,email=no,adress=no">
+<meta http-equiv="Cache-Control" content="no-transform">
+
+
+<meta name="robots" content="index,follow">
+<meta name="referrer" content="origin-when-cross-origin">
+
+
+
+
+
+
+
+<meta name="theme-color" content="#02b875">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Vozhuo&#39;s Blog">
+<meta name="msapplication-tooltip" content="Vozhuo&#39;s Blog">
+<meta name='msapplication-navbutton-color' content="#02b875">
+<meta name="msapplication-TileColor" content="#02b875">
+<meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png">
+<link rel="icon" sizes="192x192" href="/icons/icon-192x192.png">
+<link rel="apple-touch-icon" href="/icons/icon-152x152.png">
+<link rel="manifest" href="/manifest.json">
+
+
+<link rel="preload" href="/styles/main-rendered.min.css" as="style">
+
+<link rel="preload" href="/styles/custom.min.css" as="style">
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Lobster" as="style">
+<link rel="preload" href="/images/avatar.png" as="image">
+<link rel="preload" href="/images/grey-prism.svg" as="image">
+
+
+<style>
+  body {
+    background: rgb(244, 243, 241) url('/images/grey-prism.svg') repeat fixed;
+  }
+</style>
+<link rel="stylesheet" href="/styles/main-rendered.min.css">
+
+<link rel="stylesheet" href="/styles/custom.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.2/dist/medium-zoom.min.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video-js.min.css">
+
+
+
+  
+  
+<!--[if lte IE 8]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ie8@1.1.2/dist/videojs-ie8.min.js"></script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20180112/classList.min.js"></script>
+<![endif]-->
+
+
+</head>
+  <body>
+    <div class="suspension">
+      <a role="button" aria-label="Go to top" title="Go to top" class="to-top is-hide"><span class="icon icon-up" aria-hidden="true"></span></a>
+      
+        
+	<a role="button" aria-label="Go to comments" title="Go to comments" class="to-comment" href="#SOHUCS"><span class="icon icon-comment" aria-hidden="true"></span></a>
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <a href=""><img class="avatar" src="/images/avatar.png" alt="Avatar"></a>
+  
+  <h2 class="title"><a href="">Vozhuo&#39;s Blog</a></h2>
+  
+  <p class="subtitle">May you rest in a deep and restless slumber.</p>
+  <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
+    <span class="icon icon-menu" aria-hidden="true"></span>
+  </button>
+
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+        <li class="menu-item
+          
+          
+           is-active">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list"><li class="social-item">
+          <a href="mailto:qsx753698@outlook.com" title="Email" aria-label="Email">
+            <span class="icon icon-email" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//github.com/vozhuo" rel="me" title="GitHub" aria-label="GitHub">
+	    <span class="icon icon-github" aria-hidden="true"></span>
+          </a>
+        </li></ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">半监督学习再探</h1>
+      <p class="post-meta">@Vozhuo · Aug 4, 2019 · 1 min read</p>
+    </header>
+    <article class="post-content"><h2 id="概述">概述</h2>
+
+<p>传统监督学习通过对大量有标记的训练样例进行学习以建立模型用于预测未知样例的标记。在实际应用中，往往可以容易地收集到大量未标记的样本，而对这些数据赋予标记则往往需要耗费大量的人力物力。例如在进行计算机辅助医学影像分析时, 可以从医院获得大量医学影像, 但如果希望医学专家把影像中的病灶全都标识出来则是不现实的。</p>
+
+<p>在这些获取标记数据困难的领域中，如果只使用少量有标记的数据，那么所训练出的学习系统可能很难具有强泛化能力，另外大量未标记数据未得到使用是对数据资源的极大浪费。因此，人们尝试将大量的无类标签的样例加入到有限的有类标签的样本中一起训练来进行学习，期望能对学习性能起到改进的作用，由此产生了半监督学习。</p>
+
+<blockquote>
+<p>周志华. 基于分歧的半监督学习[J]. 自动化学报, 2013, 39(11): 1871-1878.</p>
+
+<p>刘建伟, 刘媛, 罗雄麟. 半监督学习方法[J]. 计算机学报, 2015, 38(8): 1592-1617.</p>
+</blockquote>
+
+<h2 id="依赖的假设">依赖的假设</h2>
+
+<p>未标记数据并不总是有助于半监督学习，只有在模型假设正确时，未标记数据才能发挥作用。两个常见的假设是聚类假设（Cluster Assumption）和流形假设（Manifold Assumption）。聚类假设指假设数据存在簇结构，同一个样本的簇属于同一个类别。在这种假设下，未标记数据发挥的作用可见图1，聚类假设通常用于分类任务。这个假设的等价定义为低密度分离假设，即分类决策边界应该穿过稀疏数据区域，而避免将稠密数据区域的样例分到决策边界两侧。</p>
+
+<p><img src="/img/Cluster-Assumption.jpg" width="40%" height="40%"></p>
+
+<p>流形假设即假设数据分布在一个流形结构上，邻近的样本具有相似的输出值。流形（manifold）是几何中的一个概念，它是高维空间中的几何结构，即空间中的点构成的集合。图2为三维空间的流形。流形假设的观点认为，我们所能观察到的数据实际上是由一个低维流形映射到高维空间上的。由于数据内部特征的限制，一些高维中的数据会产生维度上的冗余，实际上只需要比较低的维度就能唯一地表示。“邻近”程度常用“相似”程度来刻画，但流形假设对输出值没有限制，因此比聚类假设的使用范围更广。</p>
+
+<p><img src="/img/manifold.jpg" width="30%" height="30%"></p>
+
+<p>有综述还列出了平滑假设（Smoothness Assumption），即假设位于稠密数据区域的两个距离很近的样例的类标签相似，也就是说，当两个样例被稠密数据区域中的边连接时，它们在很大的概率下有相同的类标签；相反地，当两个样例被稀疏数据区域分开时，它们的类标签趋于不同。这三个假设本质上都是基于“相似的样本拥有相似的输出”这个基本假设。许多实验研究表明，当半监督学习不满足这些假设或者模型假设不正确时，未标记数据不仅不能对学习性能起到改进作用，反而会恶化学习性能，导致性能下降。但也有实验表明，在一些特殊的情况下，即使模型假设正确，未标记数据也有可能损害学习性能。</p>
+
+<blockquote>
+<p>Zhou Z H. A brief introduction to weakly supervised learning[J]. National Science Review, 2017, 5(1): 44-53.</p>
+
+<p>刘建伟, 刘媛, 罗雄麟. 半监督学习方法[J]. 计算机学报, 2015, 38(8): 1592-1617.</p>
+</blockquote>
+
+<h2 id="类别">类别</h2>
+
+<p>半监督学习目前大致有四种主流范型：生成式方法、基于分歧的方法、低密度分离法和基于图的方法。</p>
+
+<h3 id="生成式方法">生成式方法</h3>
+
+<p>生成式方法是直接基于生成式模型的方法，此类方法假设所有数据都是由同一个“潜在”的模型生成的。假设模型$p(x,y)=p(y)p(x|y)$，其中$p(x|y)$是可识别的混合模型分布，例如高斯混合模型。使用大量未标记的数据，可以识别混合模型的分量（component）。此时未标记的数据的标签值可以看做是模型参数的缺失值。理想情况下，每个分量只需一个有标签的示例就能完全确定混合模型分布。</p>
+
+<blockquote>
+<p>Zhu X J. Semi-supervised learning literature survey[R]. University of Wisconsin-Madison Department of Computer Sciences, 2005.</p>
+</blockquote>
+
+<p>Nigam等人提出使用基于期望最大化（EM）和朴素贝叶斯分类器的组合来学习标记和未标记文档。在文本分类领域，未标记数据提供了关于单词的联合概率分布的信息，这种相关性是提高分类效果的有用信息来源。算法首先训练仅具有可用标记文档的分类器，并使用分类器通过计算缺失类标签的期望来为每个未标记文档分配概率加权类标签，然后用新的数据训练新的分类器，并迭代收敛。EM算法负责找到使得数据集（有标记和未标记）似然局部最大化的分类器参数。当数据符合模型的生成假设时，这种基本的EM算法很有效。</p>
+
+<blockquote>
+<p>Nigam K, McCallum A K, Thrun S, et al. Text classification from labeled and unlabeled documents using EM[J]. Machine learning, 2000, 39(2-3): 103-134.</p>
+</blockquote>
+
+<h3 id="基于分歧的方法">基于分歧的方法</h3>
+
+<p>基于分歧的方法生成多种学习器，让它们来合作利用未标记数据，学习器之间的分歧是保证学习过程继续的关键。基于分歧的半监督学习的研究始于Blum和Mitchell关于协同训练（Co-training) 的工作。该类技术较少受到模型假设、损失函数非凸性和数据规模问题的影响，学习方法简单有效、理论基础相对坚实、适用范围较为广泛。</p>
+
+<p>论文提出利用协同训练方法利用未标记数据和标记数据进行网页分类。在网页分类问题中，页面可以用两种不同的信息描述，一种是网页中的文字，另一种是指向这个网页的超链接的提示文字。两种信息可以称为两个“视图”（views）。协同训练法要求数据具有两个充分冗余且满足条件独立性的视图, “充分 (Sufficient)” 是指每个视图都包含足够产生最优学习器的信息, 此时对其中任一视图来说, 另一个视图则是 “冗余 (Redundant)” 的。实验使用朴素贝叶斯算法，在已标记数据中训练基于页面和基于超链接的分类器，然后用两个分类器分别预测未标记数据，再把这些数据分别加入对方分类器的数据集中，这个 “互相学习、共同进步” 的过程不断迭代进行下去, 直到两个分类器都不再发生变化, 或达到预先设定的学习轮数为止.。大体的流程如下图所示。</p>
+
+<p><img src="/img/Co-training.png" alt="Co-training" /></p>
+
+<blockquote>
+<p>Blum A, Mitchell T. Combining labeled and unlabeled data with co-training[C]//Proceedings of the eleventh annual conference on Computational learning theory. ACM, 1998: 92-100.</p>
+</blockquote>
+
+<p>标准的协同训练方法需要两个充足且冗余的视图，然而这种要求在现实场景中很难满足要求。为了确定分类器预测时的偏差，必须明确测定每个分类器的预测的置信度，有时这样的测量过程非常耗时。Tri-training（三训练或三体训练法）从单视图训练集中产生三个分类器, 然后利用这三个分类器以 “少数服从多数” 的形式来产生伪标记样本。具体来说，使用自采样（bootstrap sampling）方法从原始有标记数据集中获得三个数据集。每个训练集产生一个分类器，如果有两个分类器对标签预测达成一致，则标记此样例加入第三个分类器数据集。该方法避免了对标记置信度的显式估计。最终训练完成后, 三个分类器通过投票机制作为一个分类器集成进行使用。值得指出的是，最初的三个分类器必须强于弱学习器（所谓“弱学习器”，就是指性能比起随机猜测高一点的学习器），并且具有较大的分歧（即差异）。由于三训练不依赖于不同的视图，因此其适用范围更广。</p>
+
+<blockquote>
+<p>Zhou Z H, Li M. Tri-training: Exploiting unlabeled data using three classifiers[J]. IEEE Transactions on Knowledge &amp; Data Engineering, 2005 (11): 1529-1541.</p>
+</blockquote>
+
+<h2 id="低密度分离法">低密度分离法</h2>
+
+<p>低密度分离法或者称为判别式方法，指利用最大间隔算法同时训练有类标签的样本和无类标签的样例学习决策边界，使其通过低密度数据区域，并且使学习得到的分类超平面到最近的样例的距离间隔最大。低密度分离法包括半监督支持向量机、熵正则化等。</p>
+
+<p>半监督支持向量机中最著名的是TSVM（Transductive support vector machine，直推式支持向量机）。TSVM也是针对二分类问题的学习方法。但与标准SVM的不同，TSVM使用了未标记的数据。目标是找到未标记数据的标记，以便决策边界在原始标记数据和（现在标记的）未标记数据上有最大的距离间隔。直观地来说，未标记数据负责引导决策边界远离密集区域。下图展示了使用未标记数据的TSVM和仅使用已标记数据的SVM划分的决策边界的区别。</p>
+
+<p><img src="/img/tsvm.jpg" width="50%" height="50%"></p>
+
+<p>TSVM 是在文本分类的背景下提出的，更强调直推式的概念。通常的支持向量机（SVM）都是归纳式的，它们试图为一个分类任务归纳出一个一般的决策函数，以便对新来的样本能正确分类。而直推式支持向量机只考虑一个特定的测试数据集，试图最小化这个测试集上的错分率，而不考虑一般的情况。</p>
+
+<blockquote>
+<p>Joachims T. Transductive inference for text classification using support vector machines[C]//Icml. 1999, 99: 200-209.</p>
+</blockquote>
+
+<p>S3VM（Semi-supervised support vector machine）与TSVM在同一年提出。算法 主要的思想和求解的优化问题类似。半监督支持向量机（S3VM）刚提出时也是做为直推式的，主要用来对未标记的样本的类别进行直接估计，但它还在整个输入空间中划出了一个决策边界，所以也可以提供对新来的样本的分类。</p>
+
+<blockquote>
+<p>Bennett K P, Demiriz A. Semi-supervised support vector machines[C]//Advances in Neural Information processing systems. 1999: 368-374.</p>
+</blockquote>
+
+<h2 id="基于图的方法">基于图的方法</h2>
+
+<p>基于图的方法的实质是标签传播（Label Propagation），基于流形假设，根据样例之间的几何结构构造图，用图的结点表示样例，利用图上的邻接关系将类标签从有类标签的样本向无类标签的样例传播。模型的性能取决于图是如何构建的。下图为标签传播算法的实例，初始时仅有少量有标记的样例，经过多次迭代后，有标记的样例逐渐传播，两个半圆形数据已经被分为了两类。</p>
+
+<p><img src="/img/Label-Propagation.png" width="70%" height="70%"></p></article>
+    <footer class="post-footer">
+      
+      <ul class="post-tags">
+        
+          <li><a href="/tags/%E5%8D%8A%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0"><span class="tag">半监督学习</span></a></li>
+        
+      </ul>
+      
+      <p class="post-copyright">
+        © 2019 Vozhuo
+      </p>
+    </footer>
+    
+      
+      <div id="cyReward" role="cylabs" data-use="reward"></div>
+      <script src="//changyan.itc.cn/js/lib/jquery.js"></script>
+      <script src="//changyan.sohu.com/js/changyan.labs.https.js?appid=cyu1JCtWI"></script>
+      <div id="SOHUCS" sid="/post/ssl-detailed/" ></div>
+      <script>
+      (function(){
+      var appid = 'cyu1JCtWI';
+      var conf = 'prod_87a280f2532c26d97430235e5cb8bd2f';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
+      
+    
+  </section>
+  
+<footer class="site-footer">
+  <p>© 2017-2019 Vozhuo&#39;s Blog</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank" rel="noopener">Nuo</a>.</p>
+  
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@15.0.0/dist/smooth-scroll.min.js"></script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video.min.js"></script>
+
+
+
+
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    },
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+
+
+<script src="/scripts/index.min.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('\/service-worker.js').then(function() {
+      console.log('[ServiceWorker] Registered');
+    });
+  }
+</script>
+
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-74583706-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?4cfb60f6b668e48d81b6f4b916461bd7";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+  </body>
+</html>

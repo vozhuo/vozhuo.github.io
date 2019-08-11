@@ -7,7 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-Hans</language>
     <copyright>© 2019 Vozhuo</copyright>
-    <lastBuildDate>Sun, 21 Jul 2019 21:30:10 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 11 Aug 2019 21:10:37 +0800</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
@@ -19,6 +19,26 @@
       
       <guid>/about/</guid>
       <description> SDUST/GXU Disqus Chinese localization team reviewer Chinese Wikipedia editor  </description>
+    </item>
+    
+    <item>
+      <title>半监督深度学习</title>
+      <link>/post/deep-ssl/</link>
+      <pubDate>Sun, 11 Aug 2019 21:10:37 +0800</pubDate>
+      
+      <guid>/post/deep-ssl/</guid>
+      <description>&lt;p&gt;深度学习发展初期，训练深度的网络比较困难。对神经网络来说，一个好的初始化可以让结果更稳定，迭代次数更少，因此利用无标签数据让网络有一个好的初始化成为一个研究热点。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>半监督学习再探</title>
+      <link>/post/ssl-detailed/</link>
+      <pubDate>Sun, 04 Aug 2019 20:42:14 +0800</pubDate>
+      
+      <guid>/post/ssl-detailed/</guid>
+      <description>&lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+
+&lt;p&gt;传统监督学习通过对大量有标记的训练样例进行学习以建立模型用于预测未知样例的标记。在实际应用中，往往可以容易地收集到大量未标记的样本，而对这些数据赋予标记则往往需要耗费大量的人力物力。例如在进行计算机辅助医学影像分析时, 可以从医院获得大量医学影像, 但如果希望医学专家把影像中的病灶全都标识出来则是不现实的。&lt;/p&gt;</description>
     </item>
     
     <item>
