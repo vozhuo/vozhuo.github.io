@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>深度强化学习总览</title>
+
+  
+  
+  <link href="//cdn.jsdelivr.net" rel="dns-prefetch">
+  <link href="//cdnjs.cloudflare.com" rel="dns-prefetch">
+  
+  <link href="//at.alicdn.com" rel="dns-prefetch">
+  
+  <link href="//fonts.googleapis.com" rel="dns-prefetch">
+  <link href="//fonts.gstatic.com" rel="dns-prefetch">
+  
+  
+  
+  <link href="//www.google-analytics.com" rel="dns-prefetch">
+  <link href="//hm.baidu.com" rel="dns-prefetch">
+
+  
+
+  
+  
+  <meta name="description" content="概念 强化学习的基本思想是通过最大化智能体（Agent）从环境中获得的累计奖赏值，以学习到完成目标的最优策略。强化学习中的基本要素包括：
+">
+
+  
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@gohugoio">
+    <meta name="twitter:title" content="深度强化学习总览">
+    <meta name="twitter:description" content="概念 强化学习的基本思想是通过最大化智能体（Agent）从环境中获得的累计奖赏值，以学习到完成目标的最优策略。强化学习中的基本要素包括：
+">
+    <meta name="twitter:image" content="/images/avatar.png">
+  
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="深度强化学习总览">
+  <meta property="og:description" content="概念 强化学习的基本思想是通过最大化智能体（Agent）从环境中获得的累计奖赏值，以学习到完成目标的最优策略。强化学习中的基本要素包括：
+">
+  <meta property="og:url" content="/post/drl-overview/">
+  <meta property="og:image" content="/images/avatar.png">
+
+
+
+
+<meta name="generator" content="Hugo 0.55.6">
+
+
+<link rel="canonical" href="/post/drl-overview/">
+
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="format-detection" content="telephone=no,email=no,adress=no">
+<meta http-equiv="Cache-Control" content="no-transform">
+
+
+<meta name="robots" content="index,follow">
+<meta name="referrer" content="origin-when-cross-origin">
+
+
+
+
+
+
+
+<meta name="theme-color" content="#02b875">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Vozhuo&#39;s Blog">
+<meta name="msapplication-tooltip" content="Vozhuo&#39;s Blog">
+<meta name='msapplication-navbutton-color' content="#02b875">
+<meta name="msapplication-TileColor" content="#02b875">
+<meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png">
+<link rel="icon" sizes="192x192" href="/icons/icon-192x192.png">
+<link rel="apple-touch-icon" href="/icons/icon-152x152.png">
+<link rel="manifest" href="/manifest.json">
+
+
+<link rel="preload" href="/styles/main-rendered.min.css" as="style">
+
+<link rel="preload" href="/styles/custom.min.css" as="style">
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Lobster" as="style">
+<link rel="preload" href="/images/avatar.png" as="image">
+<link rel="preload" href="/images/grey-prism.svg" as="image">
+
+
+<style>
+  body {
+    background: rgb(244, 243, 241) url('/images/grey-prism.svg') repeat fixed;
+  }
+</style>
+<link rel="stylesheet" href="/styles/main-rendered.min.css">
+
+<link rel="stylesheet" href="/styles/custom.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.2/dist/medium-zoom.min.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video-js.min.css">
+
+
+
+  
+  
+<!--[if lte IE 8]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ie8@1.1.2/dist/videojs-ie8.min.js"></script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20180112/classList.min.js"></script>
+<![endif]-->
+
+
+</head>
+  <body>
+    <div class="suspension">
+      <a role="button" aria-label="Go to top" title="Go to top" class="to-top is-hide"><span class="icon icon-up" aria-hidden="true"></span></a>
+      
+        
+	<a role="button" aria-label="Go to comments" title="Go to comments" class="to-comment" href="#SOHUCS"><span class="icon icon-comment" aria-hidden="true"></span></a>
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <a href=""><img class="avatar" src="/images/avatar.png" alt="Avatar"></a>
+  
+  <h2 class="title"><a href="">Vozhuo&#39;s Blog</a></h2>
+  
+  <p class="subtitle">May you rest in a deep and restless slumber.</p>
+  <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
+    <span class="icon icon-menu" aria-hidden="true"></span>
+  </button>
+
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+        <li class="menu-item
+          
+          
+           is-active">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list"><li class="social-item">
+          <a href="mailto:qsx753698@outlook.com" title="Email" aria-label="Email">
+            <span class="icon icon-email" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//github.com/vozhuo" rel="me" title="GitHub" aria-label="GitHub">
+	    <span class="icon icon-github" aria-hidden="true"></span>
+          </a>
+        </li></ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">深度强化学习总览</h1>
+      <p class="post-meta">@Vozhuo · Aug 18, 2019 · 1 min read</p>
+    </header>
+    <article class="post-content"><h1 id="概念">概念</h1>
+
+<p>强化学习的基本思想是通过最大化智能体（Agent）从环境中获得的累计奖赏值，以学习到完成目标的最优策略。强化学习中的基本要素包括：</p>
+
+<ul>
+<li><p>状态s是对环境的描述，离散值或连续值，其状态空间为S；</p></li>
+
+<li><p>动作a是对智能体行为的描述，离散值或连续值，其动作空间为A；</p></li>
+
+<li><p>策略π(a|s)是智能体根据环境状态s来决定下一步的动作a的函数，通常分为确定性策略（Deterministic Policy）和随机性策略（Stochastic Policy）两种。</p></li>
+
+<li><p>状态转移概率p(s′|s, a)是在智能体根据当前状态 s 做出一个动作 a 之后，环境在下一个时刻转变为状态s′的概率；</p></li>
+
+<li><p>即时奖励r(s, a, s′)是一个标量函数，即智能体根据当前状态s做出动作a后，环境会反馈给智能体一个奖励，这个奖励也经常和下一个时刻的状态s′有关。</p></li>
+</ul>
+
+<p>在强化学习中，有两个可以进行交互的对象：智能体和环境。</p>
+
+<p><img src="/img/rl.png" width="50%" height="50%"></p>
+
+<p>智能体从感知到的初始环境s0开始，然后决定做一个相应的动作a0，环境相应地发生改变到新的状态s1，并反馈给智能体一个即时奖励r1，然后智能体又根据状态s1 做一个动作a1，环境相应改变为s2，并反馈奖励r2。这样的交互可以一直进行下去。智能体与环境的交互的过程可以看作是一个马尔可夫决策过程，即下一个时刻的状态 st+1 和当前时刻的状态 st以及动作at相关。</p>
+
+<p>早期的强化学习算法主要关注的状态和动作都是离散且有限的问题，可以使用表格来记录这些概率。但在很多实际问题中，有些任务的状态和动作的数量非常多。还有些任务的状态和动作是连续的。为了有效地解决这些问题，可以建立一个复杂的函数（比如深度神经网络）来使得智能体可以感知更复杂的环境状态以及建立更复杂的策略，提高强化学习算法的能力，并提高泛化能力。</p>
+
+<h1 id="分类-无模型">分类（无模型）</h1>
+
+<p><img src="/img/rl-classes.png" width="70%" height="70%"></p>
+
+<p>强化学习可以分为有模型和无模型的学习，任务对于马尔可夫决策过程均已知的情形为“模型已知”。此时，对于状态x下执行动作转移到x’状态的概率是已知的。在现实的强化学习任务中，环境的转移概率、奖赏往往很难得知，甚至很难知道环境有多少种状态，若学习算法不依赖环境建模，则称为“无模型”学习。以下仅列出无模型强化学习方法的分类。</p>
+
+<h2 id="蒙特卡罗学习">蒙特卡罗学习</h2>
+
+<p>在无模型情况下，策略无法评估，只能通过在环境中选择动作，观察之后转移的状态和得到的奖赏。一种直接的代替方法是多次采样，然后求平均累积奖赏来作为期望累积奖赏的近似，这种方法称为蒙特卡罗强化学习</p>
+
+<p>所谓采样是指，在模型未知的情况下，从起始状态出发，使用某种策略进行采样，执行该策略T步得到一条轨迹<x0, a0, r1, x1,a1, r2……, xT>，记录奖赏r之和，作为一次累计奖赏采样值。</p>
+
+<h2 id="时序差分学习">时序差分学习</h2>
+
+<p>蒙特卡罗强化学习克服了模型未知给策略估计造成的困难。此类方法需要完成一个采样轨迹后再更新策略的值估计，效率较低。时序差分学习（Temporal-difference，TD）结合了动态规划和蒙特卡罗方法的思想，能做到更高效的学习。目前TD学习比蒙特卡罗学习更常用。</p>
+
+<h3 id="基于价值的强化学习">基于价值的强化学习</h3>
+
+<p>值函数
+强化学习的目标是学习到一个策略πθ(a|s)来最大化期望回报（expected return），即希望智能体执行一系列的动作来获得尽可能多的平均回报。θ为策略函数的参数。为了评估一个策略π的期望回报，定义两个值函数：状态值函数和状态-动作值函数。状态值函数V π (s)，表示从状态s开始，执行策略π 得到的期望总回报。状态-动作值函数Q π (s, a)，表示从状态s开始，执行动作a后再使用策略π 得到的期望总回报。状态-动作值函数也经常称为Q函数。基于价值的强化学习本质上是一个 Q-Learning 算法，目标是估计最优策略的 Q 值。</p>
+
+<h3 id="基于策略的强化学习">基于策略的强化学习</h3>
+
+<h4 id="policy-gradient">Policy Gradient</h4>
+
+<p>基于值的方法一般是确定性的，给定一个状态就能计算出每种可能动作的奖励（确定值），但是有很多时候，在某一个特定状态下，很多动作的选择可能都是可以的。另外，状态数量也是使用基于值的方法的一个限制因素，因为基于值的方法需要保存状态-动作的对应关系，因此很多现实问题（例如机器人控制和自动驾驶都是连续动作空间）都因为巨量的状态而无法计算。</p>
+
+<p>策略梯度（Policy Gradient）正是为了解决上面两个问题而产生，它的随机性能提供非确定的结果，这种非确定的结果服从某种概率分布，策略梯度不使用奖励（reward）而是使用概率选择动作，这样就避免了因为计算奖励而维护状态表。 策略梯度的基本原理是通过反馈调整策略，具体来说就是在得到正向奖励时，增加相应的动作的概率；得到负向的奖励时，降低相应动作的概率。所以Policy Gradient不通过误差反向传播，而是利用奖励直接对选择行为的可能性进行增强和减弱。策略梯度中使用梯度上升 (gradient ascent) 来更新参数。</p>
+
+<p>策略梯度的优点是在连续的动作空间（或者高维空间）中更加高效，并可以实现随机化的策略。缺点是通常收敛到局部最优而非全局最优，且评估一个策略通常低效，这个过程可能慢，但是具有更高的可变性，其中也会出现很多并不有效的尝试，而且方差高。</p>
+
+<h4 id="actor-critic">Actor-Critic</h4>
+
+<p>Actor-Critic结合了Q-learning和Policy Gradient。对于Policy Gradients来说，由于智能体在一个迭代周期中会采取很多动作，很难说哪个动作对最后结果是有用的，换句话说，这种算法存在高方差，而且收敛速度慢。Actor-Critic算法分为两部分，Actor基于Policy Gradient，可以轻松在连续动作空间内选择合适的动作，但是又因为Actor是基于回合更新的所以学习效率比较慢，这时候可以使用基于值的Q-learning算法作为Critic就可以实现单步更新。这样两种算法相互补充就形成了Actor-Critic。</p>
+
+<p>Actor基于概率选行为，Critic基于Actor的行为评判行为的得分, Actor再根据 Critic的评分修改选行为的概率。优点是可以进行单步更新, 相较于传统的Policy Gradient回合更新要快。缺点是Actor的行为取决于 Critic 的Value，但因为 Critic本身就很难收敛和Actor一起更新的话就更难收敛了。</p>
+
+<p>参考：</p>
+
+<blockquote>
+<p><a href="https://nndl.github.io">神经网络与深度学习</a></p>
+
+<p>刘全, 翟建伟, 章宗长, 等. 深度强化学习综述[J]. 计算机学报, 2018, 41(1): 1-27.</p>
+
+<p>Li Y. Deep reinforcement learning: An overview[J]. arXiv preprint arXiv:1701.07274, 2017.</p>
+</blockquote></article>
+    <footer class="post-footer">
+      
+      <ul class="post-tags">
+        
+          <li><a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0"><span class="tag">强化学习</span></a></li>
+        
+          <li><a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0"><span class="tag">深度学习</span></a></li>
+        
+      </ul>
+      
+      <p class="post-copyright">
+        © 2019 Vozhuo
+      </p>
+    </footer>
+    
+      
+      <div id="cyReward" role="cylabs" data-use="reward"></div>
+      <script src="//changyan.itc.cn/js/lib/jquery.js"></script>
+      <script src="//changyan.sohu.com/js/changyan.labs.https.js?appid=cyu1JCtWI"></script>
+      <div id="SOHUCS" sid="/post/drl-overview/" ></div>
+      <script>
+      (function(){
+      var appid = 'cyu1JCtWI';
+      var conf = 'prod_87a280f2532c26d97430235e5cb8bd2f';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
+      
+    
+  </section>
+  
+<footer class="site-footer">
+  <p>© 2017-2019 Vozhuo&#39;s Blog</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank" rel="noopener">Nuo</a>.</p>
+  
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@15.0.0/dist/smooth-scroll.min.js"></script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video.min.js"></script>
+
+
+
+
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    },
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+
+
+<script src="/scripts/index.min.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('\/service-worker.js').then(function() {
+      console.log('[ServiceWorker] Registered');
+    });
+  }
+</script>
+
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-74583706-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?4cfb60f6b668e48d81b6f4b916461bd7";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+  </body>
+</html>

@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>半监督学习2019年最新进展</title>
+
+  
+  
+  <link href="//cdn.jsdelivr.net" rel="dns-prefetch">
+  <link href="//cdnjs.cloudflare.com" rel="dns-prefetch">
+  
+  <link href="//at.alicdn.com" rel="dns-prefetch">
+  
+  <link href="//fonts.googleapis.com" rel="dns-prefetch">
+  <link href="//fonts.gstatic.com" rel="dns-prefetch">
+  
+  
+  
+  <link href="//www.google-analytics.com" rel="dns-prefetch">
+  <link href="//hm.baidu.com" rel="dns-prefetch">
+
+  
+
+  
+  
+  <meta name="description" content="ICT 问题：不同的一致性正则化技术选择不同的未标记数据扰动。随机扰动是一个简单的方案，但其对于高维度数据十分低效。VAT等模型探索能够使模型预测变化最大化的扰动，但这类方法需要额外的计算，而且有研究表明对抗性扰动训练可能会影响泛化表现。
+">
+
+  
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@gohugoio">
+    <meta name="twitter:title" content="半监督学习2019年最新进展">
+    <meta name="twitter:description" content="ICT 问题：不同的一致性正则化技术选择不同的未标记数据扰动。随机扰动是一个简单的方案，但其对于高维度数据十分低效。VAT等模型探索能够使模型预测变化最大化的扰动，但这类方法需要额外的计算，而且有研究表明对抗性扰动训练可能会影响泛化表现。
+">
+    <meta name="twitter:image" content="/images/avatar.png">
+  
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="半监督学习2019年最新进展">
+  <meta property="og:description" content="ICT 问题：不同的一致性正则化技术选择不同的未标记数据扰动。随机扰动是一个简单的方案，但其对于高维度数据十分低效。VAT等模型探索能够使模型预测变化最大化的扰动，但这类方法需要额外的计算，而且有研究表明对抗性扰动训练可能会影响泛化表现。
+">
+  <meta property="og:url" content="/post/ssl-2019/">
+  <meta property="og:image" content="/images/avatar.png">
+
+
+
+
+<meta name="generator" content="Hugo 0.55.6">
+
+
+<link rel="canonical" href="/post/ssl-2019/">
+
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="format-detection" content="telephone=no,email=no,adress=no">
+<meta http-equiv="Cache-Control" content="no-transform">
+
+
+<meta name="robots" content="index,follow">
+<meta name="referrer" content="origin-when-cross-origin">
+
+
+
+
+
+
+
+<meta name="theme-color" content="#02b875">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Vozhuo&#39;s Blog">
+<meta name="msapplication-tooltip" content="Vozhuo&#39;s Blog">
+<meta name='msapplication-navbutton-color' content="#02b875">
+<meta name="msapplication-TileColor" content="#02b875">
+<meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png">
+<link rel="icon" sizes="192x192" href="/icons/icon-192x192.png">
+<link rel="apple-touch-icon" href="/icons/icon-152x152.png">
+<link rel="manifest" href="/manifest.json">
+
+
+<link rel="preload" href="/styles/main-rendered.min.css" as="style">
+
+<link rel="preload" href="/styles/custom.min.css" as="style">
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Lobster" as="style">
+<link rel="preload" href="/images/avatar.png" as="image">
+<link rel="preload" href="/images/grey-prism.svg" as="image">
+
+
+<style>
+  body {
+    background: rgb(244, 243, 241) url('/images/grey-prism.svg') repeat fixed;
+  }
+</style>
+<link rel="stylesheet" href="/styles/main-rendered.min.css">
+
+<link rel="stylesheet" href="/styles/custom.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.2/dist/medium-zoom.min.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video-js.min.css">
+
+
+
+  
+  
+<!--[if lte IE 8]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ie8@1.1.2/dist/videojs-ie8.min.js"></script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20180112/classList.min.js"></script>
+<![endif]-->
+
+
+</head>
+  <body>
+    <div class="suspension">
+      <a role="button" aria-label="Go to top" title="Go to top" class="to-top is-hide"><span class="icon icon-up" aria-hidden="true"></span></a>
+      
+        
+	<a role="button" aria-label="Go to comments" title="Go to comments" class="to-comment" href="#SOHUCS"><span class="icon icon-comment" aria-hidden="true"></span></a>
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <a href=""><img class="avatar" src="/images/avatar.png" alt="Avatar"></a>
+  
+  <h2 class="title"><a href="">Vozhuo&#39;s Blog</a></h2>
+  
+  <p class="subtitle">May you rest in a deep and restless slumber.</p>
+  <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
+    <span class="icon icon-menu" aria-hidden="true"></span>
+  </button>
+
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+        <li class="menu-item
+          
+          
+           is-active">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list"><li class="social-item">
+          <a href="mailto:qsx753698@outlook.com" title="Email" aria-label="Email">
+            <span class="icon icon-email" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//github.com/vozhuo" rel="me" title="GitHub" aria-label="GitHub">
+	    <span class="icon icon-github" aria-hidden="true"></span>
+          </a>
+        </li></ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">半监督学习2019年最新进展</h1>
+      <p class="post-meta">@Vozhuo · Sep 1, 2019 · 1 min read</p>
+    </header>
+    <article class="post-content"><h1 id="ict">ICT</h1>
+
+<p><strong>问题：</strong>不同的一致性正则化技术选择不同的未标记数据扰动。随机扰动是一个简单的方案，但其对于高维度数据十分低效。VAT等模型探索能够使模型预测变化最大化的扰动，但这类方法需要额外的计算，而且有研究表明对抗性扰动训练可能会影响泛化表现。</p>
+
+<p><strong>解决方案：</strong>提出Interpolation Consistency Training（ICT）,使用监督学习中的数据增强技术Mixup作为扰动，学习一个学生网络f(θ)，再利用学生网络的移动平均构建教师网络f(θ&rsquo;)。学习网络参数的更新依靠有标签数据的正确预测以及无标签数据的一致性预测。其中Mix函数的公式为：</p>
+
+<p><img src="/img/Mix-func.png" width="20%" height="20%"></p>
+
+<p><img src="/img/ICT.png" width="70%" height="70%"></p>
+
+<blockquote>
+<p>Verma V, Lamb A, Kannala J, et al. Interpolation consistency training for semi-supervised learning[J]. arXiv preprint arXiv:1903.03825, 2019.</p>
+</blockquote>
+
+<h1 id="mixmatch">MixMatch</h1>
+
+<p>MixMatch为未标记数据引入了统一的损失项，可以降低熵，同时保持一致性并与传统的正则化技术保持兼容。MixMatch主要结合了之前单独使用的三种半监督学习范例：</p>
+
+<ul>
+<li><p><strong>一致性正则化：</strong>MixMatch采用标准的数据增广方法（随机左右翻转和剪切）。对标记图片，做一次增广。对未标记数据，做K次随机增广。</p></li>
+
+<li><p><strong>熵最小化：</strong>使用 &ldquo;Sharpening&rdquo; 函数，最小化未标记数据的熵。</p></li>
+
+<li><p><strong>传统正则化：</strong>L2 正则化。使用监督学习的数据增广方法MixUp，从训练数据中任意抽样两个样本，构造混合样本和混合标签，作为新的增广数据，MixMatch将标记数据与未标记数据做了混合。</p></li>
+</ul>
+
+<p>论文分析MixMatch各个部分后得出，贡献最大的是对未标记数据的 MixUp，移动平均以及 Sharpen。</p>
+
+<blockquote>
+<p><a href="https://zhuanlan.zhihu.com/p/66281890">超强半监督学习 MixMatch</a></p>
+
+<p>Berthelot D, Carlini N, Goodfellow I, et al. Mixmatch: A holistic approach to semi-supervised learning[J]. arXiv preprint arXiv:1905.02249, 2019.</p>
+</blockquote>
+
+<h1 id="uda">UDA</h1>
+
+<p>Unsupervised Data Augmentation（UDA）引入了智能增广技术（AutoAugment），对无标注数据进行数据增强，显著提高半监督学习的性能。AutoAugment是一种基于强化学习搜索的数据增强方法，对于不同的任务，自动搜索合适数据增强策略，最小化训练过程中的验证误差。</p>
+
+<p>此外，论文还提出了Training Signal Annealing（TSA），防止对标记数据的过拟合。在训练时忽略预测置信度过高的样本。这一点和MixMatch论文中对标记数据做k次增广的目的一致。</p>
+
+<blockquote>
+<p><a href="https://zhuanlan.zhihu.com/p/66564694">超强半监督学习MixMatch姐妹篇 Unsupervised Data Augmentation</a></p>
+
+<p>Xie Q, Dai Z, Hovy E, et al. Unsupervised data augmentation[J]. arXiv preprint arXiv:1904.12848, 2019.</p>
+</blockquote>
+
+<h1 id="总结">总结</h1>
+
+<p>对于本博客之前提及的使用一致性技术的模型的比较：</p>
+
+<p><strong>Π-model（2016）</strong>：使用不同Dropout和一般数据增强方法的一致性。</p>
+
+<p><strong>Mean Teacher（2017）</strong>：学生模型和教师模型（学生模型的移动平均）的一致性。</p>
+
+<p><strong>ICT（2019）</strong>：数据增强（MixUp）+移动平均的一致性。</p>
+
+<p><strong>MixMatch（2019）</strong>：数据增强（MixUp，与ICT的使用方法并不相同）+ Sharpen+移动平均。</p>
+
+<p><strong>UDA（2019）</strong>：数据增强（AutoAugment）。</p></article>
+    <footer class="post-footer">
+      
+      <ul class="post-tags">
+        
+          <li><a href="/tags/%E5%8D%8A%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0"><span class="tag">半监督学习</span></a></li>
+        
+          <li><a href="/tags/tagb"><span class="tag">TagB</span></a></li>
+        
+      </ul>
+      
+      <p class="post-copyright">
+        © 2019 Vozhuo
+      </p>
+    </footer>
+    
+      
+      <div id="cyReward" role="cylabs" data-use="reward"></div>
+      <script src="//changyan.itc.cn/js/lib/jquery.js"></script>
+      <script src="//changyan.sohu.com/js/changyan.labs.https.js?appid=cyu1JCtWI"></script>
+      <div id="SOHUCS" sid="/post/ssl-2019/" ></div>
+      <script>
+      (function(){
+      var appid = 'cyu1JCtWI';
+      var conf = 'prod_87a280f2532c26d97430235e5cb8bd2f';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
+      
+    
+  </section>
+  
+<footer class="site-footer">
+  <p>© 2017-2019 Vozhuo&#39;s Blog</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank" rel="noopener">Nuo</a>.</p>
+  
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@15.0.0/dist/smooth-scroll.min.js"></script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video.min.js"></script>
+
+
+
+
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    },
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+
+
+<script src="/scripts/index.min.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('\/service-worker.js').then(function() {
+      console.log('[ServiceWorker] Registered');
+    });
+  }
+</script>
+
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-74583706-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?4cfb60f6b668e48d81b6f4b916461bd7";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+  </body>
+</html>

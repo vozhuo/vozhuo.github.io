@@ -194,6 +194,48 @@
       
         <article class="post-entry">
   <header class="post-header">
+    <h3 class="post-title"><a href="/post/fcn-note/" class="post-link">全卷积网络学习笔记</a></h3>
+    <p class="post-meta">@Vozhuo · May 19, 2019 · 1 min read</p>
+  </header>
+  
+  <p class="post-summary">全卷积网络（FCN）对图像进行像素级的分类，用于语义分割。FCN与CNN的主要区别在于，FCN将传统CNN中的全连接层转化为1 * 1的卷积层。与传统的CNN网络不同，FCN可以接受任意尺寸的输入图像，然后采用反卷积进行上采样，使之恢复到与输入图像相同的尺寸，从而可以预测每个像素。
+</p>
+  <footer class="post-footer">
+    <a class="read-more" href="/post/fcn-note/">Read More →</a>
+  </footer>
+</article>
+
+      
+        <article class="post-entry">
+  <header class="post-header">
+    <h3 class="post-title"><a href="/post/mask-rcnn-key-methods/" class="post-link">Mask R-CNN关键技术分析</a></h3>
+    <p class="post-meta">@Vozhuo · May 10, 2019 · 1 min read</p>
+  </header>
+  
+  <p class="post-summary">骨干架构（FPN） 特征金字塔网络是一种多维度特征表达，主要解决物体检测中的多尺度问题，可大幅提升小物体检测的性能。网络由浅至深，低层的特征语义信息比较少，但是目标位置准确；高层的特征语义信息比较丰富，但是目标位置比较粗略。特征图金字塔分成三个部分，一个自底向上的路径（左边），一个自顶向下的路径（右边）和横向连接部分。
+</p>
+  <footer class="post-footer">
+    <a class="read-more" href="/post/mask-rcnn-key-methods/">Read More →</a>
+  </footer>
+</article>
+
+      
+        <article class="post-entry">
+  <header class="post-header">
+    <h3 class="post-title"><a href="/post/mask-rcnn-rpn/" class="post-link">Mask RCNN之RPN初探</a></h3>
+    <p class="post-meta">@Vozhuo · Apr 21, 2019 · 1 min read</p>
+  </header>
+  
+  <p class="post-summary">本文对项目所使用的Mask_RCNN的代码作出一些解读，主要集中在核心的RPN部分。
+</p>
+  <footer class="post-footer">
+    <a class="read-more" href="/post/mask-rcnn-rpn/">Read More →</a>
+  </footer>
+</article>
+
+      
+        <article class="post-entry">
+  <header class="post-header">
     <h3 class="post-title"><a href="/post/machine-learning-reinforcement-learning/" class="post-link">机器学习之强化学习</a></h3>
     <p class="post-meta">@Vozhuo · Apr 14, 2019 · 1 min read</p>
   </header>
@@ -289,48 +331,6 @@
 </p>
   <footer class="post-footer">
     <a class="read-more" href="/post/mxnet-study/">Read More →</a>
-  </footer>
-</article>
-
-      
-        <article class="post-entry">
-  <header class="post-header">
-    <h3 class="post-title"><a href="/post/deep-learning-attention/" class="post-link">序列模型和注意力机制</a></h3>
-    <p class="post-meta">@Vozhuo · Feb 17, 2019 · 1 min read</p>
-  </header>
-  
-  <p class="post-summary">基础模型 序列模型有Sequence to sequence模型和image to sequence 模型。前者最常见的应用是机器翻译。机器翻译模型的前半部分使用编码网络对输入的原文句子进行编码，后半部分使用解码网络生成对应的翻译。后者的图像描述与之类似。
-</p>
-  <footer class="post-footer">
-    <a class="read-more" href="/post/deep-learning-attention/">Read More →</a>
-  </footer>
-</article>
-
-      
-        <article class="post-entry">
-  <header class="post-header">
-    <h3 class="post-title"><a href="/post/deep-learning-word-embedding/" class="post-link">自然语言处理和词嵌入</a></h3>
-    <p class="post-meta">@Vozhuo · Feb 10, 2019 · 1 min read</p>
-  </header>
-  
-  <p class="post-summary">词汇表征 计算机是无法直接认识单词的，所以为了让计算机能更好地理解人类语言，需要将词汇进行表征。之前用到的方法是One-hot表征，即创建一个向量，将对应单词的位置用1表示，其余位置用0表示。这种方法的缺点是无法获得词与词之间的相关性。另一种方法是特征表征，即词嵌入，用不同的特征对单词进行特征化表示。
-</p>
-  <footer class="post-footer">
-    <a class="read-more" href="/post/deep-learning-word-embedding/">Read More →</a>
-  </footer>
-</article>
-
-      
-        <article class="post-entry">
-  <header class="post-header">
-    <h3 class="post-title"><a href="/post/deep-learning-rnn/" class="post-link">循环神经网络</a></h3>
-    <p class="post-meta">@Vozhuo · Jan 29, 2019 · 2 min read</p>
-  </header>
-  
-  <p class="post-summary">对于序列模型，使用传统的神经网络效果并不好。原因是输入输出数据的长度可能不同，另外这种神经网络结果不能共享从文本不同位置所学习到的特征。循环神经则不存在这两个缺点。在每一个时间步中，循环神经网络会传递一个激活值到下一个时间步中，用于下一时间步的计算。
-</p>
-  <footer class="post-footer">
-    <a class="read-more" href="/post/deep-learning-rnn/">Read More →</a>
   </footer>
 </article>
 

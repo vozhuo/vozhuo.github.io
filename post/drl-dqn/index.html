@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>深度强化学习之DQN系列</title>
+
+  
+  
+  <link href="//cdn.jsdelivr.net" rel="dns-prefetch">
+  <link href="//cdnjs.cloudflare.com" rel="dns-prefetch">
+  
+  <link href="//at.alicdn.com" rel="dns-prefetch">
+  
+  <link href="//fonts.googleapis.com" rel="dns-prefetch">
+  <link href="//fonts.gstatic.com" rel="dns-prefetch">
+  
+  
+  
+  <link href="//www.google-analytics.com" rel="dns-prefetch">
+  <link href="//hm.baidu.com" rel="dns-prefetch">
+
+  
+
+  
+  
+  <meta name="description" content="基础（Q-Learning） Q即为Q（s,a），就是在某一时刻的 s 状态下，采取动作a动作能够获得奖励的期望。环境会根据智能体的动作反馈相应的奖励 r。算法的主要思想就是将状态（state）与动作（action）构建成一张Q-table来存储Q值，然后根据Q值来选取能够获得最大的收益的动作。Q-Learning的算法如下：
+">
+
+  
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@gohugoio">
+    <meta name="twitter:title" content="深度强化学习之DQN系列">
+    <meta name="twitter:description" content="基础（Q-Learning） Q即为Q（s,a），就是在某一时刻的 s 状态下，采取动作a动作能够获得奖励的期望。环境会根据智能体的动作反馈相应的奖励 r。算法的主要思想就是将状态（state）与动作（action）构建成一张Q-table来存储Q值，然后根据Q值来选取能够获得最大的收益的动作。Q-Learning的算法如下：
+">
+    <meta name="twitter:image" content="/images/avatar.png">
+  
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="深度强化学习之DQN系列">
+  <meta property="og:description" content="基础（Q-Learning） Q即为Q（s,a），就是在某一时刻的 s 状态下，采取动作a动作能够获得奖励的期望。环境会根据智能体的动作反馈相应的奖励 r。算法的主要思想就是将状态（state）与动作（action）构建成一张Q-table来存储Q值，然后根据Q值来选取能够获得最大的收益的动作。Q-Learning的算法如下：
+">
+  <meta property="og:url" content="/post/drl-dqn/">
+  <meta property="og:image" content="/images/avatar.png">
+
+
+
+
+<meta name="generator" content="Hugo 0.55.6">
+
+
+<link rel="canonical" href="/post/drl-dqn/">
+
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="format-detection" content="telephone=no,email=no,adress=no">
+<meta http-equiv="Cache-Control" content="no-transform">
+
+
+<meta name="robots" content="index,follow">
+<meta name="referrer" content="origin-when-cross-origin">
+
+
+
+
+
+
+
+<meta name="theme-color" content="#02b875">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Vozhuo&#39;s Blog">
+<meta name="msapplication-tooltip" content="Vozhuo&#39;s Blog">
+<meta name='msapplication-navbutton-color' content="#02b875">
+<meta name="msapplication-TileColor" content="#02b875">
+<meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png">
+<link rel="icon" sizes="192x192" href="/icons/icon-192x192.png">
+<link rel="apple-touch-icon" href="/icons/icon-152x152.png">
+<link rel="manifest" href="/manifest.json">
+
+
+<link rel="preload" href="/styles/main-rendered.min.css" as="style">
+
+<link rel="preload" href="/styles/custom.min.css" as="style">
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Lobster" as="style">
+<link rel="preload" href="/images/avatar.png" as="image">
+<link rel="preload" href="/images/grey-prism.svg" as="image">
+
+
+<style>
+  body {
+    background: rgb(244, 243, 241) url('/images/grey-prism.svg') repeat fixed;
+  }
+</style>
+<link rel="stylesheet" href="/styles/main-rendered.min.css">
+
+<link rel="stylesheet" href="/styles/custom.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.2/dist/medium-zoom.min.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video-js.min.css">
+
+
+
+  
+  
+<!--[if lte IE 8]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ie8@1.1.2/dist/videojs-ie8.min.js"></script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20180112/classList.min.js"></script>
+<![endif]-->
+
+
+</head>
+  <body>
+    <div class="suspension">
+      <a role="button" aria-label="Go to top" title="Go to top" class="to-top is-hide"><span class="icon icon-up" aria-hidden="true"></span></a>
+      
+        
+	<a role="button" aria-label="Go to comments" title="Go to comments" class="to-comment" href="#SOHUCS"><span class="icon icon-comment" aria-hidden="true"></span></a>
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <a href=""><img class="avatar" src="/images/avatar.png" alt="Avatar"></a>
+  
+  <h2 class="title"><a href="">Vozhuo&#39;s Blog</a></h2>
+  
+  <p class="subtitle">May you rest in a deep and restless slumber.</p>
+  <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
+    <span class="icon icon-menu" aria-hidden="true"></span>
+  </button>
+
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+        <li class="menu-item
+          
+          
+           is-active">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list"><li class="social-item">
+          <a href="mailto:qsx753698@outlook.com" title="Email" aria-label="Email">
+            <span class="icon icon-email" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//github.com/vozhuo" rel="me" title="GitHub" aria-label="GitHub">
+	    <span class="icon icon-github" aria-hidden="true"></span>
+          </a>
+        </li></ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">深度强化学习之DQN系列</h1>
+      <p class="post-meta">@Vozhuo · Aug 25, 2019 · 1 min read</p>
+    </header>
+    <article class="post-content"><h1 id="基础-q-learning">基础（Q-Learning）</h1>
+
+<p>Q即为Q（s,a），就是在某一时刻的 s 状态下，采取动作a动作能够获得奖励的期望。环境会根据智能体的动作反馈相应的奖励 r。算法的主要思想就是将状态（state）与动作（action）构建成一张Q-table来存储Q值，然后根据Q值来选取能够获得最大的收益的动作。Q-Learning的算法如下：</p>
+
+<p><img src="/img/q-learning.png" width="60%" height="60%"></p>
+
+<h1 id="dqn">DQN</h1>
+
+<p>DQN将卷积神经网络（CNN）和Q-Learning结合起来，CNN的输入是原始图像数据（作为状态State），输出则是每个动作Action对应的值函数（Q值）。DQN（Deep Q Network）是深度强化学习的开山之作。</p>
+
+<p><strong>深度学习与强化学习结合的问题：</strong></p>
+
+<ol>
+<li>强化学习没有标签，只有reward返回值，且伴随噪声、延迟（一段时间后返回）、稀疏（很多State的reward是0）等问题。</li>
+<li>深度学习的样本独立，强化学习前后的state相关。</li>
+<li>深度学习目标分布固定；强化学习的分布一直变化，比如一个游戏，一个关卡和下一个关卡的状态分布是不同的，所以训练好了前一个关卡，下一个关卡又要重新训练。</li>
+<li>过往的研究表明，使用非线性网络表示值函数时出现不稳定等问题。</li>
+</ol>
+
+<p><strong>解决方法：</strong></p>
+
+<ol>
+<li>通过Q-Learning使用reward构造标签。</li>
+<li>通过experience replay（经验回放）的方法来解决相关性及非静态分布问题。具体做法是把每个时间步agent与环境交互得到的转移样本 (st,at,rt,st+1) 储存到回放记忆单元，训练时随机拿出一些batch来训练，避免相关性的问题。</li>
+<li>使用一个CNN（MainNet）产生当前Q值，使用另外一个CNN（TargetNet）产生Target Q值。开始时TargetNet的参数固定，只更新MainNet的参数，每经过N轮迭代，将MainNet的参数复制给TargetNet。引入TargetNet后，可使一段时间内Target Q值保持不变，一定程度降低了当前Q值和目标Q值的相关性，提高了算法稳定性。</li>
+<li>实验使用多个Atari 2600 游戏（Breakout、Galaxy Invaders等）做基准测试。</li>
+</ol>
+
+<p><strong>优点：</strong>算法采用端到端的训练方式，无需人工提取feature。通过不断训练，可以实时生成无尽的样本用于有监督训练。</p>
+
+<p><strong>缺点：</strong>由于输入的状态是短时的，所以只适用于处理短期记忆的问题，无法处理需要长时间经验的问题。使用CNN训练不一定能收敛，需要对网络的参数进行精良的设置。</p>
+
+<p><strong>可改进方向：</strong>设计更好的CNN网络，LSTM（用于长期记忆），Q值算法改进，采样方法改进</p>
+
+<blockquote>
+<p>Mnih V, Kavukcuoglu K, Silver D, et al. Playing atari with deep reinforcement learning[J]. arXiv preprint arXiv:1312.5602, 2013.</p>
+
+<p>Mnih V, Kavukcuoglu K, Silver D, et al. Human-level control through deep reinforcement learning[J]. Nature, 2015, 518(7540): 529.</p>
+</blockquote>
+
+<h2 id="double-dqn">Double DQN</h2>
+
+<p><strong>问题提出：</strong></p>
+
+<p>Double DQN是DQN的一种改进，旨在解决DQN训练过程中存在的过估计（Over estimating）问题。在训练过程中，DQN会直接选取目标网络（Target Q Network）中下一个State各个Action对应的Q值最大的那一个，由于Target也是由网络估计而来，所以存在过估计问题。</p>
+
+<p><strong>解决方法：</strong></p>
+
+<p>DDQN通过解耦目标Q值动作的选择和目标Q值的计算这两步，来达到消除过度估计的问题。DQN与Double DQN的Target计算方式比较如下：</p>
+
+<p><img src="/img/double-dqn.png" width="50%" height="50%"></p>
+
+<p>DQN中，Target中Action的Q值由目标网络计算，而在Double DQN中，Target中Action的Q值由预测网络（Predict Q Network）计算，选取最大的那个Q值对应的Action，然后再使用目标网络计算Q值。这两个网络起到一个制衡的作用，即使预测网络高估了某一个action的Q值，再经过目标网络的Q值计算后也可予以平衡，反之亦然。这种方法提高了训练DQN的稳定性和速度，降低Q 值的评估误差。</p>
+
+<blockquote>
+<p>Van Hasselt H, Guez A, Silver D. Deep reinforcement learning with double q-learning[C]//Thirtieth AAAI conference on artificial intelligence. 2016.</p>
+</blockquote>
+
+<h2 id="prioritized-experience-replay">Prioritized experience replay</h2>
+
+<p><strong>问题提出：</strong></p>
+
+<p>experience replay（经验回放）采用均匀采样，对所有样本一视同仁。但直觉上来说，各个样本的重要性应是不同的，有的样本“信息量”较大，有的样本则没什么用。以下图的环境（n个状态，2个动作，初始状态为1）为例，沿绿色箭头的reward是1，其余情况reward均为0。假如采用随机策略从初始状态开始走n步，我们能够获得有用的信息（reward非0）的可能性为很低。这样的话学习效率就会很低。</p>
+
+<p><img src="/img/prioritized-experience-replay.png" width="40%" height="40%"></p>
+
+<p><strong>解决方法：</strong></p>
+
+<p>使用experience replay可以在两个层面上进行设计：存储哪些样例以及回放哪些样例（以及如何操作），论文使用后者的优化方法。具体来说，抽样时按照样本优先级来抽，优先级排序用的是TD-error（时序差分误差）来进行衡量，也就是 目标Q值和估计Q值之差。如果 TD-error越大, 就代表预测精度还有很多上升空间, 那么这个样本就越需要被学习, 也就是优先级越高。</p>
+
+<blockquote>
+<p>Schaul T, Quan J, Antonoglou I, et al. Prioritized experience replay[J]. arXiv preprint arXiv:1511.05952, 2015.</p>
+</blockquote>
+
+<h2 id="dueling-dqn">Dueling DQN</h2>
+
+<p><strong>问题提出：</strong></p>
+
+<p>在许多基于视觉感知的深度强化学习任务中，不同的状态动作对的值函数是不同的。但是在某些状态下，值函数的大小与动作无关。所以对于许多状态，没有必要预测每一个 action的 value。</p>
+
+<p><img src="/img/Dueling-DQN.png" width="40%" height="40%"></p>
+
+<p><strong>解决方法：</strong></p>
+
+<p>DQN和Dueling DQN的网络结构比较如上图所示。上部分为传统的DQN网络图，下部分为Dueling DQN。Dueling DQN将卷积层提取的抽象特征分流到两个支路中，一路代表状态值函数 V(s)，表示静态的状态环境本身具有的价值；另一路代表依赖状态的动作优势函数 A(s, a)（Advantage Function），表示选择某个动作的Advantage价值。最后两路合在一起得到每个动作的Q值。</p>
+
+<p><strong>为什么有效果？</strong></p>
+
+<p>Dueling DQN结构的主要优势在于：可以更有效地学习到状态值函数。对于原始的DQN网络，每次更新Q-value时，仅更新其中的一个 action 对应的value，其他 action 对应的 value 保持不变。而在Dueling DQN中，每次更新Q value，V都会随着之更新。这种更加频繁的更新 V 的做法分配了更多的资源给V，所以可以更好的估计状态值。</p>
+
+<p><img src="/img/Dueling-DQN-action.png" width="50%" height="50%"></p>
+
+<p>Dueling-DQN在action的选择较多时优势明显，因为V(s)学习到了许多类似 action的共享的一个 general 的value，当出现许多相似值的action时，能得到更好的策略评估，使得收敛速度更快。</p>
+
+<blockquote>
+<p>Wang Z, Schaul T, Hessel M, et al. Dueling network architectures for deep reinforcement learning[J]. arXiv preprint arXiv:1511.06581, 2015.</p>
+</blockquote></article>
+    <footer class="post-footer">
+      
+      <ul class="post-tags">
+        
+          <li><a href="/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0"><span class="tag">强化学习</span></a></li>
+        
+          <li><a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0"><span class="tag">深度学习</span></a></li>
+        
+      </ul>
+      
+      <p class="post-copyright">
+        © 2019 Vozhuo
+      </p>
+    </footer>
+    
+      
+      <div id="cyReward" role="cylabs" data-use="reward"></div>
+      <script src="//changyan.itc.cn/js/lib/jquery.js"></script>
+      <script src="//changyan.sohu.com/js/changyan.labs.https.js?appid=cyu1JCtWI"></script>
+      <div id="SOHUCS" sid="/post/drl-dqn/" ></div>
+      <script>
+      (function(){
+      var appid = 'cyu1JCtWI';
+      var conf = 'prod_87a280f2532c26d97430235e5cb8bd2f';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
+      
+    
+  </section>
+  
+<footer class="site-footer">
+  <p>© 2017-2019 Vozhuo&#39;s Blog</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank" rel="noopener">Nuo</a>.</p>
+  
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@15.0.0/dist/smooth-scroll.min.js"></script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video.min.js"></script>
+
+
+
+
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    },
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+
+
+<script src="/scripts/index.min.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('\/service-worker.js').then(function() {
+      console.log('[ServiceWorker] Registered');
+    });
+  }
+</script>
+
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-74583706-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?4cfb60f6b668e48d81b6f4b916461bd7";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+  </body>
+</html>
