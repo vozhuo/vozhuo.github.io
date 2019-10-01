@@ -7,10 +7,37 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-Hans</language>
     <copyright>© 2019 Vozhuo</copyright>
-    <lastBuildDate>Sun, 01 Sep 2019 22:01:45 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 22 Sep 2019 09:40:32 +0800</lastBuildDate>
     
 	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>零样本学习</title>
+      <link>/tags/%E9%9B%B6%E6%A0%B7%E6%9C%AC%E5%AD%A6%E4%B9%A0/</link>
+      <pubDate>Sun, 22 Sep 2019 09:40:32 +0800</pubDate>
+      
+      <guid>/tags/%E9%9B%B6%E6%A0%B7%E6%9C%AC%E5%AD%A6%E4%B9%A0/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>TensorFlow</title>
+      <link>/tags/tensorflow/</link>
+      <pubDate>Sun, 08 Sep 2019 09:57:09 +0800</pubDate>
+      
+      <guid>/tags/tensorflow/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>深度学习</title>
+      <link>/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/</link>
+      <pubDate>Sun, 08 Sep 2019 09:57:09 +0800</pubDate>
+      
+      <guid>/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>tagB</title>
@@ -36,15 +63,6 @@
       <pubDate>Sun, 25 Aug 2019 21:47:11 +0800</pubDate>
       
       <guid>/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>深度学习</title>
-      <link>/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/</link>
-      <pubDate>Sun, 25 Aug 2019 21:47:11 +0800</pubDate>
-      
-      <guid>/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/</guid>
       <description></description>
     </item>
     
@@ -225,15 +243,6 @@
       <pubDate>Sun, 10 Feb 2019 21:12:53 +0000</pubDate>
       
       <guid>/tags/python/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>TensorFlow</title>
-      <link>/tags/tensorflow/</link>
-      <pubDate>Sun, 27 Jan 2019 10:23:00 +0000</pubDate>
-      
-      <guid>/tags/tensorflow/</guid>
       <description></description>
     </item>
     

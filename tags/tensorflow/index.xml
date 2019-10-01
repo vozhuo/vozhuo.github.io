@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-Hans</language>
     <copyright>© 2019 Vozhuo</copyright>
-    <lastBuildDate>Sun, 27 Jan 2019 10:23:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 08 Sep 2019 09:57:09 +0800</lastBuildDate>
     
 	<atom:link href="/tags/tensorflow/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>使用Tensorflow的py_func函数灵活操作Tensor</title>
+      <link>/post/tensorflow-py_func/</link>
+      <pubDate>Sun, 08 Sep 2019 09:57:09 +0800</pubDate>
+      
+      <guid>/post/tensorflow-py_func/</guid>
+      <description>&lt;p&gt;由于TensorFlow中tensor数据类型的特殊性，对它的处理往往是一件比较头疼的事情。有些情况需要将其转换为numpy array进行计算，这时有一个很有效的函数py_func，这里举一个使用例子，函数本身的用法可见参考资料。&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>深度学习之人脸识别和神经风格迁移</title>

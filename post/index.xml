@@ -7,10 +7,43 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-Hans</language>
     <copyright>© 2019 Vozhuo</copyright>
-    <lastBuildDate>Sun, 01 Sep 2019 22:01:45 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 22 Sep 2019 09:40:32 +0800</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>零样本学习评估</title>
+      <link>/post/zsl-eval/</link>
+      <pubDate>Sun, 22 Sep 2019 09:40:32 +0800</pubDate>
+      
+      <guid>/post/zsl-eval/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;Xian Y, Lampert C H, Schiele B, et al. Zero-shot learning-a comprehensive evaluation of the good, the bad and the ugly[J]. IEEE transactions on pattern analysis and machine intelligence, 2018.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;这篇论文对当前最好的零样本学习方法做了统一全面的评估。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>零样本学习概览（待续）</title>
+      <link>/post/zsl-overview/</link>
+      <pubDate>Fri, 13 Sep 2019 09:23:08 +0800</pubDate>
+      
+      <guid>/post/zsl-overview/</guid>
+      <description>&lt;h1 id=&#34;概念&#34;&gt;概念&lt;/h1&gt;
+
+&lt;p&gt;零样本学习（Zero-shot learning，ZSL）利用训练集数据训练模型，使得模型能够对测试集的对象进行分类，但是训练集类别和测试集类别之间没有交集。这就需要借助类别的描述，构建语义空间，来建立训练集和测试集之间的联系，从而使得模型有效。ZSL就是让计算机具备人类的推理能力，来识别出一个从未见过的新事物。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>使用Tensorflow的py_func函数灵活操作Tensor</title>
+      <link>/post/tensorflow-py_func/</link>
+      <pubDate>Sun, 08 Sep 2019 09:57:09 +0800</pubDate>
+      
+      <guid>/post/tensorflow-py_func/</guid>
+      <description>&lt;p&gt;由于TensorFlow中tensor数据类型的特殊性，对它的处理往往是一件比较头疼的事情。有些情况需要将其转换为numpy array进行计算，这时有一个很有效的函数py_func，这里举一个使用例子，函数本身的用法可见参考资料。&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>半监督学习2019年最新进展</title>

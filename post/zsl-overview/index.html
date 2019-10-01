@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+
+  <meta charset="utf-8" />
+
+  
+  <title>零样本学习概览（待续）</title>
+
+  
+  
+  <link href="//cdn.jsdelivr.net" rel="dns-prefetch">
+  <link href="//cdnjs.cloudflare.com" rel="dns-prefetch">
+  
+  <link href="//at.alicdn.com" rel="dns-prefetch">
+  
+  <link href="//fonts.googleapis.com" rel="dns-prefetch">
+  <link href="//fonts.gstatic.com" rel="dns-prefetch">
+  
+  
+  
+  <link href="//www.google-analytics.com" rel="dns-prefetch">
+  <link href="//hm.baidu.com" rel="dns-prefetch">
+
+  
+
+  
+  
+  <meta name="description" content="概念 零样本学习（Zero-shot learning，ZSL）利用训练集数据训练模型，使得模型能够对测试集的对象进行分类，但是训练集类别和测试集类别之间没有交集。这就需要借助类别的描述，构建语义空间，来建立训练集和测试集之间的联系，从而使得模型有效。ZSL就是让计算机具备人类的推理能力，来识别出一个从未见过的新事物。
+">
+
+  
+  
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@gohugoio">
+    <meta name="twitter:title" content="零样本学习概览（待续）">
+    <meta name="twitter:description" content="概念 零样本学习（Zero-shot learning，ZSL）利用训练集数据训练模型，使得模型能够对测试集的对象进行分类，但是训练集类别和测试集类别之间没有交集。这就需要借助类别的描述，构建语义空间，来建立训练集和测试集之间的联系，从而使得模型有效。ZSL就是让计算机具备人类的推理能力，来识别出一个从未见过的新事物。
+">
+    <meta name="twitter:image" content="/images/avatar.png">
+  
+
+  
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="零样本学习概览（待续）">
+  <meta property="og:description" content="概念 零样本学习（Zero-shot learning，ZSL）利用训练集数据训练模型，使得模型能够对测试集的对象进行分类，但是训练集类别和测试集类别之间没有交集。这就需要借助类别的描述，构建语义空间，来建立训练集和测试集之间的联系，从而使得模型有效。ZSL就是让计算机具备人类的推理能力，来识别出一个从未见过的新事物。
+">
+  <meta property="og:url" content="/post/zsl-overview/">
+  <meta property="og:image" content="/images/avatar.png">
+
+
+
+
+<meta name="generator" content="Hugo 0.55.6">
+
+
+<link rel="canonical" href="/post/zsl-overview/">
+
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="format-detection" content="telephone=no,email=no,adress=no">
+<meta http-equiv="Cache-Control" content="no-transform">
+
+
+<meta name="robots" content="index,follow">
+<meta name="referrer" content="origin-when-cross-origin">
+
+
+
+
+
+
+
+<meta name="theme-color" content="#02b875">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Vozhuo&#39;s Blog">
+<meta name="msapplication-tooltip" content="Vozhuo&#39;s Blog">
+<meta name='msapplication-navbutton-color' content="#02b875">
+<meta name="msapplication-TileColor" content="#02b875">
+<meta name="msapplication-TileImage" content="/icons/icon-144x144.png">
+<link rel="icon" href="/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="/icons/icon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/icon-32x32.png">
+<link rel="icon" sizes="192x192" href="/icons/icon-192x192.png">
+<link rel="apple-touch-icon" href="/icons/icon-152x152.png">
+<link rel="manifest" href="/manifest.json">
+
+
+<link rel="preload" href="/styles/main-rendered.min.css" as="style">
+
+<link rel="preload" href="/styles/custom.min.css" as="style">
+<link rel="preload" href="https://fonts.googleapis.com/css?family=Lobster" as="style">
+<link rel="preload" href="/images/avatar.png" as="image">
+<link rel="preload" href="/images/grey-prism.svg" as="image">
+
+
+<style>
+  body {
+    background: rgb(244, 243, 241) url('/images/grey-prism.svg') repeat fixed;
+  }
+</style>
+<link rel="stylesheet" href="/styles/main-rendered.min.css">
+
+<link rel="stylesheet" href="/styles/custom.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/medium-zoom@1.0.2/dist/medium-zoom.min.js"></script>
+
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video-js.min.css">
+
+
+
+  
+  
+<!--[if lte IE 8]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/videojs-ie8@1.1.2/dist/videojs-ie8.min.js"></script>
+<![endif]-->
+
+<!--[if lte IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/eligrey-classlist-js-polyfill@1.2.20180112/classList.min.js"></script>
+<![endif]-->
+
+
+</head>
+  <body>
+    <div class="suspension">
+      <a role="button" aria-label="Go to top" title="Go to top" class="to-top is-hide"><span class="icon icon-up" aria-hidden="true"></span></a>
+      
+        
+	<a role="button" aria-label="Go to comments" title="Go to comments" class="to-comment" href="#SOHUCS"><span class="icon icon-comment" aria-hidden="true"></span></a>
+        
+      
+    </div>
+    
+    
+  <header class="site-header">
+  <a href=""><img class="avatar" src="/images/avatar.png" alt="Avatar"></a>
+  
+  <h2 class="title"><a href="">Vozhuo&#39;s Blog</a></h2>
+  
+  <p class="subtitle">May you rest in a deep and restless slumber.</p>
+  <button class="menu-toggle" type="button" aria-label="Main Menu" aria-expanded="false" tab-index="0">
+    <span class="icon icon-menu" aria-hidden="true"></span>
+  </button>
+
+  <nav class="site-menu collapsed">
+    <h2 class="offscreen">Main Menu</h2>
+    <ul class="menu-list">
+      
+      
+      
+      
+        <li class="menu-item
+          
+          
+           is-active">
+          <a href="/">Home</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/tags/">Tags</a>
+        </li>
+      
+        <li class="menu-item
+          
+          
+          ">
+          <a href="/about/">About</a>
+        </li>
+      
+    </ul>
+  </nav>
+  <nav class="social-menu collapsed">
+    <h2 class="offscreen">Social Networks</h2>
+    <ul class="social-list"><li class="social-item">
+          <a href="mailto:qsx753698@outlook.com" title="Email" aria-label="Email">
+            <span class="icon icon-email" aria-hidden="true"></span>
+          </a>
+        </li><li class="social-item">
+          <a href="//github.com/vozhuo" rel="me" title="GitHub" aria-label="GitHub">
+	    <span class="icon icon-github" aria-hidden="true"></span>
+          </a>
+        </li></ul>
+  </nav>
+</header>
+
+  <section class="main post-detail">
+    <header class="post-header">
+      <h1 class="post-title">零样本学习概览（待续）</h1>
+      <p class="post-meta">@Vozhuo · Sep 13, 2019 · 1 min read</p>
+    </header>
+    <article class="post-content"><h1 id="概念">概念</h1>
+
+<p>零样本学习（Zero-shot learning，ZSL）利用训练集数据训练模型，使得模型能够对测试集的对象进行分类，但是训练集类别和测试集类别之间没有交集。这就需要借助类别的描述，构建语义空间，来建立训练集和测试集之间的联系，从而使得模型有效。ZSL就是让计算机具备人类的推理能力，来识别出一个从未见过的新事物。</p>
+
+<p>一些流行的应用场景如下：</p>
+
+<ul>
+<li><p>目标类别很多。人类可以识别大量目标类别，但现有数据集所涵盖的类别数量有限。通常，人类可以识别至少30,000个对象类别。然而，为如此大量的类别收集足够的标记样本相当具有挑战性。因此，现有的图像数据集只能覆盖这些类的一小部分。</p></li>
+
+<li><p>目标类别稀有。例如细粒度图像分类。假设想要识别不同品种的花，但很难为每个特定的花卉品种收集足够多的样例。许多稀有品种，很难找到样例。</p></li>
+
+<li><p>目标类别随时间而变化。如识别某种风格和品牌的产品的图像。由于新款式和新品牌的产品经常出现，对于某些新产品很难找到相应的样例。</p></li>
+
+<li><p>在某些特定任务中，标记样例的成本很高。在一些与分类相关的学习任务中，样本标记昂贵且耗时。而现有数据集所涵盖的类别数量有限，并且许多类没有标记的样本。例如，在图像语义分割问题中，训练数据应为像素级标记的图像。另外一个例子是图像描述（image captioning），现有图像文本语料库所涵盖的对象类数量有限。</p></li>
+</ul>
+
+<blockquote>
+<p>Wang W, Zheng V W, Yu H, et al. A survey of zero-shot learning: Settings, methods, and applications[J]. ACM Transactions on Intelligent Systems and Technology (TIST), 2019, 10(2): 13.</p>
+</blockquote>
+
+<p>本文档根据此综述的内容进行分类：</p>
+
+<p><img src="/img/zsl.png" width="70%" height="70%"></p>
+
+<h1 id="语义空间">语义空间</h1>
+
+<p>语义空间包含有关类的语义信息，是零样本学习的重要部分。根据语义空间的构造方式，分类为工程语义空间（engineered semantic spaces）和学习语义空间（learned semantic spaces）。在语义空间中，每个类都有一个相应的向量表示，称为类原型。</p>
+
+<h2 id="工程语义空间">工程语义空间</h2>
+
+<p>在工程语义空间中，语义空间的每个维度都是由人类设计的。不同种类的工程语义空间都有其独特的数据源和构建空间的方式。</p>
+
+<p>工程语义空间的优点是通过语义空间的构建可以灵活地使用人类领域知识，缺点是严重依赖人来构建语义空间和类原型。例如，在属性空间中，属性设计需要手工完成，这需要领域专家付出大量的努力。</p>
+
+<h3 id="属性空间">属性空间</h3>
+
+<blockquote>
+<p>Lampert C H, Nickisch H, Harmeling S. Learning to detect unseen object classes by between-class attribute transfer[C]//2009 IEEE Conference on Computer Vision and Pattern Recognition. IEEE, 2009: 951-958.</p>
+</blockquote>
+
+<p>这篇论文提出了零样本学习的概念并利用属性空间给出了最初的解决方法。其核心思想是，虽然物体的类别不同，但是物体间存在相同的属性，提炼出每一类别对应的属性并利用若干个学习器学习。测试时对测试数据的属性预测，再将预测出的属性组合，对应到类别，实现对测试数据的类别预测。</p>
+
+<p><img src="/img/zsl-attr.png" width="70%" height="70%"></p>
+
+<p>具体来说，可以利用一个学习器，学习出一个动物是否具有马的外形，利用第二个学习器学习出一个动物是否具有斑纹，利用第三个学习器学习一个动物是否具有黑白间隔的颜色。当一张斑马的图片分别输入到这三个学习器之后，可以得到这张图片里的动物具有马的外形，斑纹以及黑白间隔的颜色。此时有一张定义好的属性表，表里记录每种动物这三种属性的取值，通过查表的方式，可以将图片对应到斑马这一类别。</p>
+
+<h3 id="词汇空间">词汇空间</h3>
+
+<p>词汇空间是由一组词汇项构成的语义空间。如自然语言处理中的词向量，意思相近的词被映射到向量空间中相近的位置。其核心思想在于，将训练标签编码为词向量，基于训练数据和词向量训练学习器。测试时学习器输出为预测的词向量，计算预测结果与未知类别词向量的距离，距离越近属于此类的概率越高。</p>
+
+<h3 id="文本关键字空间">文本关键字空间</h3>
+
+<p>文本关键字空间中，语义空间由从每个类的文本描述中提取的一组关键字构成。文本描述的最常见来源是网站，例如在花卉识别中，可使用花卉数据库或者百科全书来获得每种花卉的文本描述。</p>
+
+<h2 id="学习语义空间">学习语义空间</h2>
+
+<p>在学习语义空间中，空间的维度不由人设计。每个类的原型向量都是从一些机器学习模型的输出中获得的。在这些原型中，每个维度都没有明确的语义。</p>
+
+<p>学习语义空间的优点是生成它们的过程不需要大量的人工劳动，并且生成的语义空间包含人类容易忽视的信息。缺点是类的原型是从一些机器学习模型中获得的，并且每个维度的语义都是隐含的。这种方式不方便人类将关于类的领域知识结合到原型中。</p>
+
+<h1 id="方法">方法</h1>
+
+<p>待续</p>
+
+<h2 id="基于分类器的方法">基于分类器的方法</h2>
+
+<h2 id="基于实例的方法">基于实例的方法</h2>
+
+<h1 id="应用及未来">应用及未来</h1>
+
+<p>零样本学习已广泛应用于计算机视觉和自然语言处理领域。计算机视觉的图像领域有一般的物体识别以及诸如鸟类和花朵品种的细粒度图像分类、图像分割、人体姿态估计等。自然语言处理领域有双语词典归纳、机器翻译、口语理解等。其他领域有计算生物学、知识表示学习等。</p>
+
+<h2 id="未来方向">未来方向</h2>
+
+<p><strong>通用零样本学习</strong></p>
+
+<p>在零样本学习中，训练集和测试集分类不相交的设定有些不切实际。在许多应用程序中，可见类的样例也可以出现在测试阶段。在通用零样本学习的设定下，测试集含有可见和不可见的类别。由于在测试阶段可见和不可见的类共存，这种情况下的问题更具挑战性。许多零样本方法也在通用零样本学习的设置下进行测试，但它们的表现目前还不如零样本学习。</p></article>
+    <footer class="post-footer">
+      
+      <ul class="post-tags">
+        
+          <li><a href="/tags/%E9%9B%B6%E6%A0%B7%E6%9C%AC%E5%AD%A6%E4%B9%A0"><span class="tag">零样本学习</span></a></li>
+        
+      </ul>
+      
+      <p class="post-copyright">
+        © 2019 Vozhuo
+      </p>
+    </footer>
+    
+      
+      <div id="cyReward" role="cylabs" data-use="reward"></div>
+      <script src="//changyan.itc.cn/js/lib/jquery.js"></script>
+      <script src="//changyan.sohu.com/js/changyan.labs.https.js?appid=cyu1JCtWI"></script>
+      <div id="SOHUCS" sid="/post/zsl-overview/" ></div>
+      <script>
+      (function(){
+      var appid = 'cyu1JCtWI';
+      var conf = 'prod_87a280f2532c26d97430235e5cb8bd2f';
+      var width = window.innerWidth || document.documentElement.clientWidth;
+      if (width < 960) {
+      window.document.write('<script id="changyan_mobile_js" charset="utf-8" type="text/javascript" src="https://changyan.sohu.com/upload/mobile/wap-js/changyan_mobile.js?client_id=' + appid + '&conf=' + conf + '"><\/script>'); } else { var loadJs=function(d,a){var c=document.getElementsByTagName("head")[0]||document.head||document.documentElement;var b=document.createElement("script");b.setAttribute("type","text/javascript");b.setAttribute("charset","UTF-8");b.setAttribute("src",d);if(typeof a==="function"){if(window.attachEvent){b.onreadystatechange=function(){var e=b.readyState;if(e==="loaded"||e==="complete"){b.onreadystatechange=null;a()}}}else{b.onload=a}}c.appendChild(b)};loadJs("https://changyan.sohu.com/upload/changyan.js",function(){window.changyan.api.config({appid:appid,conf:conf})}); } })(); </script>
+      
+    
+  </section>
+  
+<footer class="site-footer">
+  <p>© 2017-2019 Vozhuo&#39;s Blog</p>
+  <p>Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> with theme <a href="https://github.com/laozhu/hugo-nuo" target="_blank" rel="noopener">Nuo</a>.</p>
+  
+</footer>
+
+
+<script src="https://cdn.jsdelivr.net/npm/smooth-scroll@15.0.0/dist/smooth-scroll.min.js"></script>
+
+
+
+<script async src="https://cdn.jsdelivr.net/npm/video.js@7.3.0/dist/video.min.js"></script>
+
+
+
+
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      displayMath: [['$$','$$'], ['\\[','\\]']],
+      processEscapes: true,
+      processEnvironments: true,
+      skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      TeX: { equationNumbers: { autoNumber: "AMS" },
+      extensions: ["AMSmath.js", "AMSsymbols.js"] }
+    },
+  });
+</script>
+<script type="text/x-mathjax-config">
+  // Fix <code> tags after MathJax finishes running. This is a
+  // hack to overcome a shortcoming of Markdown. Discussion at
+  // https://github.com/mojombo/jekyll/issues/199
+  MathJax.Hub.Queue(() => {
+    MathJax.Hub.getAllJax().map(v => v.SourceElement().parentNode.className += ' has-jax');
+  });
+</script>
+
+
+
+<script src="/scripts/index.min.js"></script>
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('\/service-worker.js').then(function() {
+      console.log('[ServiceWorker] Registered');
+    });
+  }
+</script>
+
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-74583706-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?4cfb60f6b668e48d81b6f4b916461bd7";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+  </body>
+</html>
