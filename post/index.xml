@@ -7,10 +7,21 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-Hans</language>
     <copyright>© 2019 Vozhuo</copyright>
-    <lastBuildDate>Sun, 22 Sep 2019 09:40:32 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 21 Feb 2020 20:46:44 +0800</lastBuildDate>
     
 	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>[论文]Data augmentation with Mobius transformations</title>
+      <link>/post/paper-mobius-transformations/</link>
+      <pubDate>Fri, 21 Feb 2020 20:46:44 +0800</pubDate>
+      
+      <guid>/post/paper-mobius-transformations/</guid>
+      <description>&lt;p&gt;2020年2月7日于arXiv公开，&lt;a href=&#34;https://arxiv.org/abs/2002.02917&#34;&gt;https://arxiv.org/abs/2002.02917&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;论文提出一种新的数据增强方法Mobius transformations（莫比乌斯变换，自译）。Mobius transformations是双射共形变换，在生物学中已有应用，将3D形态的标本（如人类，真菌和鱼类）转为2D投影。本文将其用于自然图像，一张图片经过Mobius transformations可生成多种变换后的图片。理论解释我还没看明白，所以暂时跳过。&lt;/p&gt;</description>
+    </item>
     
     <item>
       <title>零样本学习评估</title>
