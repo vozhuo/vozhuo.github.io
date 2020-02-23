@@ -7,7 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-Hans</language>
     <copyright>© 2019 Vozhuo</copyright>
-    <lastBuildDate>Fri, 21 Feb 2020 20:46:44 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 23 Feb 2020 21:46:18 +0800</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
@@ -19,6 +19,15 @@
       
       <guid>/about/</guid>
       <description> SDUST/GXU Disqus Chinese localization team reviewer Chinese Wikipedia editor  </description>
+    </item>
+    
+    <item>
+      <title>[论文]FixMatch: Simplifying Semi-Supervised Learning with Consistency and Confidence</title>
+      <link>/post/fixmatch/</link>
+      <pubDate>Sun, 23 Feb 2020 21:46:18 +0800</pubDate>
+      
+      <guid>/post/fixmatch/</guid>
+      <description>&lt;p&gt;FixMatch整合了一致性正则化与伪标签两种方法。文中将数据增强分为弱增强和强增强，弱增强为标准的平移与翻转，强增强为RandAugment或CTAugment，之后接Cutout。FixMatch的流程如下：首先，将未标记图像的弱增强版本输入模型中以获得预测值。预测值高于某个阈值时，预测值将会转换为one-hot伪标记。然后，将对同一张图片的强增强版本计算输入模型获得预测。通过标准的交叉熵损失，使其在强增强版本上的预测与伪标记匹配。&lt;/p&gt;</description>
     </item>
     
     <item>

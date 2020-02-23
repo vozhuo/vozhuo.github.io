@@ -195,6 +195,20 @@
       
         <article class="post-entry">
   <header class="post-header">
+    <h3 class="post-title"><a href="/post/fixmatch/" class="post-link">[论文]FixMatch: Simplifying Semi-Supervised Learning with Consistency and Confidence</a></h3>
+    <p class="post-meta">@Vozhuo · Feb 23, 2020 · 1 min read</p>
+  </header>
+  
+  <p class="post-summary">FixMatch整合了一致性正则化与伪标签两种方法。文中将数据增强分为弱增强和强增强，弱增强为标准的平移与翻转，强增强为RandAugment或CTAugment，之后接Cutout。FixMatch的流程如下：首先，将未标记图像的弱增强版本输入模型中以获得预测值。预测值高于某个阈值时，预测值将会转换为one-hot伪标记。然后，将对同一张图片的强增强版本计算输入模型获得预测。通过标准的交叉熵损失，使其在强增强版本上的预测与伪标记匹配。
+</p>
+  <footer class="post-footer">
+    <a class="read-more" href="/post/fixmatch/">Read More →</a>
+  </footer>
+</article>
+
+      
+        <article class="post-entry">
+  <header class="post-header">
     <h3 class="post-title"><a href="/post/ssl-2019/" class="post-link">半监督学习2019年最新进展</a></h3>
     <p class="post-meta">@Vozhuo · Sep 1, 2019 · 1 min read</p>
   </header>

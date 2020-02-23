@@ -5,7 +5,7 @@
   <meta charset="utf-8" />
 
   
-  <title>使用Tensorflow的py_func函数灵活操作Tensor</title>
+  <title>[论文]FixMatch: Simplifying Semi-Supervised Learning with Consistency and Confidence</title>
 
   
   
@@ -26,25 +26,25 @@
 
   
   
-  <meta name="description" content="由于TensorFlow中tensor数据类型的特殊性，对它的处理往往是一件比较头疼的事情。有些情况需要将其转换为numpy array进行计算，这时有一个很有效的函数py_func，这里举一个使用例子，函数本身的用法可见参考资料。
+  <meta name="description" content="FixMatch整合了一致性正则化与伪标签两种方法。文中将数据增强分为弱增强和强增强，弱增强为标准的平移与翻转，强增强为RandAugment或CTAugment，之后接Cutout。FixMatch的流程如下：首先，将未标记图像的弱增强版本输入模型中以获得预测值。预测值高于某个阈值时，预测值将会转换为one-hot伪标记。然后，将对同一张图片的强增强版本计算输入模型获得预测。通过标准的交叉熵损失，使其在强增强版本上的预测与伪标记匹配。
 ">
 
   
   
     <meta name="twitter:card" content="summary">
     <meta name="twitter:site" content="@gohugoio">
-    <meta name="twitter:title" content="使用Tensorflow的py_func函数灵活操作Tensor">
-    <meta name="twitter:description" content="由于TensorFlow中tensor数据类型的特殊性，对它的处理往往是一件比较头疼的事情。有些情况需要将其转换为numpy array进行计算，这时有一个很有效的函数py_func，这里举一个使用例子，函数本身的用法可见参考资料。
+    <meta name="twitter:title" content="[论文]FixMatch: Simplifying Semi-Supervised Learning with Consistency and Confidence">
+    <meta name="twitter:description" content="FixMatch整合了一致性正则化与伪标签两种方法。文中将数据增强分为弱增强和强增强，弱增强为标准的平移与翻转，强增强为RandAugment或CTAugment，之后接Cutout。FixMatch的流程如下：首先，将未标记图像的弱增强版本输入模型中以获得预测值。预测值高于某个阈值时，预测值将会转换为one-hot伪标记。然后，将对同一张图片的强增强版本计算输入模型获得预测。通过标准的交叉熵损失，使其在强增强版本上的预测与伪标记匹配。
 ">
     <meta name="twitter:image" content="/images/avatar.png">
   
 
   
   <meta property="og:type" content="article">
-  <meta property="og:title" content="使用Tensorflow的py_func函数灵活操作Tensor">
-  <meta property="og:description" content="由于TensorFlow中tensor数据类型的特殊性，对它的处理往往是一件比较头疼的事情。有些情况需要将其转换为numpy array进行计算，这时有一个很有效的函数py_func，这里举一个使用例子，函数本身的用法可见参考资料。
+  <meta property="og:title" content="[论文]FixMatch: Simplifying Semi-Supervised Learning with Consistency and Confidence">
+  <meta property="og:description" content="FixMatch整合了一致性正则化与伪标签两种方法。文中将数据增强分为弱增强和强增强，弱增强为标准的平移与翻转，强增强为RandAugment或CTAugment，之后接Cutout。FixMatch的流程如下：首先，将未标记图像的弱增强版本输入模型中以获得预测值。预测值高于某个阈值时，预测值将会转换为one-hot伪标记。然后，将对同一张图片的强增强版本计算输入模型获得预测。通过标准的交叉熵损失，使其在强增强版本上的预测与伪标记匹配。
 ">
-  <meta property="og:url" content="/post/tensorflow-py_func/">
+  <meta property="og:url" content="/post/fixmatch/">
   <meta property="og:image" content="/images/avatar.png">
 
 
@@ -53,7 +53,7 @@
 <meta name="generator" content="Hugo 0.55.6">
 
 
-<link rel="canonical" href="/post/tensorflow-py_func/">
+<link rel="canonical" href="/post/fixmatch/">
 
 <meta name="renderer" content="webkit">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -196,39 +196,29 @@
 
   <section class="main post-detail">
     <header class="post-header">
-      <h1 class="post-title">使用Tensorflow的py_func函数灵活操作Tensor</h1>
-      <p class="post-meta">@Vozhuo · Sep 8, 2019 · 1 min read</p>
+      <h1 class="post-title">[论文]FixMatch: Simplifying Semi-Supervised Learning with Consistency and Confidence</h1>
+      <p class="post-meta">@Vozhuo · Feb 23, 2020 · 1 min read</p>
     </header>
-    <article class="post-content"><p>由于TensorFlow中tensor数据类型的特殊性，对它的处理往往是一件比较头疼的事情。有些情况需要将其转换为numpy array进行计算，这时有一个很有效的函数py_func，这里举一个使用例子，函数本身的用法可见参考资料。</p>
+    <article class="post-content"><p>FixMatch整合了一致性正则化与伪标签两种方法。文中将数据增强分为弱增强和强增强，弱增强为标准的平移与翻转，强增强为RandAugment或CTAugment，之后接Cutout。FixMatch的流程如下：首先，将未标记图像的弱增强版本输入模型中以获得预测值。预测值高于某个阈值时，预测值将会转换为one-hot伪标记。然后，将对同一张图片的强增强版本计算输入模型获得预测。通过标准的交叉熵损失，使其在强增强版本上的预测与伪标记匹配。</p>
 
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">augment <span style="color:#f92672">=</span> <span style="color:#66d9ef">lambda</span> x: dict(image<span style="color:#f92672">=</span>augment_shift(augment_mirror(x[<span style="color:#e6db74">&#39;image&#39;</span>]), <span style="color:#ae81ff">4</span>), label<span style="color:#f92672">=</span>x[<span style="color:#e6db74">&#39;label&#39;</span>])</code></pre></div>
-<p>augment是一个数据增强函数，augment_mirror和augment_shift都是使用TensorFlow函数实现的数据增强操作，此函数是用lambda表示的，为了便于后续修改，转换成常规的函数表示。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">augment</span>(x):
-    <span style="color:#66d9ef">return</span> dict(image<span style="color:#f92672">=</span>augment_shift(augment_mirror(x[<span style="color:#e6db74">&#39;image&#39;</span>]), <span style="color:#ae81ff">4</span>), label<span style="color:#f92672">=</span>x[<span style="color:#e6db74">&#39;label&#39;</span>])</code></pre></div>
-<p>引入tf.py_func函数，输入三个参数，第一个_aug是一个处理函数，处理numpy array类型数据。第二个参数是Tensor数据列表，这里只有一个Tensor数据，但也要以列表形式作为输入，第三个参数是经过_aug输出再转换成Tensor数据的类型。augment_shift_np和augment_mirror_np分别是augment_shift和augment_mirror的函数的numpy实现。_aug函数输入的image即为py_func第二个输入参数列表中的x[&lsquo;image&rsquo;]，前者为numpy array类型，后者为Tensor类型。</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">augment</span>(x):
-    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">_aug</span>(image):
-        <span style="color:#66d9ef">return</span> augment_shift_np(augment_mirror_np(image), <span style="color:#ae81ff">4</span>)
-    
-    aug_image <span style="color:#f92672">=</span> tf<span style="color:#f92672">.</span>py_func(_aug, [x[<span style="color:#e6db74">&#39;image&#39;</span>]], tf<span style="color:#f92672">.</span>float32)
-    <span style="color:#66d9ef">return</span> dict(image<span style="color:#f92672">=</span>aug_image, label<span style="color:#f92672">=</span>x[<span style="color:#e6db74">&#39;label&#39;</span>])</code></pre></div>
-<p>参考：</p>
+<p><img src="/img/fixmatch.png" width="50%" height="50%"></p>
 
-<p><a href="https://www.tensorflow.org/api_docs/python/tf/py_func">tf.py_func官方文档</a></p>
+<p>为了测试FixMatch局限性，在CIFAR-10上每类只用一个样例用于训练，发现选择不同的样例最终的准确率会有较大差异，所以设想样例的质量可能会影响模型对数据的学习，进一步的实验也证明如此。</p>
 
-<p><a href="https://blog.csdn.net/jiongnima/article/details/80555387">经验干货：使用tf.py_func函数增加Tensorflow程序的灵活性</a></p></article>
+<p>总结：FixMatch是一个比较简单的半监督学习算法，在许多数据集中达到了SOTA，并在极低标签（每类一个）获得较高精度（78%）。同时权重衰减和优化器的选择也较为重要。</p>
+
+<p>其他介绍：
+<a href="https://zhen8838.github.io/2020/02/06/ssl-fixmatch/">https://zhen8838.github.io/2020/02/06/ssl-fixmatch/</a></p></article>
     <footer class="post-footer">
       
       <ul class="post-tags">
         
-          <li><a href="/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0"><span class="tag">深度学习</span></a></li>
-        
-          <li><a href="/tags/tensorflow"><span class="tag">TensorFlow</span></a></li>
+          <li><a href="/tags/%E5%8D%8A%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0"><span class="tag">半监督学习</span></a></li>
         
       </ul>
       
       <p class="post-copyright">
-        © 2019 VozhuoThis post was published <strong>168</strong> days ago, content in the post may be inaccurate, even wrong now, please take risk yourself.
+        © 2019 Vozhuo
       </p>
     </footer>
     
@@ -236,7 +226,7 @@
       <div id="cyReward" role="cylabs" data-use="reward"></div>
       <script src="//changyan.itc.cn/js/lib/jquery.js"></script>
       <script src="//changyan.sohu.com/js/changyan.labs.https.js?appid=cyu1JCtWI"></script>
-      <div id="SOHUCS" sid="/post/tensorflow-py_func/" ></div>
+      <div id="SOHUCS" sid="/post/fixmatch/" ></div>
       <script>
       (function(){
       var appid = 'cyu1JCtWI';
