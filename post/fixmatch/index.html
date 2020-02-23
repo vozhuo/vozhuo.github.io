@@ -26,7 +26,8 @@
 
   
   
-  <meta name="description" content="FixMatch整合了一致性正则化与伪标签两种方法。文中将数据增强分为弱增强和强增强，弱增强为标准的平移与翻转，强增强为RandAugment或CTAugment，之后接Cutout。FixMatch的流程如下：首先，将未标记图像的弱增强版本输入模型中以获得预测值。预测值高于某个阈值时，预测值将会转换为one-hot伪标记。然后，将对同一张图片的强增强版本计算输入模型获得预测。通过标准的交叉熵损失，使其在强增强版本上的预测与伪标记匹配。
+  <meta name="description" content="2020年1月21日于Arxiv公开，https://arxiv.org/abs/2001.07685
+FixMatch整合了一致性正则化与伪标签两种方法。文中将数据增强分为弱增强和强增强，弱增强为标准的平移与翻转，强增强为RandAugment或CTAugment，之后接Cutout。FixMatch的流程如下：首先，将未标记图像的弱增强版本输入模型中以获得预测值。预测值高于某个阈值时，预测值将会转换为one-hot伪标记。然后，将对同一张图片的强增强版本计算输入模型获得预测。通过标准的交叉熵损失，使其在强增强版本上的预测与伪标记匹配。
 ">
 
   
@@ -34,7 +35,8 @@
     <meta name="twitter:card" content="summary">
     <meta name="twitter:site" content="@gohugoio">
     <meta name="twitter:title" content="[论文]FixMatch: Simplifying Semi-Supervised Learning with Consistency and Confidence">
-    <meta name="twitter:description" content="FixMatch整合了一致性正则化与伪标签两种方法。文中将数据增强分为弱增强和强增强，弱增强为标准的平移与翻转，强增强为RandAugment或CTAugment，之后接Cutout。FixMatch的流程如下：首先，将未标记图像的弱增强版本输入模型中以获得预测值。预测值高于某个阈值时，预测值将会转换为one-hot伪标记。然后，将对同一张图片的强增强版本计算输入模型获得预测。通过标准的交叉熵损失，使其在强增强版本上的预测与伪标记匹配。
+    <meta name="twitter:description" content="2020年1月21日于Arxiv公开，https://arxiv.org/abs/2001.07685
+FixMatch整合了一致性正则化与伪标签两种方法。文中将数据增强分为弱增强和强增强，弱增强为标准的平移与翻转，强增强为RandAugment或CTAugment，之后接Cutout。FixMatch的流程如下：首先，将未标记图像的弱增强版本输入模型中以获得预测值。预测值高于某个阈值时，预测值将会转换为one-hot伪标记。然后，将对同一张图片的强增强版本计算输入模型获得预测。通过标准的交叉熵损失，使其在强增强版本上的预测与伪标记匹配。
 ">
     <meta name="twitter:image" content="/images/avatar.png">
   
@@ -42,7 +44,8 @@
   
   <meta property="og:type" content="article">
   <meta property="og:title" content="[论文]FixMatch: Simplifying Semi-Supervised Learning with Consistency and Confidence">
-  <meta property="og:description" content="FixMatch整合了一致性正则化与伪标签两种方法。文中将数据增强分为弱增强和强增强，弱增强为标准的平移与翻转，强增强为RandAugment或CTAugment，之后接Cutout。FixMatch的流程如下：首先，将未标记图像的弱增强版本输入模型中以获得预测值。预测值高于某个阈值时，预测值将会转换为one-hot伪标记。然后，将对同一张图片的强增强版本计算输入模型获得预测。通过标准的交叉熵损失，使其在强增强版本上的预测与伪标记匹配。
+  <meta property="og:description" content="2020年1月21日于Arxiv公开，https://arxiv.org/abs/2001.07685
+FixMatch整合了一致性正则化与伪标签两种方法。文中将数据增强分为弱增强和强增强，弱增强为标准的平移与翻转，强增强为RandAugment或CTAugment，之后接Cutout。FixMatch的流程如下：首先，将未标记图像的弱增强版本输入模型中以获得预测值。预测值高于某个阈值时，预测值将会转换为one-hot伪标记。然后，将对同一张图片的强增强版本计算输入模型获得预测。通过标准的交叉熵损失，使其在强增强版本上的预测与伪标记匹配。
 ">
   <meta property="og:url" content="/post/fixmatch/">
   <meta property="og:image" content="/images/avatar.png">
@@ -199,7 +202,9 @@
       <h1 class="post-title">[论文]FixMatch: Simplifying Semi-Supervised Learning with Consistency and Confidence</h1>
       <p class="post-meta">@Vozhuo · Feb 23, 2020 · 1 min read</p>
     </header>
-    <article class="post-content"><p>FixMatch整合了一致性正则化与伪标签两种方法。文中将数据增强分为弱增强和强增强，弱增强为标准的平移与翻转，强增强为RandAugment或CTAugment，之后接Cutout。FixMatch的流程如下：首先，将未标记图像的弱增强版本输入模型中以获得预测值。预测值高于某个阈值时，预测值将会转换为one-hot伪标记。然后，将对同一张图片的强增强版本计算输入模型获得预测。通过标准的交叉熵损失，使其在强增强版本上的预测与伪标记匹配。</p>
+    <article class="post-content"><p>2020年1月21日于Arxiv公开，<a href="https://arxiv.org/abs/2001.07685">https://arxiv.org/abs/2001.07685</a></p>
+
+<p>FixMatch整合了一致性正则化与伪标签两种方法。文中将数据增强分为弱增强和强增强，弱增强为标准的平移与翻转，强增强为RandAugment或CTAugment，之后接Cutout。FixMatch的流程如下：首先，将未标记图像的弱增强版本输入模型中以获得预测值。预测值高于某个阈值时，预测值将会转换为one-hot伪标记。然后，将对同一张图片的强增强版本计算输入模型获得预测。通过标准的交叉熵损失，使其在强增强版本上的预测与伪标记匹配。</p>
 
 <p><img src="/img/fixmatch.png" width="50%" height="50%"></p>
 
