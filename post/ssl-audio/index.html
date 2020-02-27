@@ -5,7 +5,7 @@
   <meta charset="utf-8" />
 
   
-  <title>Mask RCNN之RPN初探</title>
+  <title>[论文]Semi-supervised Audio Classification with Consistency-Based Regularization</title>
 
   
   
@@ -26,25 +26,28 @@
 
   
   
-  <meta name="description" content="本文对项目所使用的Mask_RCNN的代码作出一些解读，主要集中在核心的RPN部分。
+  <meta name="description" content="发表于2019 Interspeech。
+将半监督方法Mean Teacher用于Google Speech Commands和UrbanSound8Ku数据集，其关键在于对音频数据的扰动，包括时间和频率转换、高斯噪声、环境噪声和Mixup，所用的音频数据均被转换为频谱图图像。环境噪声和Mixup两种方法是独立添加的，为防止互相影响。实验结果显示Mixup的效果要好于添加环境噪声。
 ">
 
   
   
     <meta name="twitter:card" content="summary">
     <meta name="twitter:site" content="@gohugoio">
-    <meta name="twitter:title" content="Mask RCNN之RPN初探">
-    <meta name="twitter:description" content="本文对项目所使用的Mask_RCNN的代码作出一些解读，主要集中在核心的RPN部分。
+    <meta name="twitter:title" content="[论文]Semi-supervised Audio Classification with Consistency-Based Regularization">
+    <meta name="twitter:description" content="发表于2019 Interspeech。
+将半监督方法Mean Teacher用于Google Speech Commands和UrbanSound8Ku数据集，其关键在于对音频数据的扰动，包括时间和频率转换、高斯噪声、环境噪声和Mixup，所用的音频数据均被转换为频谱图图像。环境噪声和Mixup两种方法是独立添加的，为防止互相影响。实验结果显示Mixup的效果要好于添加环境噪声。
 ">
     <meta name="twitter:image" content="/images/avatar.png">
   
 
   
   <meta property="og:type" content="article">
-  <meta property="og:title" content="Mask RCNN之RPN初探">
-  <meta property="og:description" content="本文对项目所使用的Mask_RCNN的代码作出一些解读，主要集中在核心的RPN部分。
+  <meta property="og:title" content="[论文]Semi-supervised Audio Classification with Consistency-Based Regularization">
+  <meta property="og:description" content="发表于2019 Interspeech。
+将半监督方法Mean Teacher用于Google Speech Commands和UrbanSound8Ku数据集，其关键在于对音频数据的扰动，包括时间和频率转换、高斯噪声、环境噪声和Mixup，所用的音频数据均被转换为频谱图图像。环境噪声和Mixup两种方法是独立添加的，为防止互相影响。实验结果显示Mixup的效果要好于添加环境噪声。
 ">
-  <meta property="og:url" content="/post/mask-rcnn-rpn/">
+  <meta property="og:url" content="/post/ssl-audio/">
   <meta property="og:image" content="/images/avatar.png">
 
 
@@ -53,7 +56,7 @@
 <meta name="generator" content="Hugo 0.55.6">
 
 
-<link rel="canonical" href="/post/mask-rcnn-rpn/">
+<link rel="canonical" href="/post/ssl-audio/">
 
 <meta name="renderer" content="webkit">
 <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -196,51 +199,24 @@
 
   <section class="main post-detail">
     <header class="post-header">
-      <h1 class="post-title">Mask RCNN之RPN初探</h1>
-      <p class="post-meta">@Vozhuo · Apr 21, 2019 · 1 min read</p>
+      <h1 class="post-title">[论文]Semi-supervised Audio Classification with Consistency-Based Regularization</h1>
+      <p class="post-meta">@Vozhuo · Feb 27, 2020 · 1 min read</p>
     </header>
-    <article class="post-content"><p>本文对项目所使用的Mask_RCNN的代码作出一些解读，主要集中在核心的RPN部分。</p>
+    <article class="post-content"><p>发表于2019 Interspeech。</p>
 
-<p>生成anchor需要大小和宽高比两组数据，例如sizes=[0.75, 0.5, 0.25], ratios=[1, 2, 0.5]，所有的大小与宽高比的组合为9种。首先生成覆盖全图的不同尺度的anchors，然后计算这些anchors和ground truth（真实边框）的交并比IoU。与IoU&gt;=0.7的为positive anchors，IoU<0.3的是negative anchors。IoU>=0.3并且IoU&lt;0.7的是neutral anchors，将不会用于训练。</p>
+<p>将半监督方法Mean Teacher用于Google Speech Commands和UrbanSound8Ku数据集，其关键在于对音频数据的扰动，包括时间和频率转换、高斯噪声、环境噪声和Mixup，所用的音频数据均被转换为频谱图图像。环境噪声和Mixup两种方法是独立添加的，为防止互相影响。实验结果显示Mixup的效果要好于添加环境噪声。</p>
 
-<p>RPN 执行两种不同类型的预测：二元分类和边框回归。</p>
-
-<ol>
-<li>二元分类使用多个SVM分类器。</li>
-<li>边框回归目标是寻找一种关系使得输入原始的边框P经过映射得到一个跟真实边框 G 更接近的回归边框。方法为平移+尺度放缩。</li>
-</ol>
-
-<p><img src="/img/bbox regression.png" width="30%" height="30%"></p>
-
-<p>代码的具体步骤：</p>
-
-<ol>
-<li>根据二分类中的前景分数值进行排序，提取出前6000个Anchors。</li>
-<li>对Anchors进行边框回归。</li>
-<li>截断超过图像边界的Anchors的范围，并对坐标进行归一化。</li>
-<li>使用非极大值抑制，从预测类别为目标的预测边界框中移除相似的结果。</li>
-<li>最终筛选出多个（可自定义）提议区域。</li>
-</ol>
-
-<p>参考资料：</p>
-
-<p><a href="https://www.bilibili.com/video/av29987414">https://www.bilibili.com/video/av29987414</a></p>
-
-<p><a href="https://blog.csdn.net/zijin0802034/article/details/77685438">https://blog.csdn.net/zijin0802034/article/details/77685438</a></p></article>
+<p>数据集处理，Google Speech Commands：时长1秒钟，30种不同的语音指令，训练集57886个样例，有标签样例分为600、3000、6000和15000，转换为32×32的频谱图图像；UrbanSound8K Dataset：时长1-4秒钟，10类城市环境声音，使用Kaggle上的5434个有标签样例，再分为训练集和测试集，转换并zero-pad为32×128的频谱图图像。</p></article>
     <footer class="post-footer">
       
       <ul class="post-tags">
         
-          <li><a href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86"><span class="tag">图像处理</span></a></li>
-        
-          <li><a href="/tags/mask-rcnn"><span class="tag">Mask RCNN</span></a></li>
-        
-          <li><a href="/tags/rpn"><span class="tag">RPN</span></a></li>
+          <li><a href="/tags/%E5%8D%8A%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0"><span class="tag">半监督学习</span></a></li>
         
       </ul>
       
       <p class="post-copyright">
-        © 2019 VozhuoThis post was published <strong>311</strong> days ago, content in the post may be inaccurate, even wrong now, please take risk yourself.
+        © 2019 Vozhuo
       </p>
     </footer>
     
@@ -248,7 +224,7 @@
       <div id="cyReward" role="cylabs" data-use="reward"></div>
       <script src="//changyan.itc.cn/js/lib/jquery.js"></script>
       <script src="//changyan.sohu.com/js/changyan.labs.https.js?appid=cyu1JCtWI"></script>
-      <div id="SOHUCS" sid="/post/mask-rcnn-rpn/" ></div>
+      <div id="SOHUCS" sid="/post/ssl-audio/" ></div>
       <script>
       (function(){
       var appid = 'cyu1JCtWI';

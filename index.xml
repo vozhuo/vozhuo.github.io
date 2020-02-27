@@ -7,7 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-Hans</language>
     <copyright>© 2019 Vozhuo</copyright>
-    <lastBuildDate>Sun, 23 Feb 2020 21:46:18 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 27 Feb 2020 11:43:56 +0800</lastBuildDate>
     
 	<atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
@@ -19,6 +19,17 @@
       
       <guid>/about/</guid>
       <description> SDUST/GXU Disqus Chinese localization team reviewer Chinese Wikipedia editor  </description>
+    </item>
+    
+    <item>
+      <title>[论文]Semi-supervised Audio Classification with Consistency-Based Regularization</title>
+      <link>/post/ssl-audio/</link>
+      <pubDate>Thu, 27 Feb 2020 11:43:56 +0800</pubDate>
+      
+      <guid>/post/ssl-audio/</guid>
+      <description>&lt;p&gt;发表于2019 Interspeech。&lt;/p&gt;
+
+&lt;p&gt;将半监督方法Mean Teacher用于Google Speech Commands和UrbanSound8Ku数据集，其关键在于对音频数据的扰动，包括时间和频率转换、高斯噪声、环境噪声和Mixup，所用的音频数据均被转换为频谱图图像。环境噪声和Mixup两种方法是独立添加的，为防止互相影响。实验结果显示Mixup的效果要好于添加环境噪声。&lt;/p&gt;</description>
     </item>
     
     <item>
