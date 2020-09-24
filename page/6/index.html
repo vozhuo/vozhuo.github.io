@@ -189,6 +189,19 @@
   
    <article class="post-entry">
   <header class="post-header">
+    <h3 class="post-title"><a href="/post/leetcode_weekend_featured_dp/" class="post-link">一周LeetCode习题精选——动态规划</a></h3>
+    <p class="post-meta">@Vozhuo · Sep 30, 2018 · 2 min read</p>
+  </header>
+  
+  <p class="post-summary">LeetCode 198 链接：House Robber
+本题使用动态规划解决。首先需要分析题目的递归关系：当强盗到达第i间房屋时，他可以选择抢，也可以选择不抢。如果抢劫这间房屋，根据题目要求，他必定没有抢劫第i-1间房屋，但他可能抢劫第i-2间房屋。如果不抢劫第i间房屋，那么他可能抢劫第i-1间房屋。这两个选择造成抢劫得来金钱的不同。设rob(i)为前i间房屋抢劫得来金钱的最大值，第一种需要计算前i-2间房屋抢劫金钱的最大值加上第i间房屋抢劫的金钱。第二种只需要计算前i-1间房屋抢劫金钱的最大值。两者需取其中最大值，由此得出递归关系：
+</p>
+  <footer class="post-footer">
+    <a class="read-more" href="/post/leetcode_weekend_featured_dp/">Read More →</a>
+  </footer>
+</article>
+  <article class="post-entry">
+  <header class="post-header">
     <h3 class="post-title"><a href="/post/leetcode_weekend_featured/" class="post-link">一周LeetCode习题精选</a></h3>
     <p class="post-meta">@Vozhuo · Sep 23, 2018 · 1 min read</p>
   </header>
@@ -302,28 +315,20 @@ BRVAH 全名BaseRecyclerViewAdapterHelper，是一个RecyclerAdapter框架。我
     <a class="read-more" href="/post/giwifi_decompile/">Read More →</a>
   </footer>
 </article>
-  <article class="post-entry">
-  <header class="post-header">
-    <h3 class="post-title"><a href="/post/im_blogging/" class="post-link">I&#39;M BLOGGING</a></h3>
-    <p class="post-meta">@Vozhuo · Apr 3, 2016 · 1 min read</p>
-  </header>
-  
-  <p class="post-summary">大概在两个月之前，有了搞一个个人博客的念头。之前曾经了解过一些建站的过程，于是就开始着手准备。
-首先是域名，因为我现在只想把博客当测试来用，所以并没有购买付费域名。我找到了Freenom这个网站，它提供TK、ML、GA、CF、GQ五个免费顶级域名，最后我申请了12个月的CF域名，到期时间2017年2月26日。未来可能会更换付费域名。
-再就是网站空间。以前曾看到过用Jekyll搭建博客的文章，现在决定深入了解一下。后来在网上找到一篇文章，这篇文章对我影响很大，后面的步骤基本上就是对照它来完成的，这里我就不再赘述。
-</p>
-  <footer class="post-footer">
-    <a class="read-more" href="/post/im_blogging/">Read More →</a>
-  </footer>
-</article>
  
    
   <footer class="list-footer">
     <nav class="pagination">
       <h3 class="offscreen">Pagination</h3>
       
-      <a class="pagination-previous" href="/page/5/">← Newer Posts</a>
+      <a class="pagination-previous" href="/page/5/"
+        >← Newer Posts</a
+      >
        
+      <a class="pagination-next" href="/page/7/"
+        >Older Posts →</a
+      >
+      
     </nav>
   </footer>
   

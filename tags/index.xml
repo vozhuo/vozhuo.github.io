@@ -7,10 +7,28 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-Hans</language>
     <copyright>© 2019 Vozhuo</copyright>
-    <lastBuildDate>Thu, 27 Feb 2020 11:43:56 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 24 Sep 2020 20:51:20 +0800</lastBuildDate>
     
 	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Django</title>
+      <link>/tags/django/</link>
+      <pubDate>Thu, 24 Sep 2020 20:51:20 +0800</pubDate>
+      
+      <guid>/tags/django/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Pyinstaller</title>
+      <link>/tags/pyinstaller/</link>
+      <pubDate>Thu, 24 Sep 2020 20:51:20 +0800</pubDate>
+      
+      <guid>/tags/pyinstaller/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>半监督学习</title>
