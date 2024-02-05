@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>半监督学习 on Vozhuo&#39;s Blog</title>
+    <link>https://vozhuo.github.io/tags/%E5%8D%8A%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0/</link>
+    <description>Recent content in 半监督学习 on Vozhuo&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Thu, 27 Feb 2020 11:43:56 +0800</lastBuildDate>
+    <atom:link href="https://vozhuo.github.io/tags/%E5%8D%8A%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>[论文]Semi-supervised Audio Classification with Consistency-Based Regularization</title>
+      <link>https://vozhuo.github.io/posts/ssl-audio/</link>
+      <pubDate>Thu, 27 Feb 2020 11:43:56 +0800</pubDate>
+      <guid>https://vozhuo.github.io/posts/ssl-audio/</guid>
+      <description>&lt;p&gt;发表于2019 Interspeech。&lt;/p&gt;
+&lt;p&gt;将半监督方法Mean Teacher用于Google Speech Commands和UrbanSound8Ku数据集，其关键在于对音频数据的扰动，包括时间和频率转换、高斯噪声、环境噪声和Mixup，所用的音频数据均被转换为频谱图图像。环境噪声和Mixup两种方法是独立添加的，为防止互相影响。实验结果显示Mixup的效果要好于添加环境噪声。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>[论文]FixMatch: Simplifying Semi-Supervised Learning with Consistency and Confidence</title>
+      <link>https://vozhuo.github.io/posts/fixmatch/</link>
+      <pubDate>Sun, 23 Feb 2020 21:46:18 +0800</pubDate>
+      <guid>https://vozhuo.github.io/posts/fixmatch/</guid>
+      <description>&lt;p&gt;2020年1月21日于Arxiv公开，https://arxiv.org/abs/2001.07685&lt;/p&gt;
+&lt;p&gt;FixMatch整合了一致性正则化与伪标签两种方法。文中将数据增强分为弱增强和强增强，弱增强为标准的平移与翻转，强增强为RandAugment或CTAugment，之后接Cutout。FixMatch的流程如下：首先，将未标记图像的弱增强版本输入模型中以获得预测值。预测值高于某个阈值时，预测值将会转换为one-hot伪标记。然后，将对同一张图片的强增强版本计算输入模型获得预测。通过标准的交叉熵损失，使其在强增强版本上的预测与伪标记匹配。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>半监督学习2019年最新进展</title>
+      <link>https://vozhuo.github.io/posts/ssl-2019/</link>
+      <pubDate>Sun, 01 Sep 2019 22:01:45 +0800</pubDate>
+      <guid>https://vozhuo.github.io/posts/ssl-2019/</guid>
+      <description>&lt;h1 id=&#34;ict&#34;&gt;ICT&lt;/h1&gt;
+&lt;p&gt;**问题：**不同的一致性正则化技术选择不同的未标记数据扰动。随机扰动是一个简单的方案，但其对于高维度数据十分低效。VAT等模型探索能够使模型预测变化最大化的扰动，但这类方法需要额外的计算，而且有研究表明对抗性扰动训练可能会影响泛化表现。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>半监督深度学习</title>
+      <link>https://vozhuo.github.io/posts/deep-ssl/</link>
+      <pubDate>Sun, 11 Aug 2019 21:10:37 +0800</pubDate>
+      <guid>https://vozhuo.github.io/posts/deep-ssl/</guid>
+      <description>&lt;p&gt;深度学习发展初期，训练深度的网络比较困难。对神经网络来说，一个好的初始化可以让结果更稳定，迭代次数更少，因此利用无标签数据让网络有一个好的初始化成为一个研究热点。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>半监督学习再探</title>
+      <link>https://vozhuo.github.io/posts/ssl-detailed/</link>
+      <pubDate>Sun, 04 Aug 2019 20:42:14 +0800</pubDate>
+      <guid>https://vozhuo.github.io/posts/ssl-detailed/</guid>
+      <description>&lt;h2 id=&#34;概述&#34;&gt;概述&lt;/h2&gt;
+&lt;p&gt;传统监督学习通过对大量有标记的训练样例进行学习以建立模型用于预测未知样例的标记。在实际应用中，往往可以容易地收集到大量未标记的样本，而对这些数据赋予标记则往往需要耗费大量的人力物力。例如在进行计算机辅助医学影像分析时, 可以从医院获得大量医学影像, 但如果希望医学专家把影像中的病灶全都标识出来则是不现实的。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>半监督学习总览</title>
+      <link>https://vozhuo.github.io/posts/ssl-overview/</link>
+      <pubDate>Sun, 21 Jul 2019 21:30:10 +0800</pubDate>
+      <guid>https://vozhuo.github.io/posts/ssl-overview/</guid>
+      <description>&lt;p&gt;&lt;strong&gt;半监督学习定义&lt;/strong&gt;：使用大量无标签样例和少量有标签样例进行学习。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;出现的原因&lt;/strong&gt;：在许多实际应用中（如自然语言处理、计算机视觉和生物学等领域），无类标签的样例很容易得到，而对样例的标记代价昂贵。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

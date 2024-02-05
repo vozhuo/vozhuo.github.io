@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>零样本学习 on Vozhuo&#39;s Blog</title>
+    <link>https://vozhuo.github.io/tags/%E9%9B%B6%E6%A0%B7%E6%9C%AC%E5%AD%A6%E4%B9%A0/</link>
+    <description>Recent content in 零样本学习 on Vozhuo&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Sun, 22 Sep 2019 09:40:32 +0800</lastBuildDate>
+    <atom:link href="https://vozhuo.github.io/tags/%E9%9B%B6%E6%A0%B7%E6%9C%AC%E5%AD%A6%E4%B9%A0/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>零样本学习评估</title>
+      <link>https://vozhuo.github.io/posts/zsl-eval/</link>
+      <pubDate>Sun, 22 Sep 2019 09:40:32 +0800</pubDate>
+      <guid>https://vozhuo.github.io/posts/zsl-eval/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;Xian Y, Lampert C H, Schiele B, et al. Zero-shot learning-a comprehensive evaluation of the good, the bad and the ugly[J]. IEEE transactions on pattern analysis and machine intelligence, 2018.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;这篇论文对当前最好的零样本学习方法做了统一全面的评估。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>零样本学习概览（待续）</title>
+      <link>https://vozhuo.github.io/posts/zsl-overview/</link>
+      <pubDate>Fri, 13 Sep 2019 09:23:08 +0800</pubDate>
+      <guid>https://vozhuo.github.io/posts/zsl-overview/</guid>
+      <description>&lt;h1 id=&#34;概念&#34;&gt;概念&lt;/h1&gt;
+&lt;p&gt;零样本学习（Zero-shot learning，ZSL）利用训练集数据训练模型，使得模型能够对测试集的对象进行分类，但是训练集类别和测试集类别之间没有交集。这就需要借助类别的描述，构建语义空间，来建立训练集和测试集之间的联系，从而使得模型有效。ZSL就是让计算机具备人类的推理能力，来识别出一个从未见过的新事物。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

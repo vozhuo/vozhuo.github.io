@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>关系网络 on Vozhuo&#39;s Blog</title>
+    <link>https://vozhuo.github.io/tags/%E5%85%B3%E7%B3%BB%E7%BD%91%E7%BB%9C/</link>
+    <description>Recent content in 关系网络 on Vozhuo&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Sun, 26 May 2019 18:55:01 +0800</lastBuildDate>
+    <atom:link href="https://vozhuo.github.io/tags/%E5%85%B3%E7%B3%BB%E7%BD%91%E7%BB%9C/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Relation Networks for Object Detection阅读笔记</title>
+      <link>https://vozhuo.github.io/posts/rn-for-object-dection-note/</link>
+      <pubDate>Sun, 26 May 2019 18:55:01 +0800</pubDate>
+      <guid>https://vozhuo.github.io/posts/rn-for-object-dection-note/</guid>
+      <description>&lt;p&gt;来源：https://arxiv.org/abs/1711.11575&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;会议&lt;/strong&gt;：
+CVPR 2018 ORAL&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;作者&lt;/strong&gt;：
+Han Hu /
+Jiayuan Gu /
+Zheng Zhang /
+Jifeng Dai /
+Yichen Wei /&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;机构&lt;/strong&gt;：
+Microsoft Research Asia /
+Department of Machine Intelligence, School of EECS, Peking University&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

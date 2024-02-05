@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Andriod on Vozhuo&#39;s Blog</title>
+    <link>https://vozhuo.github.io/tags/andriod/</link>
+    <description>Recent content in Andriod on Vozhuo&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Mon, 16 Jan 2017 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://vozhuo.github.io/tags/andriod/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>GiWiFi手机助手反编译笔记</title>
+      <link>https://vozhuo.github.io/posts/giwifi_decompile/</link>
+      <pubDate>Mon, 16 Jan 2017 00:00:00 +0000</pubDate>
+      <guid>https://vozhuo.github.io/posts/giwifi_decompile/</guid>
+      <description>&lt;p&gt;最近学校出了一个GiWiFi无线网络，因为速度比较可观，而且可以免费试用，所以用的人还是比较多的。要在手机上使用这一网络要下一个客户端，而客户端带有许多广告和额外的没有用的功能。我自己用过一些APP的去广告版，之前也写过一个简单的Andriod App，于是决定这次自己进行修改。查阅了一些Android反编译的相关资料后，就着手开始进行。&lt;/p&gt;
+&lt;p&gt;我使用了一个集成软件&lt;a href=&#34;http://www.popotu.com/popo/apkide.html&#34;&gt;APK改之理&lt;/a&gt;，它集成了许多反编译工具，使用起来也很方便。&lt;/p&gt;
+&lt;p&gt;先来看一下APP的界面：
+&lt;img loading=&#34;lazy&#34; src=&#34;https://vozhuo.github.io/img/GiWiFi/GiWiFi_original.png&#34; alt=&#34;&#34;  /&gt;
+&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

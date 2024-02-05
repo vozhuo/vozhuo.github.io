@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>贪心算法 on Vozhuo&#39;s Blog</title>
+    <link>https://vozhuo.github.io/tags/%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%95/</link>
+    <description>Recent content in 贪心算法 on Vozhuo&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Sun, 07 Oct 2018 13:48:36 +0000</lastBuildDate>
+    <atom:link href="https://vozhuo.github.io/tags/%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%95/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>一周LeetCode习题精选——动态规划(2)</title>
+      <link>https://vozhuo.github.io/posts/leetcode-weekend-featured-dp2/</link>
+      <pubDate>Sun, 07 Oct 2018 13:48:36 +0000</pubDate>
+      <guid>https://vozhuo.github.io/posts/leetcode-weekend-featured-dp2/</guid>
+      <description>&lt;h2 id=&#34;leetcode-55&#34;&gt;LeetCode 55&lt;/h2&gt;
+&lt;p&gt;链接：&lt;a href=&#34;https://leetcode.com/problems/jump-game/description/&#34;&gt;Jump Game&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;本题可以使用动态规划解决。动态规划主要有四个步骤：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;使用递归回溯方法&lt;/li&gt;
+&lt;li&gt;使用备忘录方法优化（自顶向下的动态规划）&lt;/li&gt;
+&lt;li&gt;消除递归方法（自底向上的动态规划）&lt;/li&gt;
+&lt;li&gt;使用其他方法优化时间/空间复杂度&lt;/li&gt;
+&lt;/ol&gt;</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>数据结构 on Vozhuo&#39;s Blog</title>
+    <link>https://vozhuo.github.io/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/</link>
+    <description>Recent content in 数据结构 on Vozhuo&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Sun, 23 Sep 2018 19:41:45 +0000</lastBuildDate>
+    <atom:link href="https://vozhuo.github.io/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>一周LeetCode习题精选</title>
+      <link>https://vozhuo.github.io/posts/leetcode_weekend_featured/</link>
+      <pubDate>Sun, 23 Sep 2018 19:41:45 +0000</pubDate>
+      <guid>https://vozhuo.github.io/posts/leetcode_weekend_featured/</guid>
+      <description>&lt;h2 id=&#34;leetcode-208&#34;&gt;LeetCode 208&lt;/h2&gt;
+&lt;p&gt;链接：&lt;a href=&#34;https://leetcode.com/problems/implement-trie-prefix-tree/description/&#34;&gt;Implement Trie (Prefix Tree)&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;本题要求构造一个前缀树。前缀树是数据结构中树的一种，用于检索字符串数据集中的值，在自动完成、拼写检查、IP路由等方面都有应用。前缀树节点有两个字段：一个链接到字符串的下一个字符节点child，另一个为布尔值is_end，判断指定节点是否已到末尾。这里需要说一下Python的collections.defaultdict()这个方法，此方法构建了一个类似字典的对象，与普通字典不同的是，在查找字典中不存在key时，普通字典会报错，而defaultdict不会返回错误，而是返回一个默认值。本例会返回一个TrieNode节点，这样省去了在功能方法中新建节点的步骤。本题要求实现三个前缀树的三个功能：插入单词、搜索给定单词是否存在于前缀树以及搜索给定单词是否是前缀树中单词的前缀。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

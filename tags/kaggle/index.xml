@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Kaggle on Vozhuo&#39;s Blog</title>
+    <link>https://vozhuo.github.io/tags/kaggle/</link>
+    <description>Recent content in Kaggle on Vozhuo&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Tue, 12 Mar 2019 18:28:35 +0800</lastBuildDate>
+    <atom:link href="https://vozhuo.github.io/tags/kaggle/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Kaggle比赛—狗的品种识别（初）</title>
+      <link>https://vozhuo.github.io/posts/kaggle-gluon-dog/</link>
+      <pubDate>Tue, 12 Mar 2019 18:28:35 +0800</pubDate>
+      <guid>https://vozhuo.github.io/posts/kaggle-gluon-dog/</guid>
+      <description>&lt;p&gt;在深度学习模型训练中，随着模型参数的迭代，损失函数也会不断变化。此时可画出图像以了解变化趋势。以Kaggle比赛狗的品种识别为例，针对动手学深度学习&lt;a href=&#34;http://zh.gluon.ai/chapter_computer-vision/kaggle-gluon-dog.html#%E5%AE%9A%E4%B9%89%E8%AE%AD%E7%BB%83%E5%87%BD%E6%95%B0&#34;&gt;9.13.5&lt;/a&gt;的代码段，进行如下修改，略去重复代码：&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

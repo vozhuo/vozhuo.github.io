@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>动态规划 on Vozhuo&#39;s Blog</title>
+    <link>https://vozhuo.github.io/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/</link>
+    <description>Recent content in 动态规划 on Vozhuo&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Sun, 07 Oct 2018 13:48:36 +0000</lastBuildDate>
+    <atom:link href="https://vozhuo.github.io/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>一周LeetCode习题精选——动态规划(2)</title>
+      <link>https://vozhuo.github.io/posts/leetcode-weekend-featured-dp2/</link>
+      <pubDate>Sun, 07 Oct 2018 13:48:36 +0000</pubDate>
+      <guid>https://vozhuo.github.io/posts/leetcode-weekend-featured-dp2/</guid>
+      <description>&lt;h2 id=&#34;leetcode-55&#34;&gt;LeetCode 55&lt;/h2&gt;
+&lt;p&gt;链接：&lt;a href=&#34;https://leetcode.com/problems/jump-game/description/&#34;&gt;Jump Game&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;本题可以使用动态规划解决。动态规划主要有四个步骤：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;使用递归回溯方法&lt;/li&gt;
+&lt;li&gt;使用备忘录方法优化（自顶向下的动态规划）&lt;/li&gt;
+&lt;li&gt;消除递归方法（自底向上的动态规划）&lt;/li&gt;
+&lt;li&gt;使用其他方法优化时间/空间复杂度&lt;/li&gt;
+&lt;/ol&gt;</description>
+    </item>
+    <item>
+      <title>一周LeetCode习题精选——动态规划</title>
+      <link>https://vozhuo.github.io/posts/leetcode_weekend_featured_dp/</link>
+      <pubDate>Sun, 30 Sep 2018 20:45:55 +0000</pubDate>
+      <guid>https://vozhuo.github.io/posts/leetcode_weekend_featured_dp/</guid>
+      <description>&lt;h2 id=&#34;leetcode-198&#34;&gt;LeetCode 198&lt;/h2&gt;
+&lt;p&gt;链接：&lt;a href=&#34;https://leetcode.com/problems/house-robber/description/&#34;&gt;House Robber&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;本题使用动态规划解决。首先需要分析题目的递归关系：当强盗到达第i间房屋时，他可以选择抢，也可以选择不抢。如果抢劫这间房屋，根据题目要求，他必定没有抢劫第i-1间房屋，但他可能抢劫第i-2间房屋。如果不抢劫第i间房屋，那么他可能抢劫第i-1间房屋。这两个选择造成抢劫得来金钱的不同。设rob(i)为前i间房屋抢劫得来金钱的最大值，第一种需要计算前i-2间房屋抢劫金钱的最大值加上第i间房屋抢劫的金钱。第二种只需要计算前i-1间房屋抢劫金钱的最大值。两者需取其中最大值，由此得出递归关系：&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

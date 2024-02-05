@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>TensorFlow on Vozhuo&#39;s Blog</title>
+    <link>https://vozhuo.github.io/tags/tensorflow/</link>
+    <description>Recent content in TensorFlow on Vozhuo&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Sun, 08 Sep 2019 09:57:09 +0800</lastBuildDate>
+    <atom:link href="https://vozhuo.github.io/tags/tensorflow/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>使用Tensorflow的py_func函数灵活操作Tensor</title>
+      <link>https://vozhuo.github.io/posts/tensorflow-py_func/</link>
+      <pubDate>Sun, 08 Sep 2019 09:57:09 +0800</pubDate>
+      <guid>https://vozhuo.github.io/posts/tensorflow-py_func/</guid>
+      <description>&lt;p&gt;由于TensorFlow中tensor数据类型的特殊性，对它的处理往往是一件比较头疼的事情。有些情况需要将其转换为numpy array进行计算，这时有一个很有效的函数py_func，这里举一个使用例子，函数本身的用法可见参考资料。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>深度学习之人脸识别和神经风格迁移</title>
+      <link>https://vozhuo.github.io/posts/deep-learning-recognition-transfer/</link>
+      <pubDate>Sun, 27 Jan 2019 10:23:00 +0000</pubDate>
+      <guid>https://vozhuo.github.io/posts/deep-learning-recognition-transfer/</guid>
+      <description>&lt;h2 id=&#34;人脸识别&#34;&gt;人脸识别&lt;/h2&gt;
+&lt;p&gt;人脸验证指输入图片后验证是否是对应的人。而人脸识别则是输入一副图片，在数据库中寻找符合输入的图片，并识别输出。大多数人脸识别系统存在One-shot learning问题。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>机器学习之推荐系统</title>
+      <link>https://vozhuo.github.io/posts/machine-learning-recommend/</link>
+      <pubDate>Thu, 22 Nov 2018 20:08:51 +0000</pubDate>
+      <guid>https://vozhuo.github.io/posts/machine-learning-recommend/</guid>
+      <description>&lt;h2 id=&#34;概念&#34;&gt;概念&lt;/h2&gt;
+&lt;p&gt;很多网站都使用推荐系统预测用户喜欢的内容。以电影资讯网站为例，假设电影有多个特征，那么根据用户对电影的打分，我们可以预测用户可能喜欢那些类型的电影，这就是基于内容的推荐系统。这种优化过程和线性回归类似。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>机器学习之异常检测</title>
+      <link>https://vozhuo.github.io/posts/machine-learning-detection/</link>
+      <pubDate>Thu, 22 Nov 2018 11:02:07 +0000</pubDate>
+      <guid>https://vozhuo.github.io/posts/machine-learning-detection/</guid>
+      <description>&lt;h2 id=&#34;概念&#34;&gt;概念&lt;/h2&gt;
+&lt;p&gt;异常检测是一种识别异常样本的方法，我们需要构建一个概率模型，如果某一样本被认定是正常样本的概率足够小，那么它会被当做异常样本。高斯分布（或称正态分布）模型是异常检测算法最常使用的概率分布模型。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>机器学习之主成分分析</title>
+      <link>https://vozhuo.github.io/posts/machine-learning-pca/</link>
+      <pubDate>Sun, 18 Nov 2018 16:32:17 +0000</pubDate>
+      <guid>https://vozhuo.github.io/posts/machine-learning-pca/</guid>
+      <description>&lt;h2 id=&#34;概念&#34;&gt;概念&lt;/h2&gt;
+&lt;p&gt;主成分分析（Principle Component Analysis，缩写PCA）是一种特征降维技术，也是一种无监督学习算法。另外两种较为常用的降维技术是t-SNE和自编码器。PCA能从冗余特征中提取主要成分，在不太损失模型质量的情况下，提升模型训练速度。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>机器学习之K-平均算法</title>
+      <link>https://vozhuo.github.io/posts/machine-learning-kmeans/</link>
+      <pubDate>Sun, 18 Nov 2018 15:25:17 +0000</pubDate>
+      <guid>https://vozhuo.github.io/posts/machine-learning-kmeans/</guid>
+      <description>&lt;h2 id=&#34;概念&#34;&gt;概念&lt;/h2&gt;
+&lt;p&gt;K-平均算法是一种无监督的聚类算法。无监督学习是一种自由的方式，其训练集不会标明类别，需要算法进行自我归纳。K-平均算法的思想是，对于给定的训练集，按照样本之间距离的大小划分为k个簇。让簇内的点尽量靠在一起，簇与簇之间的距离尽量大。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>机器学习之神经网络</title>
+      <link>https://vozhuo.github.io/posts/machine-learning-nn/</link>
+      <pubDate>Sun, 11 Nov 2018 09:34:17 +0000</pubDate>
+      <guid>https://vozhuo.github.io/posts/machine-learning-nn/</guid>
+      <description>&lt;h2 id=&#34;前向传播&#34;&gt;前向传播&lt;/h2&gt;
+&lt;p&gt;神经网络每层都包含有若干神经元，当信息传递时，第i层神经元接受上层的输入，经激励函数作用后，会产生一个激活向量，此向量将作为下一层神经元的输入值，以此规律向下不断传递。整个过程因为发生顺序是不断地将刺激由前一层传向下一层，故而称之为前向传递。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>机器学习之逻辑回归</title>
+      <link>https://vozhuo.github.io/posts/machine-learning-logistic-regression/</link>
+      <pubDate>Sun, 04 Nov 2018 13:19:44 +0000</pubDate>
+      <guid>https://vozhuo.github.io/posts/machine-learning-logistic-regression/</guid>
+      <description>&lt;h2 id=&#34;概念&#34;&gt;概念&lt;/h2&gt;
+&lt;p&gt;在现实生活中，我们遇到的数据大多数都是非线性的，因此不能用线性回归的方法来进行数据拟合，这就需要用到逻辑回归。逻辑回归虽然名字里带“回归”，但是实际上是一种分类方法，用于两分类问题。基本过程如下：&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>机器学习之线性回归</title>
+      <link>https://vozhuo.github.io/posts/machine-learning-gradient-descent/</link>
+      <pubDate>Sat, 27 Oct 2018 16:57:48 +0000</pubDate>
+      <guid>https://vozhuo.github.io/posts/machine-learning-gradient-descent/</guid>
+      <description>&lt;h2 id=&#34;概念&#34;&gt;概念&lt;/h2&gt;
+&lt;p&gt;梯度下降法是一种寻找函数最小值的一阶最优化算法，为找到函数的局部最小值，需要采用与当前点处函数的梯度（或者是近似梯度）的反方向成比例的步长进行迭代搜索。直观地来看，假如我们处于一座山的顶端，想要寻找最快的下山方法。从几何意义上讲，梯度的方向是函数值增加最快的方向，所以梯度的反方向就是函数值下降最快的方向。我们在每一点反复求取梯度，最后到达局部的最小值，就可以下山了。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

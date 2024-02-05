@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>博客搭建 on Vozhuo&#39;s Blog</title>
+    <link>https://vozhuo.github.io/tags/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/</link>
+    <description>Recent content in 博客搭建 on Vozhuo&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Sat, 09 Mar 2019 12:12:23 +0800</lastBuildDate>
+    <atom:link href="https://vozhuo.github.io/tags/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hexo迁移至Hugo</title>
+      <link>https://vozhuo.github.io/posts/from-hexo-to-hugo/</link>
+      <pubDate>Sat, 09 Mar 2019 12:12:23 +0800</pubDate>
+      <guid>https://vozhuo.github.io/posts/from-hexo-to-hugo/</guid>
+      <description>&lt;p&gt;本站使用的静态博客框架已从Hexo迁移至&lt;a href=&#34;https://gohugo.io/&#34;&gt;Hugo&lt;/a&gt;。Hugo生成博客的速度要远大于Hexo，不过主题没有Hexo多。我选择的主题是&lt;a href=&#34;https://github.com/laozhu/hugo-nuo&#34;&gt;Hugo Nuo&lt;/a&gt;。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>从Jekyll到Hexo</title>
+      <link>https://vozhuo.github.io/posts/from_jekyll_to_hexo/</link>
+      <pubDate>Sat, 28 Jul 2018 00:00:00 +0000</pubDate>
+      <guid>https://vozhuo.github.io/posts/from_jekyll_to_hexo/</guid>
+      <description>前几个月博客使用的.cf域名到期了，后来忘了续期，没想到几天后就被别人申请去了。不得已再申请了一个.tk的域名。后来因为各种原因没有更新博客的其他东西。现在一想干脆把博客重新搭建了一遍算了。于是我把静态框架从Jekyll转到了Hexo，Hexo的优点是可支持本地预览，不用再担心MD文件写错了。主题使用了yilia。搭建教程网上有很多，在此不多做赘述。需要注意的是Github Pages的IP已经更新，不再是原来的192.30.252.154和192.30.252.153了，现在有4个可用的IP：185.199.108.153、185.199.109.153、185.199.110.153和185.199.111.153。Hexo的MD语法和Jekyll的略有区别，如果不修改md文件命名的话，放到Hexo中生成的URL会重复出现日期。有两种方法可修改，一种是修改原来的MD文件名，删除日期。另一种方法是修改框架的_config.xml文件中的new_post_name一栏。原来博客使用的HTTPS服务商早已关闭，好在Github Pages已于2018年5月1日支持为自定义域名添加HTTPS服务。这样一来博客就基本迁移完成了。
+参考资料： https://thief.one/2017/03/03/Hexo搭建博客教程/</description>
+    </item>
+    <item>
+      <title>I&#39;M BLOGGING</title>
+      <link>https://vozhuo.github.io/posts/im_blogging/</link>
+      <pubDate>Sun, 03 Apr 2016 00:00:00 +0000</pubDate>
+      <guid>https://vozhuo.github.io/posts/im_blogging/</guid>
+      <description>&lt;p&gt;大概在两个月之前，有了搞一个个人博客的念头。之前曾经了解过一些建站的过程，于是就开始着手准备。&lt;/p&gt;
+&lt;p&gt;首先是域名，因为我现在只想把博客当测试来用，所以并没有购买付费域名。我找到了&lt;a href=&#34;http://www.freenom.com&#34;&gt;Freenom&lt;/a&gt;这个网站，它提供TK、ML、GA、CF、GQ五个免费顶级域名，最后我申请了12个月的CF域名，到期时间2017年2月26日。未来可能会更换付费域名。&lt;/p&gt;
+&lt;p&gt;再就是网站空间。以前曾看到过用&lt;a href=&#34;http://jekyll.bootcss.com/&#34;&gt;Jekyll&lt;/a&gt;搭建博客的文章，现在决定深入了解一下。后来在网上找到&lt;a href=&#34;http://cnfeat.com/blog/2014/05/10/how-to-build-a-blog/&#34;&gt;一篇文章&lt;/a&gt;，这篇文章对我影响很大，后面的步骤基本上就是对照它来完成的，这里我就不再赘述。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>图神经网络 on Vozhuo&#39;s Blog</title>
+    <link>https://vozhuo.github.io/tags/%E5%9B%BE%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</link>
+    <description>Recent content in 图神经网络 on Vozhuo&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Sat, 01 Jun 2019 19:25:06 +0800</lastBuildDate>
+    <atom:link href="https://vozhuo.github.io/tags/%E5%9B%BE%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>图神经网络初探</title>
+      <link>https://vozhuo.github.io/posts/gnn-view/</link>
+      <pubDate>Sat, 01 Jun 2019 19:25:06 +0800</pubDate>
+      <guid>https://vozhuo.github.io/posts/gnn-view/</guid>
+      <description>&lt;h2 id=&#34;背景&#34;&gt;背景&lt;/h2&gt;
+&lt;p&gt;深度学习取得成功的领域主要来源于欧几里得数据（如2维网格的图像和1维序列的文本），但现实生活中还存在大量的非欧几里得数据，如社交网络、电商网络、生物网络和交通网络等。尚未出现对这些数据的有效分析。例如，在电子商务领域，一个基于图的学习系统能够利用用户和产品之间的交互以实现高度精准的推荐。在化学领域，分子被建模为图，新药研发需要测定其生物活性。在论文引用网络中，论文之间通过引用关系互相连接，需要将它们分成不同的类别。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

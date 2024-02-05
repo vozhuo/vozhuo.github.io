@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>软件 on Vozhuo&#39;s Blog</title>
+    <link>https://vozhuo.github.io/tags/%E8%BD%AF%E4%BB%B6/</link>
+    <description>Recent content in 软件 on Vozhuo&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Mon, 05 Feb 2024 15:42:59 +0800</lastBuildDate>
+    <atom:link href="https://vozhuo.github.io/tags/%E8%BD%AF%E4%BB%B6/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>常用软件下载地址</title>
+      <link>https://vozhuo.github.io/posts/common-software/</link>
+      <pubDate>Mon, 05 Feb 2024 15:42:59 +0800</pubDate>
+      <guid>https://vozhuo.github.io/posts/common-software/</guid>
+      <description>实用工具 Bandizip RevoUninstaller Clash.Nyanpasu 小鹤双拼 Office Office Tool Plus Office Tab MathType 社交软件 QQ 微信 安全软件 Kaspersky 编程工具 miniconda Microsoft VS Code NodeJs Git 使用 HTTP 代理： git config --global http.proxy http://127.0.0.1:7890 git config --global https.proxy https://127.0.0.1:7890 工程软件 Abaqus </description>
+    </item>
+  </channel>
+</rss>

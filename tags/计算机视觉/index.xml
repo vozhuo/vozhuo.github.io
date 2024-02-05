@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>计算机视觉 on Vozhuo&#39;s Blog</title>
+    <link>https://vozhuo.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/</link>
+    <description>Recent content in 计算机视觉 on Vozhuo&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Sun, 19 May 2019 20:30:41 +0800</lastBuildDate>
+    <atom:link href="https://vozhuo.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>全卷积网络学习笔记</title>
+      <link>https://vozhuo.github.io/posts/fcn-note/</link>
+      <pubDate>Sun, 19 May 2019 20:30:41 +0800</pubDate>
+      <guid>https://vozhuo.github.io/posts/fcn-note/</guid>
+      <description>&lt;p&gt;全卷积网络（FCN）对图像进行像素级的分类，用于语义分割。FCN与CNN的主要区别在于，FCN将传统CNN中的全连接层转化为1 * 1的卷积层。与传统的CNN网络不同，FCN可以接受任意尺寸的输入图像，然后采用反卷积进行上采样，使之恢复到与输入图像相同的尺寸，从而可以预测每个像素。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

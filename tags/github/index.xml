@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>GitHub on Vozhuo&#39;s Blog</title>
+    <link>https://vozhuo.github.io/tags/github/</link>
+    <description>Recent content in GitHub on Vozhuo&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Tue, 04 Sep 2018 16:03:14 +0000</lastBuildDate>
+    <atom:link href="https://vozhuo.github.io/tags/github/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>毕设项目中的开源库</title>
+      <link>https://vozhuo.github.io/posts/android_project_dependencies/</link>
+      <pubDate>Tue, 04 Sep 2018 16:03:14 +0000</pubDate>
+      <guid>https://vozhuo.github.io/posts/android_project_dependencies/</guid>
+      <description>&lt;p&gt;这篇博文分享一下我在毕业设计开发时用到的一些开源库和技术。&lt;/p&gt;
+&lt;h1 id=&#34;ariahttpsgithubcomarialyyaria&#34;&gt;&lt;a href=&#34;https://github.com/AriaLyy/Aria&#34;&gt;Aria&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;用于实现WebView的文件下载功能，我们知道原生的WebView是没有下载功能的，所以需要自己实现。我并没有这方面的知识，从网上看了一些资料后，最终选择了Aria，使用效果还是不错的。&lt;/p&gt;
+&lt;h1 id=&#34;brvahhttpsgithubcomcymchadbaserecyclerviewadapterhelper&#34;&gt;&lt;a href=&#34;https://github.com/CymChad/BaseRecyclerViewAdapterHelper&#34;&gt;BRVAH&lt;/a&gt;&lt;/h1&gt;
+&lt;p&gt;全名BaseRecyclerViewAdapterHelper，是一个RecyclerAdapter框架。我的项目使用了很多RecyclerView，而定义Adapter是个很头疼的事情，太多重复的工作。项目使用此框架后精简了很多代码，此外它还有Item点击事件、列表加载动画、拖拽/滑动删除等一系列实用的功能。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

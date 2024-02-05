@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>链表 on Vozhuo&#39;s Blog</title>
+    <link>https://vozhuo.github.io/tags/%E9%93%BE%E8%A1%A8/</link>
+    <description>Recent content in 链表 on Vozhuo&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Sun, 14 Oct 2018 14:36:49 +0000</lastBuildDate>
+    <atom:link href="https://vozhuo.github.io/tags/%E9%93%BE%E8%A1%A8/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>一周LeetCode习题精选——链表</title>
+      <link>https://vozhuo.github.io/posts/leetcode_weekend_featured_ll/</link>
+      <pubDate>Sun, 14 Oct 2018 14:36:49 +0000</pubDate>
+      <guid>https://vozhuo.github.io/posts/leetcode_weekend_featured_ll/</guid>
+      <description>&lt;h2 id=&#34;leetcode-206&#34;&gt;LeetCode 206&lt;/h2&gt;
+&lt;p&gt;链接：&lt;a href=&#34;https://leetcode.com/problems/reverse-linked-list/&#34;&gt;Reverse Linked List&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;本题是一道非常基础的反转单链表。首先想到的方法是把链表转换成数组直接逆序，这里不再细说。另外两种方法是递归和迭代。递归方法是指先反转最后两个节点，依次往前至全部反转。迭代法是从左至右反转。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

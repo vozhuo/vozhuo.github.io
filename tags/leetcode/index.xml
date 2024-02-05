@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>LeetCode on Vozhuo&#39;s Blog</title>
+    <link>https://vozhuo.github.io/tags/leetcode/</link>
+    <description>Recent content in LeetCode on Vozhuo&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Sun, 21 Oct 2018 14:44:19 +0000</lastBuildDate>
+    <atom:link href="https://vozhuo.github.io/tags/leetcode/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>一周LeetCode习题精选——树</title>
+      <link>https://vozhuo.github.io/posts/leetcode-weekend-featured-tree/</link>
+      <pubDate>Sun, 21 Oct 2018 14:44:19 +0000</pubDate>
+      <guid>https://vozhuo.github.io/posts/leetcode-weekend-featured-tree/</guid>
+      <description>&lt;h2 id=&#34;leetcode-226&#34;&gt;LeetCode 226&lt;/h2&gt;
+&lt;p&gt;链接：&lt;a href=&#34;https://leetcode.com/problems/invert-binary-tree/description/&#34;&gt;Invert Binary Tree&lt;/a&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Google: 90% of our engineers use the software you wrote (Homebrew), but you can’t invert a binary tree on a whiteboard so fuck off.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;难倒大神的反转二叉树问题，其实这道题并不难，用递归和遍历都可解决。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>一周LeetCode习题精选——链表</title>
+      <link>https://vozhuo.github.io/posts/leetcode_weekend_featured_ll/</link>
+      <pubDate>Sun, 14 Oct 2018 14:36:49 +0000</pubDate>
+      <guid>https://vozhuo.github.io/posts/leetcode_weekend_featured_ll/</guid>
+      <description>&lt;h2 id=&#34;leetcode-206&#34;&gt;LeetCode 206&lt;/h2&gt;
+&lt;p&gt;链接：&lt;a href=&#34;https://leetcode.com/problems/reverse-linked-list/&#34;&gt;Reverse Linked List&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;本题是一道非常基础的反转单链表。首先想到的方法是把链表转换成数组直接逆序，这里不再细说。另外两种方法是递归和迭代。递归方法是指先反转最后两个节点，依次往前至全部反转。迭代法是从左至右反转。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>一周LeetCode习题精选——动态规划(2)</title>
+      <link>https://vozhuo.github.io/posts/leetcode-weekend-featured-dp2/</link>
+      <pubDate>Sun, 07 Oct 2018 13:48:36 +0000</pubDate>
+      <guid>https://vozhuo.github.io/posts/leetcode-weekend-featured-dp2/</guid>
+      <description>&lt;h2 id=&#34;leetcode-55&#34;&gt;LeetCode 55&lt;/h2&gt;
+&lt;p&gt;链接：&lt;a href=&#34;https://leetcode.com/problems/jump-game/description/&#34;&gt;Jump Game&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;本题可以使用动态规划解决。动态规划主要有四个步骤：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;使用递归回溯方法&lt;/li&gt;
+&lt;li&gt;使用备忘录方法优化（自顶向下的动态规划）&lt;/li&gt;
+&lt;li&gt;消除递归方法（自底向上的动态规划）&lt;/li&gt;
+&lt;li&gt;使用其他方法优化时间/空间复杂度&lt;/li&gt;
+&lt;/ol&gt;</description>
+    </item>
+    <item>
+      <title>一周LeetCode习题精选——动态规划</title>
+      <link>https://vozhuo.github.io/posts/leetcode_weekend_featured_dp/</link>
+      <pubDate>Sun, 30 Sep 2018 20:45:55 +0000</pubDate>
+      <guid>https://vozhuo.github.io/posts/leetcode_weekend_featured_dp/</guid>
+      <description>&lt;h2 id=&#34;leetcode-198&#34;&gt;LeetCode 198&lt;/h2&gt;
+&lt;p&gt;链接：&lt;a href=&#34;https://leetcode.com/problems/house-robber/description/&#34;&gt;House Robber&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;本题使用动态规划解决。首先需要分析题目的递归关系：当强盗到达第i间房屋时，他可以选择抢，也可以选择不抢。如果抢劫这间房屋，根据题目要求，他必定没有抢劫第i-1间房屋，但他可能抢劫第i-2间房屋。如果不抢劫第i间房屋，那么他可能抢劫第i-1间房屋。这两个选择造成抢劫得来金钱的不同。设rob(i)为前i间房屋抢劫得来金钱的最大值，第一种需要计算前i-2间房屋抢劫金钱的最大值加上第i间房屋抢劫的金钱。第二种只需要计算前i-1间房屋抢劫金钱的最大值。两者需取其中最大值，由此得出递归关系：&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>一周LeetCode习题精选</title>
+      <link>https://vozhuo.github.io/posts/leetcode_weekend_featured/</link>
+      <pubDate>Sun, 23 Sep 2018 19:41:45 +0000</pubDate>
+      <guid>https://vozhuo.github.io/posts/leetcode_weekend_featured/</guid>
+      <description>&lt;h2 id=&#34;leetcode-208&#34;&gt;LeetCode 208&lt;/h2&gt;
+&lt;p&gt;链接：&lt;a href=&#34;https://leetcode.com/problems/implement-trie-prefix-tree/description/&#34;&gt;Implement Trie (Prefix Tree)&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;本题要求构造一个前缀树。前缀树是数据结构中树的一种，用于检索字符串数据集中的值，在自动完成、拼写检查、IP路由等方面都有应用。前缀树节点有两个字段：一个链接到字符串的下一个字符节点child，另一个为布尔值is_end，判断指定节点是否已到末尾。这里需要说一下Python的collections.defaultdict()这个方法，此方法构建了一个类似字典的对象，与普通字典不同的是，在查找字典中不存在key时，普通字典会报错，而defaultdict不会返回错误，而是返回一个默认值。本例会返回一个TrieNode节点，这样省去了在功能方法中新建节点的步骤。本题要求实现三个前缀树的三个功能：插入单词、搜索给定单词是否存在于前缀树以及搜索给定单词是否是前缀树中单词的前缀。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

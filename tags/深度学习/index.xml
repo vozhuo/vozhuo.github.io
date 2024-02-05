@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>深度学习 on Vozhuo&#39;s Blog</title>
+    <link>https://vozhuo.github.io/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/</link>
+    <description>Recent content in 深度学习 on Vozhuo&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Sun, 08 Sep 2019 09:57:09 +0800</lastBuildDate>
+    <atom:link href="https://vozhuo.github.io/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>使用Tensorflow的py_func函数灵活操作Tensor</title>
+      <link>https://vozhuo.github.io/posts/tensorflow-py_func/</link>
+      <pubDate>Sun, 08 Sep 2019 09:57:09 +0800</pubDate>
+      <guid>https://vozhuo.github.io/posts/tensorflow-py_func/</guid>
+      <description>&lt;p&gt;由于TensorFlow中tensor数据类型的特殊性，对它的处理往往是一件比较头疼的事情。有些情况需要将其转换为numpy array进行计算，这时有一个很有效的函数py_func，这里举一个使用例子，函数本身的用法可见参考资料。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>深度强化学习之DQN系列</title>
+      <link>https://vozhuo.github.io/posts/drl-dqn/</link>
+      <pubDate>Sun, 25 Aug 2019 21:47:11 +0800</pubDate>
+      <guid>https://vozhuo.github.io/posts/drl-dqn/</guid>
+      <description>&lt;h1 id=&#34;基础q-learning&#34;&gt;基础（Q-Learning）&lt;/h1&gt;
+&lt;p&gt;Q即为Q（s,a），就是在某一时刻的 s 状态下，采取动作a动作能够获得奖励的期望。环境会根据智能体的动作反馈相应的奖励 r。算法的主要思想就是将状态（state）与动作（action）构建成一张Q-table来存储Q值，然后根据Q值来选取能够获得最大的收益的动作。Q-Learning的算法如下：&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>深度强化学习总览</title>
+      <link>https://vozhuo.github.io/posts/drl-overview/</link>
+      <pubDate>Sun, 18 Aug 2019 21:31:23 +0800</pubDate>
+      <guid>https://vozhuo.github.io/posts/drl-overview/</guid>
+      <description>&lt;h1 id=&#34;概念&#34;&gt;概念&lt;/h1&gt;
+&lt;p&gt;强化学习的基本思想是通过最大化智能体（Agent）从环境中获得的累计奖赏值，以学习到完成目标的最优策略。强化学习中的基本要素包括：&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>半监督深度学习</title>
+      <link>https://vozhuo.github.io/posts/deep-ssl/</link>
+      <pubDate>Sun, 11 Aug 2019 21:10:37 +0800</pubDate>
+      <guid>https://vozhuo.github.io/posts/deep-ssl/</guid>
+      <description>&lt;p&gt;深度学习发展初期，训练深度的网络比较困难。对神经网络来说，一个好的初始化可以让结果更稳定，迭代次数更少，因此利用无标签数据让网络有一个好的初始化成为一个研究热点。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Mask R-CNN关键技术分析</title>
+      <link>https://vozhuo.github.io/posts/mask-rcnn-key-methods/</link>
+      <pubDate>Fri, 10 May 2019 16:24:50 +0800</pubDate>
+      <guid>https://vozhuo.github.io/posts/mask-rcnn-key-methods/</guid>
+      <description>&lt;h2 id=&#34;骨干架构fpn&#34;&gt;骨干架构（FPN）&lt;/h2&gt;
+&lt;p&gt;特征金字塔网络是一种多维度特征表达，主要解决物体检测中的多尺度问题，可大幅提升小物体检测的性能。网络由浅至深，低层的特征语义信息比较少，但是目标位置准确；高层的特征语义信息比较丰富，但是目标位置比较粗略。特征图金字塔分成三个部分，一个自底向上的路径（左边），一个自顶向下的路径（右边）和横向连接部分。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>深度学习之生成模型</title>
+      <link>https://vozhuo.github.io/posts/deep-learning-generative-model/</link>
+      <pubDate>Sun, 14 Apr 2019 18:33:30 +0800</pubDate>
+      <guid>https://vozhuo.github.io/posts/deep-learning-generative-model/</guid>
+      <description>&lt;h2 id=&#34;piexlrnncnn&#34;&gt;PiexlRNN/CNN&lt;/h2&gt;
+&lt;p&gt;使用概率链式法则计算一张图片出现的概率，其中每一项为给定前i-1个像素点后第i个像素点的条件概率分布。此分布通过RNN（LSTM）/CNN来建模，再通过最大化图片x的似然学习RNN/CNN的参数。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>MXNet深度学习笔记（二）</title>
+      <link>https://vozhuo.github.io/posts/mxnet-study-2/</link>
+      <pubDate>Fri, 01 Mar 2019 09:41:01 +0000</pubDate>
+      <guid>https://vozhuo.github.io/posts/mxnet-study-2/</guid>
+      <description>&lt;h2 id=&#34;模型构造&#34;&gt;模型构造&lt;/h2&gt;
+&lt;p&gt;上一篇中，模型构造是首先需构造Sequential实例，然后添加各层。MXNet还可以通过继承Block类来构造模型。&lt;/p&gt;
+&lt;p&gt;下面一个例子中，init函数声明带有模型参数的层，函数使用get_constant方法创建训练中不被迭代的参数，即常数参数。forward函数定义模型的前向计算，通过输入x最终返回输出内容。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>MXNet深度学习笔记</title>
+      <link>https://vozhuo.github.io/posts/mxnet-study/</link>
+      <pubDate>Fri, 22 Feb 2019 19:01:08 +0000</pubDate>
+      <guid>https://vozhuo.github.io/posts/mxnet-study/</guid>
+      <description>&lt;p&gt;本文以线性回归为例，展示MXNet以及Gluon的实现。&lt;/p&gt;
+&lt;p&gt;首先构造一个简单的数据集，其中features是训练数据特征，labels是标签。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>序列模型和注意力机制</title>
+      <link>https://vozhuo.github.io/posts/deep-learning-attention/</link>
+      <pubDate>Sun, 17 Feb 2019 21:34:04 +0000</pubDate>
+      <guid>https://vozhuo.github.io/posts/deep-learning-attention/</guid>
+      <description>&lt;h2 id=&#34;基础模型&#34;&gt;基础模型&lt;/h2&gt;
+&lt;p&gt;序列模型有Sequence to sequence模型和image to sequence 模型。前者最常见的应用是机器翻译。机器翻译模型的前半部分使用编码网络对输入的原文句子进行编码，后半部分使用解码网络生成对应的翻译。后者的图像描述与之类似。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>自然语言处理和词嵌入</title>
+      <link>https://vozhuo.github.io/posts/deep-learning-word-embedding/</link>
+      <pubDate>Sun, 10 Feb 2019 21:12:53 +0000</pubDate>
+      <guid>https://vozhuo.github.io/posts/deep-learning-word-embedding/</guid>
+      <description>&lt;h2 id=&#34;词汇表征&#34;&gt;词汇表征&lt;/h2&gt;
+&lt;p&gt;计算机是无法直接认识单词的，所以为了让计算机能更好地理解人类语言，需要将词汇进行表征。之前用到的方法是One-hot表征，即创建一个向量，将对应单词的位置用1表示，其余位置用0表示。这种方法的缺点是无法获得词与词之间的相关性。另一种方法是特征表征，即词嵌入，用不同的特征对单词进行特征化表示。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>循环神经网络</title>
+      <link>https://vozhuo.github.io/posts/deep-learning-rnn/</link>
+      <pubDate>Tue, 29 Jan 2019 14:05:41 +0000</pubDate>
+      <guid>https://vozhuo.github.io/posts/deep-learning-rnn/</guid>
+      <description>&lt;p&gt;对于序列模型，使用传统的神经网络效果并不好。原因是输入输出数据的长度可能不同，另外这种神经网络结果不能共享从文本不同位置所学习到的特征。循环神经则不存在这两个缺点。在每一个时间步中，循环神经网络会传递一个激活值到下一个时间步中，用于下一时间步的计算。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>深度学习之人脸识别和神经风格迁移</title>
+      <link>https://vozhuo.github.io/posts/deep-learning-recognition-transfer/</link>
+      <pubDate>Sun, 27 Jan 2019 10:23:00 +0000</pubDate>
+      <guid>https://vozhuo.github.io/posts/deep-learning-recognition-transfer/</guid>
+      <description>&lt;h2 id=&#34;人脸识别&#34;&gt;人脸识别&lt;/h2&gt;
+&lt;p&gt;人脸验证指输入图片后验证是否是对应的人。而人脸识别则是输入一副图片，在数据库中寻找符合输入的图片，并识别输出。大多数人脸识别系统存在One-shot learning问题。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>深度学习之目标检测</title>
+      <link>https://vozhuo.github.io/posts/deep-learning-object-detection/</link>
+      <pubDate>Fri, 18 Jan 2019 11:51:04 +0000</pubDate>
+      <guid>https://vozhuo.github.io/posts/deep-learning-object-detection/</guid>
+      <description>&lt;p&gt;目标检测是计算机视觉领域的一项重要应用。通过目标检测模型，能将图片中的人、汽车等目标物体检测出来。&lt;/p&gt;
+&lt;p&gt;一个简单的目标标签y如下：&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>深度学习之卷积神经网络</title>
+      <link>https://vozhuo.github.io/posts/deep-learning-cnn/</link>
+      <pubDate>Wed, 09 Jan 2019 18:29:52 +0000</pubDate>
+      <guid>https://vozhuo.github.io/posts/deep-learning-cnn/</guid>
+      <description>&lt;h2 id=&#34;概念&#34;&gt;概念&lt;/h2&gt;
+&lt;p&gt;当输入的图片尺寸较大时，深度神经网络将不再适用。卷积神经网络从而出现，可用于解决计算机视觉问题。卷积运算是卷积神经网络的重要部分，一个应用是图像边缘检测。Padding和步长是卷积运算的两个重要参数。Valid卷积：无Padding；Same卷积：加入Padding使输出与输入图片的大小相同。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>深度学习之结构化机器学习</title>
+      <link>https://vozhuo.github.io/posts/deep-learning-structure-ml/</link>
+      <pubDate>Thu, 27 Dec 2018 11:54:54 +0000</pubDate>
+      <guid>https://vozhuo.github.io/posts/deep-learning-structure-ml/</guid>
+      <description>&lt;h2 id=&#34;评估&#34;&gt;评估&lt;/h2&gt;
+&lt;p&gt;在训练机器学习模型时，设置单一数字评估指标可以更好地评估模型。如查准率、召回率和结合两种的F1分数。&lt;/p&gt;
+&lt;p&gt;在选择训练、开发、测试集时要遵循一定规则，开发集和测试集的分布要来自同一分布，且随机选取。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>深度学习之改善深层神经网络(2)</title>
+      <link>https://vozhuo.github.io/posts/deep-learning-improve-nn-2/</link>
+      <pubDate>Thu, 20 Dec 2018 11:36:19 +0000</pubDate>
+      <guid>https://vozhuo.github.io/posts/deep-learning-improve-nn-2/</guid>
+      <description>&lt;h2 id=&#34;小批量梯度下降&#34;&gt;小批量梯度下降&lt;/h2&gt;
+&lt;p&gt;每次使用训练数据的子集进行梯度下降，算法执行速度会更快，这些子集称为Mini-batch（小批量）。当选择的批量大小为1时，每次对一个训练样本执行梯度下降，称为随机梯度下降。当大小为所有训练样本的个数时，则为批量梯度下降，每次对所有训练样本执行梯度下降。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>深度学习之改善深层神经网络</title>
+      <link>https://vozhuo.github.io/posts/deep-learning-improve-nn/</link>
+      <pubDate>Thu, 13 Dec 2018 10:06:12 +0000</pubDate>
+      <guid>https://vozhuo.github.io/posts/deep-learning-improve-nn/</guid>
+      <description>&lt;p&gt;本文主要叙述神经网络的数据集、偏差与方差、正则化、随机失活、归一化输入、梯度消失与梯度爆炸、梯度检验等要点。&lt;/p&gt;
+&lt;h2 id=&#34;数据集&#34;&gt;数据集&lt;/h2&gt;
+&lt;p&gt;在建立神经网络模型前，我们要将数据集划分为三个部分：训练集、交叉验证集和测试集。欠拟合的情况下，出现高偏差；过拟合的情况下，出现高方差。出现高偏差时，可以使用增加隐藏层数目、加长训练时间等方法解决。出现高方差时，可以使用增加训练数据、正则化等方法解决。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>深度学习之神经网络</title>
+      <link>https://vozhuo.github.io/posts/deep-learning-nn/</link>
+      <pubDate>Thu, 06 Dec 2018 13:02:32 +0000</pubDate>
+      <guid>https://vozhuo.github.io/posts/deep-learning-nn/</guid>
+      <description>&lt;p&gt;因为此部分在之前的博文中提及，所以不再详细赘述其中原理，代码只展示核心部分。&lt;/p&gt;
+&lt;p&gt;激活函数在神经网络中具有重要的地位，常见的激活函数有sigmoid、tanh、ReLU（修正线性单元）和Leaky ReLU等。前两种是饱和激活函数、后两种则是非饱和激活函数，它可以解决“梯度消失”的问题并加快收敛速度。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

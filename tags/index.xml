@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Tags on Vozhuo&#39;s Blog</title>
+    <link>https://vozhuo.github.io/tags/</link>
+    <description>Recent content in Tags on Vozhuo&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Mon, 05 Feb 2024 15:42:59 +0800</lastBuildDate>
+    <atom:link href="https://vozhuo.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>软件</title>
+      <link>https://vozhuo.github.io/tags/%E8%BD%AF%E4%BB%B6/</link>
+      <pubDate>Mon, 05 Feb 2024 15:42:59 +0800</pubDate>
+      <guid>https://vozhuo.github.io/tags/%E8%BD%AF%E4%BB%B6/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Django</title>
+      <link>https://vozhuo.github.io/tags/django/</link>
+      <pubDate>Thu, 24 Sep 2020 20:51:20 +0800</pubDate>
+      <guid>https://vozhuo.github.io/tags/django/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Pyinstaller</title>
+      <link>https://vozhuo.github.io/tags/pyinstaller/</link>
+      <pubDate>Thu, 24 Sep 2020 20:51:20 +0800</pubDate>
+      <guid>https://vozhuo.github.io/tags/pyinstaller/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>半监督学习</title>
+      <link>https://vozhuo.github.io/tags/%E5%8D%8A%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0/</link>
+      <pubDate>Thu, 27 Feb 2020 11:43:56 +0800</pubDate>
+      <guid>https://vozhuo.github.io/tags/%E5%8D%8A%E7%9B%91%E7%9D%A3%E5%AD%A6%E4%B9%A0/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>数据增强</title>
+      <link>https://vozhuo.github.io/tags/%E6%95%B0%E6%8D%AE%E5%A2%9E%E5%BC%BA/</link>
+      <pubDate>Fri, 21 Feb 2020 20:46:44 +0800</pubDate>
+      <guid>https://vozhuo.github.io/tags/%E6%95%B0%E6%8D%AE%E5%A2%9E%E5%BC%BA/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>零样本学习</title>
+      <link>https://vozhuo.github.io/tags/%E9%9B%B6%E6%A0%B7%E6%9C%AC%E5%AD%A6%E4%B9%A0/</link>
+      <pubDate>Sun, 22 Sep 2019 09:40:32 +0800</pubDate>
+      <guid>https://vozhuo.github.io/tags/%E9%9B%B6%E6%A0%B7%E6%9C%AC%E5%AD%A6%E4%B9%A0/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>TensorFlow</title>
+      <link>https://vozhuo.github.io/tags/tensorflow/</link>
+      <pubDate>Sun, 08 Sep 2019 09:57:09 +0800</pubDate>
+      <guid>https://vozhuo.github.io/tags/tensorflow/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>深度学习</title>
+      <link>https://vozhuo.github.io/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/</link>
+      <pubDate>Sun, 08 Sep 2019 09:57:09 +0800</pubDate>
+      <guid>https://vozhuo.github.io/tags/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>tagB</title>
+      <link>https://vozhuo.github.io/tags/tagb/</link>
+      <pubDate>Sun, 01 Sep 2019 22:01:45 +0800</pubDate>
+      <guid>https://vozhuo.github.io/tags/tagb/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>强化学习</title>
+      <link>https://vozhuo.github.io/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/</link>
+      <pubDate>Sun, 25 Aug 2019 21:47:11 +0800</pubDate>
+      <guid>https://vozhuo.github.io/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Keras</title>
+      <link>https://vozhuo.github.io/tags/keras/</link>
+      <pubDate>Sun, 07 Jul 2019 11:28:07 +0800</pubDate>
+      <guid>https://vozhuo.github.io/tags/keras/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>图像分类</title>
+      <link>https://vozhuo.github.io/tags/%E5%9B%BE%E5%83%8F%E5%88%86%E7%B1%BB/</link>
+      <pubDate>Sun, 07 Jul 2019 11:28:07 +0800</pubDate>
+      <guid>https://vozhuo.github.io/tags/%E5%9B%BE%E5%83%8F%E5%88%86%E7%B1%BB/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>图神经网络</title>
+      <link>https://vozhuo.github.io/tags/%E5%9B%BE%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</link>
+      <pubDate>Sat, 01 Jun 2019 19:25:06 +0800</pubDate>
+      <guid>https://vozhuo.github.io/tags/%E5%9B%BE%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>关系网络</title>
+      <link>https://vozhuo.github.io/tags/%E5%85%B3%E7%B3%BB%E7%BD%91%E7%BB%9C/</link>
+      <pubDate>Sun, 26 May 2019 18:55:01 +0800</pubDate>
+      <guid>https://vozhuo.github.io/tags/%E5%85%B3%E7%B3%BB%E7%BD%91%E7%BB%9C/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>目标检测</title>
+      <link>https://vozhuo.github.io/tags/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/</link>
+      <pubDate>Sun, 26 May 2019 18:55:01 +0800</pubDate>
+      <guid>https://vozhuo.github.io/tags/%E7%9B%AE%E6%A0%87%E6%A3%80%E6%B5%8B/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>剧评</title>
+      <link>https://vozhuo.github.io/tags/%E5%89%A7%E8%AF%84/</link>
+      <pubDate>Sun, 19 May 2019 20:39:15 +0800</pubDate>
+      <guid>https://vozhuo.github.io/tags/%E5%89%A7%E8%AF%84/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>走向共和</title>
+      <link>https://vozhuo.github.io/tags/%E8%B5%B0%E5%90%91%E5%85%B1%E5%92%8C/</link>
+      <pubDate>Sun, 19 May 2019 20:39:15 +0800</pubDate>
+      <guid>https://vozhuo.github.io/tags/%E8%B5%B0%E5%90%91%E5%85%B1%E5%92%8C/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>全卷积网络</title>
+      <link>https://vozhuo.github.io/tags/%E5%85%A8%E5%8D%B7%E7%A7%AF%E7%BD%91%E7%BB%9C/</link>
+      <pubDate>Sun, 19 May 2019 20:30:41 +0800</pubDate>
+      <guid>https://vozhuo.github.io/tags/%E5%85%A8%E5%8D%B7%E7%A7%AF%E7%BD%91%E7%BB%9C/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>计算机视觉</title>
+      <link>https://vozhuo.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/</link>
+      <pubDate>Sun, 19 May 2019 20:30:41 +0800</pubDate>
+      <guid>https://vozhuo.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Mask R-CNN</title>
+      <link>https://vozhuo.github.io/tags/mask-r-cnn/</link>
+      <pubDate>Fri, 10 May 2019 16:24:50 +0800</pubDate>
+      <guid>https://vozhuo.github.io/tags/mask-r-cnn/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Mask RCNN</title>
+      <link>https://vozhuo.github.io/tags/mask-rcnn/</link>
+      <pubDate>Sun, 21 Apr 2019 19:07:29 +0800</pubDate>
+      <guid>https://vozhuo.github.io/tags/mask-rcnn/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>RPN</title>
+      <link>https://vozhuo.github.io/tags/rpn/</link>
+      <pubDate>Sun, 21 Apr 2019 19:07:29 +0800</pubDate>
+      <guid>https://vozhuo.github.io/tags/rpn/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>图像处理</title>
+      <link>https://vozhuo.github.io/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/</link>
+      <pubDate>Sun, 21 Apr 2019 19:07:29 +0800</pubDate>
+      <guid>https://vozhuo.github.io/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>机器学习</title>
+      <link>https://vozhuo.github.io/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/</link>
+      <pubDate>Sun, 14 Apr 2019 18:54:10 +0800</pubDate>
+      <guid>https://vozhuo.github.io/tags/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>生成模型</title>
+      <link>https://vozhuo.github.io/tags/%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/</link>
+      <pubDate>Sun, 14 Apr 2019 18:33:30 +0800</pubDate>
+      <guid>https://vozhuo.github.io/tags/%E7%94%9F%E6%88%90%E6%A8%A1%E5%9E%8B/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>图像分割</title>
+      <link>https://vozhuo.github.io/tags/%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2/</link>
+      <pubDate>Thu, 28 Mar 2019 18:49:10 +0800</pubDate>
+      <guid>https://vozhuo.github.io/tags/%E5%9B%BE%E5%83%8F%E5%88%86%E5%89%B2/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Kaggle</title>
+      <link>https://vozhuo.github.io/tags/kaggle/</link>
+      <pubDate>Tue, 12 Mar 2019 18:28:35 +0800</pubDate>
+      <guid>https://vozhuo.github.io/tags/kaggle/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>MXNet</title>
+      <link>https://vozhuo.github.io/tags/mxnet/</link>
+      <pubDate>Tue, 12 Mar 2019 18:28:35 +0800</pubDate>
+      <guid>https://vozhuo.github.io/tags/mxnet/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>博客搭建</title>
+      <link>https://vozhuo.github.io/tags/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/</link>
+      <pubDate>Sat, 09 Mar 2019 12:12:23 +0800</pubDate>
+      <guid>https://vozhuo.github.io/tags/%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Python</title>
+      <link>https://vozhuo.github.io/tags/python/</link>
+      <pubDate>Sun, 10 Feb 2019 21:12:53 +0000</pubDate>
+      <guid>https://vozhuo.github.io/tags/python/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>数据统计</title>
+      <link>https://vozhuo.github.io/tags/%E6%95%B0%E6%8D%AE%E7%BB%9F%E8%AE%A1/</link>
+      <pubDate>Sun, 20 Jan 2019 16:48:44 +0000</pubDate>
+      <guid>https://vozhuo.github.io/tags/%E6%95%B0%E6%8D%AE%E7%BB%9F%E8%AE%A1/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>卷积神经网络</title>
+      <link>https://vozhuo.github.io/tags/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</link>
+      <pubDate>Fri, 18 Jan 2019 11:51:04 +0000</pubDate>
+      <guid>https://vozhuo.github.io/tags/%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>TenorFlow</title>
+      <link>https://vozhuo.github.io/tags/tenorflow/</link>
+      <pubDate>Wed, 09 Jan 2019 18:29:52 +0000</pubDate>
+      <guid>https://vozhuo.github.io/tags/tenorflow/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>IPv6</title>
+      <link>https://vozhuo.github.io/tags/ipv6/</link>
+      <pubDate>Mon, 24 Dec 2018 09:57:12 +0000</pubDate>
+      <guid>https://vozhuo.github.io/tags/ipv6/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>路由器</title>
+      <link>https://vozhuo.github.io/tags/%E8%B7%AF%E7%94%B1%E5%99%A8/</link>
+      <pubDate>Mon, 24 Dec 2018 09:57:12 +0000</pubDate>
+      <guid>https://vozhuo.github.io/tags/%E8%B7%AF%E7%94%B1%E5%99%A8/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>LeetCode</title>
+      <link>https://vozhuo.github.io/tags/leetcode/</link>
+      <pubDate>Sun, 21 Oct 2018 14:44:19 +0000</pubDate>
+      <guid>https://vozhuo.github.io/tags/leetcode/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>树</title>
+      <link>https://vozhuo.github.io/tags/%E6%A0%91/</link>
+      <pubDate>Sun, 21 Oct 2018 14:44:19 +0000</pubDate>
+      <guid>https://vozhuo.github.io/tags/%E6%A0%91/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>链表</title>
+      <link>https://vozhuo.github.io/tags/%E9%93%BE%E8%A1%A8/</link>
+      <pubDate>Sun, 14 Oct 2018 14:36:49 +0000</pubDate>
+      <guid>https://vozhuo.github.io/tags/%E9%93%BE%E8%A1%A8/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>动态规划</title>
+      <link>https://vozhuo.github.io/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/</link>
+      <pubDate>Sun, 07 Oct 2018 13:48:36 +0000</pubDate>
+      <guid>https://vozhuo.github.io/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>贪心算法</title>
+      <link>https://vozhuo.github.io/tags/%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%95/</link>
+      <pubDate>Sun, 07 Oct 2018 13:48:36 +0000</pubDate>
+      <guid>https://vozhuo.github.io/tags/%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%95/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>数据结构</title>
+      <link>https://vozhuo.github.io/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/</link>
+      <pubDate>Sun, 23 Sep 2018 19:41:45 +0000</pubDate>
+      <guid>https://vozhuo.github.io/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>爬虫</title>
+      <link>https://vozhuo.github.io/tags/%E7%88%AC%E8%99%AB/</link>
+      <pubDate>Sun, 16 Sep 2018 11:29:17 +0000</pubDate>
+      <guid>https://vozhuo.github.io/tags/%E7%88%AC%E8%99%AB/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Android</title>
+      <link>https://vozhuo.github.io/tags/android/</link>
+      <pubDate>Tue, 04 Sep 2018 16:03:14 +0000</pubDate>
+      <guid>https://vozhuo.github.io/tags/android/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>GitHub</title>
+      <link>https://vozhuo.github.io/tags/github/</link>
+      <pubDate>Tue, 04 Sep 2018 16:03:14 +0000</pubDate>
+      <guid>https://vozhuo.github.io/tags/github/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>WebView</title>
+      <link>https://vozhuo.github.io/tags/webview/</link>
+      <pubDate>Tue, 04 Sep 2018 00:00:00 +0000</pubDate>
+      <guid>https://vozhuo.github.io/tags/webview/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>考研</title>
+      <link>https://vozhuo.github.io/tags/%E8%80%83%E7%A0%94/</link>
+      <pubDate>Wed, 18 Apr 2018 00:00:00 +0000</pubDate>
+      <guid>https://vozhuo.github.io/tags/%E8%80%83%E7%A0%94/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Andriod</title>
+      <link>https://vozhuo.github.io/tags/andriod/</link>
+      <pubDate>Mon, 16 Jan 2017 00:00:00 +0000</pubDate>
+      <guid>https://vozhuo.github.io/tags/andriod/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>反编译</title>
+      <link>https://vozhuo.github.io/tags/%E5%8F%8D%E7%BC%96%E8%AF%91/</link>
+      <pubDate>Mon, 16 Jan 2017 00:00:00 +0000</pubDate>
+      <guid>https://vozhuo.github.io/tags/%E5%8F%8D%E7%BC%96%E8%AF%91/</guid>
+      <description></description>
+    </item>
+  </channel>
+</rss>

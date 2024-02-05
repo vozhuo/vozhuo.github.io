@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>TenorFlow on Vozhuo&#39;s Blog</title>
+    <link>https://vozhuo.github.io/tags/tenorflow/</link>
+    <description>Recent content in TenorFlow on Vozhuo&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Wed, 09 Jan 2019 18:29:52 +0000</lastBuildDate>
+    <atom:link href="https://vozhuo.github.io/tags/tenorflow/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>深度学习之卷积神经网络</title>
+      <link>https://vozhuo.github.io/posts/deep-learning-cnn/</link>
+      <pubDate>Wed, 09 Jan 2019 18:29:52 +0000</pubDate>
+      <guid>https://vozhuo.github.io/posts/deep-learning-cnn/</guid>
+      <description>&lt;h2 id=&#34;概念&#34;&gt;概念&lt;/h2&gt;
+&lt;p&gt;当输入的图片尺寸较大时，深度神经网络将不再适用。卷积神经网络从而出现，可用于解决计算机视觉问题。卷积运算是卷积神经网络的重要部分，一个应用是图像边缘检测。Padding和步长是卷积运算的两个重要参数。Valid卷积：无Padding；Same卷积：加入Padding使输出与输入图片的大小相同。&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>深度学习之改善深层神经网络(2)</title>
+      <link>https://vozhuo.github.io/posts/deep-learning-improve-nn-2/</link>
+      <pubDate>Thu, 20 Dec 2018 11:36:19 +0000</pubDate>
+      <guid>https://vozhuo.github.io/posts/deep-learning-improve-nn-2/</guid>
+      <description>&lt;h2 id=&#34;小批量梯度下降&#34;&gt;小批量梯度下降&lt;/h2&gt;
+&lt;p&gt;每次使用训练数据的子集进行梯度下降，算法执行速度会更快，这些子集称为Mini-batch（小批量）。当选择的批量大小为1时，每次对一个训练样本执行梯度下降，称为随机梯度下降。当大小为所有训练样本的个数时，则为批量梯度下降，每次对所有训练样本执行梯度下降。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

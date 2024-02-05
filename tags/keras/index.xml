@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Keras on Vozhuo&#39;s Blog</title>
+    <link>https://vozhuo.github.io/tags/keras/</link>
+    <description>Recent content in Keras on Vozhuo&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Sun, 07 Jul 2019 11:28:07 +0800</lastBuildDate>
+    <atom:link href="https://vozhuo.github.io/tags/keras/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>使用Keras做花卉图像分类</title>
+      <link>https://vozhuo.github.io/posts/keras-image-classification/</link>
+      <pubDate>Sun, 07 Jul 2019 11:28:07 +0800</pubDate>
+      <guid>https://vozhuo.github.io/posts/keras-image-classification/</guid>
+      <description>&lt;p&gt;本文使用Keras预训练的模型做图片分类，下载花卉图像数据集的方法参考&lt;a href=&#34;https://www.tensorflow.org/tutorials/load_data/images&#34;&gt;TensorFlow教程&lt;/a&gt;。此数据集共有5种花卉，将花卉图片重新组织为训练集和测试集。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

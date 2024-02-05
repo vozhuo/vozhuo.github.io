@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Mask R-CNN on Vozhuo&#39;s Blog</title>
+    <link>https://vozhuo.github.io/tags/mask-r-cnn/</link>
+    <description>Recent content in Mask R-CNN on Vozhuo&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Fri, 10 May 2019 16:24:50 +0800</lastBuildDate>
+    <atom:link href="https://vozhuo.github.io/tags/mask-r-cnn/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Mask R-CNN关键技术分析</title>
+      <link>https://vozhuo.github.io/posts/mask-rcnn-key-methods/</link>
+      <pubDate>Fri, 10 May 2019 16:24:50 +0800</pubDate>
+      <guid>https://vozhuo.github.io/posts/mask-rcnn-key-methods/</guid>
+      <description>&lt;h2 id=&#34;骨干架构fpn&#34;&gt;骨干架构（FPN）&lt;/h2&gt;
+&lt;p&gt;特征金字塔网络是一种多维度特征表达，主要解决物体检测中的多尺度问题，可大幅提升小物体检测的性能。网络由浅至深，低层的特征语义信息比较少，但是目标位置准确；高层的特征语义信息比较丰富，但是目标位置比较粗略。特征图金字塔分成三个部分，一个自底向上的路径（左边），一个自顶向下的路径（右边）和横向连接部分。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

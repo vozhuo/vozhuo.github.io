@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>爬虫 on Vozhuo&#39;s Blog</title>
+    <link>https://vozhuo.github.io/tags/%E7%88%AC%E8%99%AB/</link>
+    <description>Recent content in 爬虫 on Vozhuo&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Sun, 16 Sep 2018 11:29:17 +0000</lastBuildDate>
+    <atom:link href="https://vozhuo.github.io/tags/%E7%88%AC%E8%99%AB/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Python爬虫初学</title>
+      <link>https://vozhuo.github.io/posts/python_spider_practice/</link>
+      <pubDate>Sun, 16 Sep 2018 11:29:17 +0000</pubDate>
+      <guid>https://vozhuo.github.io/posts/python_spider_practice/</guid>
+      <description>&lt;p&gt;这几天学习了Python爬虫有关的知识，自己做了一个简单的实例：爬取熊猫直播某板块的主播信息。本实例使用Requests +BeautifulSoup和爬虫框架Scrapy两种方法。&lt;/p&gt;
+&lt;p&gt;BeautifulSoup可以从HTML或XML文件中提取数据，Requests则用于读取网络资源。虽然Python内置的urllib模块也可以读取网页，但Requests使用起来要更方便。首先需要确定要爬取的URL，这里我选择了熊猫直播的“守望先锋”板块，网址为&lt;a href=&#34;https://www.panda.tv/cate/overwatch&#34;&gt;https://www.panda.tv/cate/overwatch&lt;/a&gt;。先来看一下网页的源码：&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

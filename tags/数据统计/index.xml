@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>数据统计 on Vozhuo&#39;s Blog</title>
+    <link>https://vozhuo.github.io/tags/%E6%95%B0%E6%8D%AE%E7%BB%9F%E8%AE%A1/</link>
+    <description>Recent content in 数据统计 on Vozhuo&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Sun, 20 Jan 2019 16:48:44 +0000</lastBuildDate>
+    <atom:link href="https://vozhuo.github.io/tags/%E6%95%B0%E6%8D%AE%E7%BB%9F%E8%AE%A1/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>数据统计——研究生出生日期</title>
+      <link>https://vozhuo.github.io/posts/statistics-of-birth-date/</link>
+      <pubDate>Sun, 20 Jan 2019 16:48:44 +0000</pubDate>
+      <guid>https://vozhuo.github.io/posts/statistics-of-birth-date/</guid>
+      <description>&lt;p&gt;最近得到了一份带有班里所有学生身份证号的Excel文件，于是想要统计一下所有同学的出生信息。这里选用xlrd模块读取Excel文件，文件中三个工作表（Sheet）只有第一个有数据，所以读取第一个Sheet的内容。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>强化学习 on Vozhuo&#39;s Blog</title>
+    <link>https://vozhuo.github.io/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/</link>
+    <description>Recent content in 强化学习 on Vozhuo&#39;s Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh</language>
+    <lastBuildDate>Sun, 25 Aug 2019 21:47:11 +0800</lastBuildDate>
+    <atom:link href="https://vozhuo.github.io/tags/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>深度强化学习之DQN系列</title>
+      <link>https://vozhuo.github.io/posts/drl-dqn/</link>
+      <pubDate>Sun, 25 Aug 2019 21:47:11 +0800</pubDate>
+      <guid>https://vozhuo.github.io/posts/drl-dqn/</guid>
+      <description>&lt;h1 id=&#34;基础q-learning&#34;&gt;基础（Q-Learning）&lt;/h1&gt;
+&lt;p&gt;Q即为Q（s,a），就是在某一时刻的 s 状态下，采取动作a动作能够获得奖励的期望。环境会根据智能体的动作反馈相应的奖励 r。算法的主要思想就是将状态（state）与动作（action）构建成一张Q-table来存储Q值，然后根据Q值来选取能够获得最大的收益的动作。Q-Learning的算法如下：&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>深度强化学习总览</title>
+      <link>https://vozhuo.github.io/posts/drl-overview/</link>
+      <pubDate>Sun, 18 Aug 2019 21:31:23 +0800</pubDate>
+      <guid>https://vozhuo.github.io/posts/drl-overview/</guid>
+      <description>&lt;h1 id=&#34;概念&#34;&gt;概念&lt;/h1&gt;
+&lt;p&gt;强化学习的基本思想是通过最大化智能体（Agent）从环境中获得的累计奖赏值，以学习到完成目标的最优策略。强化学习中的基本要素包括：&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>机器学习之强化学习</title>
+      <link>https://vozhuo.github.io/posts/machine-learning-reinforcement-learning/</link>
+      <pubDate>Sun, 14 Apr 2019 18:54:10 +0800</pubDate>
+      <guid>https://vozhuo.github.io/posts/machine-learning-reinforcement-learning/</guid>
+      <description>&lt;p&gt;强化学习是机器学习的子领域之一。智能体（Agent）通过与环境（Environment）互动，来学习采取何种行动（Action）能使其在给定环境中的奖励（Reward）最大化。&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
